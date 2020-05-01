@@ -1,7 +1,7 @@
-import {Contact} from "./contact";
+import {Contact} from './contact';
 
 export interface Chat {
-    id: string;
-    person: Contact;
-
+  id: string;
+  name: string;
+  members: Contact[];
 }

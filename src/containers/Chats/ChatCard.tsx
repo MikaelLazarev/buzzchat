@@ -2,37 +2,28 @@ import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import {Badge, Text} from 'react-native-elements';
 import SmartAvatar from '../../components/SmartAvatar';
-import moment from 'moment';
 import {Chat} from '../../core/chat';
 
 interface ChatCardProps {
   item: Chat;
+  onPressed: (id: string) => void;
 }
 
-const ChatCard = ({item, onPressed}) => {
-  const FolderBadge =
-    item.folder_id === '' ? undefined : <Text>{item.folder_name}</Text>;
+const ChatCard: React.FC<ChatCardProps> = ({item, onPressed}) => {
+  const FolderBadge = <Text>folder_name</Text>;
 
-  const startTime = moment(item.start_time).format('HH:mm');
-  const finishTime = moment(item.finish_time).format('HH:mm');
-
-  let online;
-  const now = new Date();
-  if (now > new Date(item.start_time) && !item.finished) {
-    online = (
-      <View style={{flexDirection: 'row'}}>
-        <Badge status="success" containerStyle={{marginTop: 3}} />
-        <Text style={{fontSize: 11}}>{' Online '}</Text>
-      </View>
-    );
-  }
+  const online = (
+    <View style={{flexDirection: 'row'}}>
+      <Badge status="success" containerStyle={{marginTop: 3}} />
+      <Text style={{fontSize: 11}}>{' Online '}</Text>
+    </View>
+  );
 
   return (
     <TouchableOpacity onPress={() => onPressed(item.id)}>
       <View style={styles.container}>
         <View style={{alignItems: 'center', padding: 0}}>
-          <Text style={{fontSize: 13}}>{startTime}</Text>
-          <Text style={{fontSize: 13, color: 'grey'}}>{finishTime}</Text>
+          <Text style={{fontSize: 13}}>5</Text>
         </View>
         <View style={styles.textContainer}>
           <Text h4>{item.name}</Text>
@@ -40,7 +31,7 @@ const ChatCard = ({item, onPressed}) => {
           {online}
         </View>
         <View style={styles.rightContainer}>
-          <SmartAvatar persons={item.members} prefereableId={item.owner_id} />
+          <SmartAvatar persons={item.members} />
         </View>
       </View>
     </TouchableOpacity>
