@@ -1,3 +1,10 @@
+/*
+ *  Buzz Chat - Spam-free decentralized chat
+ *
+ *  https://github.com/MikaelLazarev/buzzchat
+ *  Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';

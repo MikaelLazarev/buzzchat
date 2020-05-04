@@ -1,3 +1,10 @@
+/*
+ *  Buzz Chat - Spam-free decentralized chat
+ *
+ *  https://github.com/MikaelLazarev/buzzchat
+ *  Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import React from 'react';
 import {View} from 'react-native';
 import {Avatar, withBadge} from 'react-native-elements';
@@ -15,8 +22,8 @@ const SmartAvatar: React.FC<SmartAvatarProps> = ({persons, preferableId}) => {
   const notNullPersons = persons.filter((i) => i);
   const preferable = notNullPersons.find((elem) => elem.id === preferableId);
   const userAvatarUrl = preferable
-    ? preferable.avatarUrl
-    : notNullPersons[0].avatarUrl;
+    ? preferable.avatar
+    : notNullPersons[0].avatar;
 
   // Add a badge to Avatar if it's more than 1 person
   const AvatarComponent =

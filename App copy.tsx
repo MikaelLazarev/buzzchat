@@ -1,3 +1,10 @@
+/*
+ *  Buzz Chat - Spam-free decentralized chat
+ *
+ *  https://github.com/MikaelLazarev/buzzchat
+ *  Copyright (c) 2020. Mikhail Lazarev
+ */
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native

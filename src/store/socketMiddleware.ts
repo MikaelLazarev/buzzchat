@@ -1,3 +1,10 @@
+/*
+ *  Buzz Chat - Spam-free decentralized chat
+ *
+ *  https://github.com/MikaelLazarev/buzzchat
+ *  Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import io from 'socket.io-client';
 import {RootState} from './index';
 import {ThunkDispatch, ThunkMiddleware} from 'redux-thunk';

@@ -1,3 +1,10 @@
+/*
+ *  Buzz Chat - Spam-free decentralized chat
+ *
+ *  https://github.com/MikaelLazarev/buzzchat
+ *  Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import React from 'react';
 import {FlatList, ListRenderItemInfo, StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-elements';
@@ -5,12 +12,12 @@ import ChatCard from './ChatCard';
 import {Chat} from '../../core/chat';
 
 interface ChatsListProps {
-  chats: readonly Chat[];
+  data: readonly Chat[];
   onPressed: (id: string) => void;
 }
 
-const ChatsList: React.FC<ChatsListProps> = ({chats, onPressed}) => {
-  if (chats.length === 0) {
+const ChatsList: React.FC<ChatsListProps> = ({data, onPressed}) => {
+  if (data.length === 0) {
     return (
       <View style={{paddingLeft: 20, paddingTop: 25}}>
         <Text h2>There is no chats yet.</Text>
@@ -26,7 +33,7 @@ const ChatsList: React.FC<ChatsListProps> = ({chats, onPressed}) => {
   return (
     <FlatList
       // styles={styles.container}
-      data={chats}
+      data={data}
       renderItem={renderItem}
       keyExtractor={(item, index) => item.id + index}
     />

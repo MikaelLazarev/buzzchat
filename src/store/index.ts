@@ -1,34 +1,36 @@
 /*
- * Lean tool - hypothesis testing application
+ *  Buzz Chat - Spam-free decentralized chat
  *
- * https://github.com/MikaelLazarev/lean-tool/
- * Copyright (c) 2020. Mikhail Lazarev
- *
+ *  https://github.com/MikaelLazarev/buzzchat
+ *  Copyright (c) 2020. Mikhail Lazarev
  */
 
 import {applyMiddleware, compose, createStore} from 'redux';
 import reducer from './reducer';
 import thunk from 'redux-thunk';
-// import {composeWithDevTools} from 'redux-devtools-extension';
+import {composeWithDevTools} from 'redux-devtools-extension';
 import createApiMiddleware from './middleware';
-import createSocketMiddleware from './socketMiddleware';
+// import createSocketMiddleware from './socketMiddleware';
 
+let composeEnhancers: typeof compose;
 
-let composeEnhancers : typeof compose;
-
-// if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-//   composeEnhancers = composeWithDevTools({});
-// } else {
+if (__DEV__) {
+  composeEnhancers = composeWithDevTools({});
+} else {
   composeEnhancers = compose;
-// }
+}
 
 export type RootState = ReturnType<typeof reducer>;
 
 export default function configureStore() {
   return createStore(
     reducer,
-    composeEnhancers(applyMiddleware(thunk,
+    composeEnhancers(
+      applyMiddleware(
+        thunk,
         // createSocketMiddleware,
-        createApiMiddleware,)),
+        createApiMiddleware,
+      ),
+    ),
   );
 }

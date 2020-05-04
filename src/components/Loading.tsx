@@ -1,4 +1,11 @@
-import React, { Fragment } from 'React';
+/*
+ *  Buzz Chat - Spam-free decentralized chat
+ *
+ *  https://github.com/MikaelLazarev/buzzchat
+ *  Copyright (c) 2020. Mikhail Lazarev
+ */
+
+import React from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -7,12 +14,12 @@ import {
 } from 'react-native';
 
 const loadingView = () => (
-  <Fragment>
+  <>
     <StatusBar barStyle="default" />
     <SafeAreaView style={styles.container}>
       <ActivityIndicator />
     </SafeAreaView>
-  </Fragment>
+  </>
 );
 
 const styles = StyleSheet.create({

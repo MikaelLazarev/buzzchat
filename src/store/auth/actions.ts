@@ -1,28 +1,33 @@
 /*
- * Lean tool - hypothesis testing application
+ *  Buzz Chat - Spam-free decentralized chat
  *
- * https://github.com/MikaelLazarev/lean-tool/
- * Copyright (c) 2020. Mikhail Lazarev
- *
+ *  https://github.com/MikaelLazarev/buzzchat
+ *  Copyright (c) 2020. Mikhail Lazarev
  */
 import {Action} from 'redux';
 import {ThunkAction} from 'redux-thunk';
-import {RSAA, RSAAAction, RSAAResultAction,} from 'redux-api-middleware';
+import {RSAA, RSAAAction, RSAAResultAction} from 'redux-api-middleware';
 import {getFullAPIAddress} from '../utils/api';
 import * as actionTypes from './';
 
 import {RootState} from '../index';
 import {AuthPayload} from './reducer';
 import {getProfile, updateStatusInternally} from '../profile/actions';
-import {APP_STATUS_AUTH_REQUIRED, Profile, ProfileStatus} from '../../core/profile';
-import {SSO_ADDR} from "../../../config";
-import {LOGIN_SUCCESS} from "./";
-import actions, {actionsAfterAuth} from "../actions";
+import {
+  APP_STATUS_AUTH_REQUIRED,
+  Profile,
+  ProfileStatus,
+} from '../../core/profile';
+import {SSO_ADDR} from '../../../config';
+import {LOGIN_SUCCESS} from './';
+import actions, {actionsAfterAuth} from '../actions';
 
 export const login = (
   email: string,
   password: string,
-): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
+): ThunkAction<void, RootState, unknown, Action<string>> => async (
+  dispatch,
+) => {
   const endpoint = '/auth/login/';
   const json = JSON.stringify({email, password});
 
@@ -32,7 +37,9 @@ export const login = (
 export const oauthAuthenticate = (
   provider: string,
   code: string,
-): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
+): ThunkAction<void, RootState, unknown, Action<string>> => async (
+  dispatch,
+) => {
   const endpoint = '/auth/google/done/';
   const json = JSON.stringify({provider, code});
 
@@ -43,7 +50,9 @@ export const confirmEmail = (
   email: string,
   code: string,
   id: string,
-): ThunkAction<void, RootState, unknown, Action<string>> => async dispatch => {
+): ThunkAction<void, RootState, unknown, Action<string>> => async (
+  dispatch,
+) => {
   const endpoint = '/auth/confirm/';
   const json = JSON.stringify({email, code, id});
 
@@ -96,7 +105,9 @@ export const signup = (
 export const authenticate = (
   endpoint: string,
   body: string,
-): ThunkAction<void, RootState, unknown, Action<string>> => async (dispatch) => {
+): ThunkAction<void, RootState, unknown, Action<string>> => async (
+  dispatch,
+) => {
   const result = await dispatch<AuthPayload, void>({
     [RSAA]: {
       endpoint: getFullAPIAddress(endpoint, undefined, SSO_ADDR),
@@ -111,7 +122,8 @@ export const authenticate = (
     },
   });
 
-  if (result &&
+  if (
+    result &&
     !result.error &&
     result.payload.refresh &&
     result.type === actionTypes.LOGIN_SUCCESS
@@ -137,8 +149,7 @@ export const getTokenAtStartup = (): ThunkAction<
   RootState,
   unknown,
   Action<string>
-> => async dispatch => {
-
+> => async (dispatch) => {
   // const token = {
   //   access: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODU3NzY5NjAsInJvbGUiOiJhZG1pbiIsInVzZXJfaWQiOiIzNzU4NWYyMS03ZDljLTRlYTctOGQ1Yi1kYWQxYzZhMzZiYTYifQ.sHDAi0eZ19urUpvXVlRmcKtH1Yj44Y8SjCGkWOLhov0',
   //   refresh: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODU3NzY5NjAsInJvbGUiOiJhZG1pbiIsInVzZXJfaWQiOiIzNzU4NWYyMS03ZDljLTRlYTctOGQ1Yi1kYWQxYzZhMzZiYTYifQ.sHDAi0eZ19urUpvXVlRmcKtH1Yj44Y8SjCGkWOLhov0',

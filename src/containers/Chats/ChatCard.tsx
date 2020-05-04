@@ -1,3 +1,10 @@
+/*
+ *  Buzz Chat - Spam-free decentralized chat
+ *
+ *  https://github.com/MikaelLazarev/buzzchat
+ *  Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import {Badge, Text} from 'react-native-elements';
@@ -22,16 +29,16 @@ const ChatCard: React.FC<ChatCardProps> = ({item, onPressed}) => {
   return (
     <TouchableOpacity onPress={() => onPressed(item.id)}>
       <View style={styles.container}>
-        <View style={{alignItems: 'center', padding: 0}}>
-          <Text style={{fontSize: 13}}>5</Text>
-        </View>
-        <View style={styles.textContainer}>
-          <Text h4>{item.name}</Text>
-          {FolderBadge}
-          {online}
-        </View>
+        {/* AVATAR CONTAINER */}
         <View style={styles.rightContainer}>
           <SmartAvatar persons={item.members} />
+        </View>
+
+        {/* TEXT CONTAINER */}
+        <View style={styles.textContainer}>
+          <Text h4>{item.name}AAAA</Text>
+          {FolderBadge}
+          {online}
         </View>
       </View>
     </TouchableOpacity>
@@ -53,13 +60,15 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     // paddingLeft: 15,
-    width: '70%',
+    width: '90%',
     paddingRight: 10,
     alignItems: 'stretch',
     alignContent: 'space-between',
     marginBottom: 5,
+    marginTop: 0,
   },
   rightContainer: {
+    width: 55,
     alignItems: 'center',
     marginRight: 15,
   },

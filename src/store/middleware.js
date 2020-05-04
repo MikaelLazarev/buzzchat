@@ -1,9 +1,8 @@
 /*
- * Lean tool - hypothesis testing application
+ *  Buzz Chat - Spam-free decentralized chat
  *
- * https://github.com/MikaelLazarev/lean-tool/
- * Copyright (c) 2020. Mikhail Lazarev
- *
+ *  https://github.com/MikaelLazarev/buzzchat
+ *  Copyright (c) 2020. Mikhail Lazarev
  */
 
 import {apiMiddleware, isRSAA} from 'redux-api-middleware';
@@ -17,15 +16,14 @@ export function createApiMiddleware() {
   return ({dispatch, getState}) => {
     const rsaaMiddleware = apiMiddleware({dispatch, getState});
 
-    return next => action => {
+    return (next) => (action) => {
+      console.log('DISPATCH RSAA', action);
 
-      console.log("DISPATCH RSAA", action)
-
-      const nextCheckPostoned = nextAction => {
+      const nextCheckPostoned = (nextAction) => {
         // Run postponed actions after token refresh
         if (nextAction.type === TOKEN_RECEIVED) {
           next(nextAction);
-          postponedRSAAs.forEach(postponed => {
+          postponedRSAAs.forEach((postponed) => {
             rsaaMiddleware(next)(postponed);
           });
           postponedRSAAs = [];

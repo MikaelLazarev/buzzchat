@@ -5,14 +5,13 @@
  *  Copyright (c) 2020. Mikhail Lazarev
  */
 
-import {CHATS_PREFIX, endpoint} from './';
+import {CONTACT_PREFIX, endpoint} from './';
 
 import {
   createDataLoaderCreateUpdateDataAction,
   createDataLoaderDetailActions,
   createDataLoaderListActions,
 } from '../dataloader/actions';
-import {Chat} from '../../core/chat';
 import {
   DataLoaderDetailsActions,
   DataLoaderListActions,
@@ -22,30 +21,23 @@ import {ThunkAction} from 'redux-thunk';
 import {RootState} from '../index';
 import {Action} from 'redux';
 import {Message} from '../../core/message';
+import {Contact} from '../../core/contact';
 
-export const getList = (): DataLoaderListActions<Chat> => {
+export const getList = (): DataLoaderListActions<Contact> => {
   return {
-    type: CHATS_PREFIX + LIST_SUCCESS,
+    type: CONTACT_PREFIX + LIST_SUCCESS,
     payload: [
       {
-        id: '0',
+        id: 1,
         name: 'Discuss 1M dollar',
-        members: [
-          {
-            id: 1,
-            name: 'John',
-            pubKey: '0xp123123',
-            avatar: '232.jpg',
-          },
-        ],
-        messages: [],
+
       },
       {
         id: '1',
         name: 'Weather chat',
         members: [
           {
-            id: 2,
+            _id: 2,
             name: 'John',
             pubKey: '0xp123123',
             avatar: '232.jpg',
@@ -68,22 +60,22 @@ export const addMessage = (
       chatData.data.messages.push(message);
       console.log(chatData.data);
       dispatch({
-        type: CHATS_PREFIX + DETAIL_SUCCESS,
+        type: CONTACT_PREFIX + DETAIL_SUCCESS,
         payload: chatData.data,
       });
     }
   };
 };
 
-export const getDetails = (): DataLoaderDetailsActions<Chat> => {
+export const getDetails = (): DataLoaderDetailsActions<Contact> => {
   return {
-    type: CHATS_PREFIX + DETAIL_SUCCESS,
+    type: CONTACT_PREFIX + DETAIL_SUCCESS,
     payload: {
       id: '0',
       name: 'Discuss 1M dollar',
       members: [
         {
-          id: 1,
+          _id: 1,
           name: 'John',
           pubKey: '0xp123123',
           avatar: '232.jpg',
@@ -98,10 +90,10 @@ export const getDetails = (): DataLoaderDetailsActions<Chat> => {
 export const createUpdateDetails = createDataLoaderCreateUpdateDataAction<Chat>(
   endpoint,
   endpoint + 'p/:id/',
-  CHATS_PREFIX,
+  CONTACT_PREFIX,
 );
 
 export const reload = createDataLoaderListActions(
   endpoint + '/reload/',
-  CHATS_PREFIX,
+  CONTACT_PREFIX,
 );

@@ -1,3 +1,10 @@
+/*
+ *  Buzz Chat - Spam-free decentralized chat
+ *
+ *  https://github.com/MikaelLazarev/buzzchat
+ *  Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import {STATUS} from "../utils/status";
 import {DataLoaderListActions} from "./types";
 import * as actionTypes from "./index";

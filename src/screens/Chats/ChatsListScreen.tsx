@@ -1,3 +1,10 @@
+/*
+ *  Buzz Chat - Spam-free decentralized chat
+ *
+ *  https://github.com/MikaelLazarev/buzzchat
+ *  Copyright (c) 2020. Mikhail Lazarev
+ */
+
 /**
  * HomeSceen
  * Wrike Meeting App
@@ -9,7 +16,7 @@
 
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect} from 'react';
-import {connect, useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 import {Button} from 'react-native-elements';
 import ChatsList from '../../containers/Chats/ChatsList';
@@ -18,13 +25,15 @@ import LoadingView from '../../components/Loading';
 import FailureView from '../../components/Failure';
 import {NavigationScreenComponent} from 'react-navigation';
 import actions from '../../store/actions';
+import {RootState} from '../../store';
+import {useNavigation} from '@react-navigation/native';
 
 interface ChatsListScreenProps {
   // navigation: NavigationScreenProp<NavigationState, NavigationParams>;
   // navigationOptions?: Object;
 }
 
-const ChatsListScreen: NavigationScreenComponent<
+export const ChatsListScreen: NavigationScreenComponent<
   {},
   ChatsListScreenProps
 > = () => {
@@ -33,8 +42,7 @@ const ChatsListScreen: NavigationScreenComponent<
     dispatch(actions.chats.getList());
   }, []);
 
-
-  const chats =
+  const {data, status} = useSelector((state: RootState) => state.chats.List);
 
   // componentDidMount() {
   //   const {navigation} = this.props;
@@ -57,7 +65,14 @@ const ChatsListScreen: NavigationScreenComponent<
   //   navigation.push('Story', {id});
   // };
 
-  switch (this.props.status) {
+  const navigation = useNavigation();
+  const onChatSelect = (id: string) => {
+    navigation.navigate('ChatDetails', {
+      id,
+    });
+  };
+
+  switch (status) {
     default:
     case STATUS.LOADING:
       return <LoadingView />;
@@ -70,7 +85,7 @@ const ChatsListScreen: NavigationScreenComponent<
       return (
         <SafeAreaView style={styles.container}>
           <ScrollView style={styles.scrollContainer}>
-            <ChatsList onPressed={(id) => this.props.joinMeeting(id)} />
+            <ChatsList data={data} onPressed={onChatSelect} />
           </ScrollView>
         </SafeAreaView>
       );
@@ -92,7 +107,7 @@ const styles = StyleSheet.create({
 });
 
 ChatsListScreen.navigationOptions = ({navigation}) => ({
-  headerTitle: navigation.getParam('title'),
+  headerTitle: 'Chats',
   headerLeft: (
     <Button
       onPress={navigation.getParam('toggleDrawer')}
@@ -117,4 +132,3 @@ ChatsListScreen.navigationOptions = ({navigation}) => ({
     backgroundColor: '#F6F7F8',
   },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(ChatsListScreen);
