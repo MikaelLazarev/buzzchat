@@ -5,8 +5,7 @@
  *  Copyright (c) 2020. Mikhail Lazarev
  */
 
-import {NavigationScreenComponent} from 'react-navigation';
-import React, {useEffect, useReducer, useState} from 'react';
+import React, {useEffect} from 'react';
 import {GiftedChat, IMessage} from 'react-native-gifted-chat';
 import actions from '../../store/actions';
 import {useDispatch, useSelector} from 'react-redux';
@@ -14,28 +13,8 @@ import {Message} from '../../core/message';
 import {RootState} from '../../store';
 import {getDetailsItem} from '../../store/dataloader';
 
-interface ChatDetailsScreenProps {
-  // navigation: NavigationScreenProp<NavigationState, NavigationParams>;
-  // navigationOptions?: Object;
-}
-
-export const ChatDetailsScreen: NavigationScreenComponent<
-  {},
-  ChatDetailsScreenProps
-> = () => {
+export const ChatDetailsScreen: React.FC = () => {
   const chatId = '0';
-  // const [messages, setMessages] = useState<Message[]>([
-  //   {
-  //     _id: 1,
-  //     text: 'Hello developer',
-  //     createdAt: new Date(),
-  //     user: {
-  //       _id: 2,
-  //       name: 'React Native',
-  //       avatar: 'https://placeimg.com/140/140/any',
-  //     },
-  //   },
-  // ]);
   const dispatch = useDispatch();
 
   useEffect(() => {
