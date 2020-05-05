@@ -5,51 +5,46 @@
  *  Copyright (c) 2020. Mikhail Lazarev
  */
 
-/**
- * HomeSceen
- * Wrike Meeting App
- * https://github.com/MikaelLazarev/WrikeMeeting
- *
- * @format
- * @flow
- */
-
-/* eslint-disable react-native/no-inline-styles */
-import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {StyleSheet, SafeAreaView, ScrollView} from 'react-native';
-import {Button} from 'react-native-elements';
-import ChatsList from '../../containers/Chats/ChatsList';
+import {getDetailsItem} from '../../store/dataloader';
+import {RootState} from '../../store';
+import React, {useEffect} from 'react';
+import actions from '../../store/actions';
 import {STATUS} from '../../store/utils/status';
 import LoadingView from '../../components/Loading';
 import FailureView from '../../components/Failure';
-import {NavigationScreenComponent} from 'react-navigation';
-import actions from '../../store/actions';
-import {RootState} from '../../store';
-import {useNavigation} from '@react-navigation/native';
+import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {ContactDetails} from '../../containers/Contacts/ContactDetails';
+import {Button} from 'react-native-elements';
+import {ChatsListScreen} from '../Chats/ChatsListScreen';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {ContactStackParamList} from './ContactStack';
 
-interface ChatsListScreenProps {
-  // navigation: NavigationScreenProp<NavigationState, NavigationParams>;
-  // navigationOptions?: Object;
-}
+type ContactDetailsScreenRouteProp = RouteProp<
+  ContactStackParamList,
+  'ContactDetailsScreen'
+>;
 
-export const ChatsListScreen: NavigationScreenComponent<
-  {},
-  ChatsListScreenProps
-> = () => {
+export const ContactDetailsScreen: React.FC = () => {
+  const route = useRoute<ContactDetailsScreenRouteProp>();
+  const {id} = route.params;
+
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(actions.chats.getList());
+    dispatch(actions.contacts.getDetails());
   }, []);
 
-  const {data, status} = useSelector((state: RootState) => state.chats.List);
+  const contactData = getDetailsItem(
+    useSelector((state: RootState) => state.contacts.Details),
+    id,
+  );
 
-  const navigation = useNavigation();
-  const onChatSelect = (id: string) => {
-    navigation.navigate('ChatDetails', {
-      id,
-    });
-  };
+  console.log(contactData);
+
+  if (contactData === undefined || contactData.data === undefined)
+    return <LoadingView />;
+
+  const {data, status} = contactData;
 
   switch (status) {
     default:
@@ -64,7 +59,7 @@ export const ChatsListScreen: NavigationScreenComponent<
       return (
         <SafeAreaView style={styles.container}>
           <ScrollView style={styles.scrollContainer}>
-            <ChatsList data={data} onPressed={onChatSelect} />
+            <ContactDetails data={data} />
           </ScrollView>
         </SafeAreaView>
       );

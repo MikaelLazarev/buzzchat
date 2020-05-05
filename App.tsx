@@ -20,30 +20,20 @@ import {Provider} from 'react-redux';
 
 import configureStore from './src/store';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Icon, ThemeProvider} from 'react-native-elements';
-import {NavigationContainer} from '@react-navigation/native';
+import {Button, Icon, ThemeProvider} from 'react-native-elements';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {theme} from './styles';
-import ContactsListScreen from './src/screens/Contacts/ContactsListScreen';
 import {ChatsListScreen} from './src/screens/Chats/ChatsListScreen';
 import SettingsScreen from './src/screens/Settings/SettingsScreen';
 import {createStackNavigator} from '@react-navigation/stack';
 import {ChatDetailsScreen} from './src/screens/Chats/ChatDetails';
+import {ContactStack} from './src/screens/Contacts/ContactStack';
+import {ChatStack} from './src/screens/Chats/ChatStack';
 
 declare const global: {HermesInternal: null | {}};
 
 const store = configureStore();
 const Tab = createBottomTabNavigator();
-
-const Stack = createStackNavigator();
-
-const ChatStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="ChatsList" component={ChatsListScreen} />
-      <Stack.Screen name="ChatDetails" component={ChatDetailsScreen} />
-    </Stack.Navigator>
-  );
-};
 
 const App = () => {
   return (
@@ -84,7 +74,7 @@ const App = () => {
               activeTintColor: '#0176f4',
               inactiveTintColor: 'gray',
             }}>
-            <Tab.Screen name="Contacts" component={ContactsListScreen} />
+            <Tab.Screen name="Contacts" component={ContactStack} />
             <Tab.Screen name="Chats" component={ChatStack} />
             <Tab.Screen name="Settings" component={SettingsScreen} />
           </Tab.Navigator>

@@ -41,6 +41,7 @@ export const ContactCard: React.FC<ContactCardProps> = ({
         <View style={styles.textContainer}>
           <View>
             <Text h4>{title}</Text>
+            <Text>Online</Text>
           </View>
         </View>
       </View>

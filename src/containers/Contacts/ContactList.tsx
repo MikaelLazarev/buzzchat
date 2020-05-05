@@ -5,9 +5,9 @@
  *  Copyright (c) 2020. Mikhail Lazarev
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {FlatList, StyleSheet, View, ScrollView} from 'react-native';
-import {Text} from 'react-native-elements';
+import {SearchBar, Text} from 'react-native-elements';
 import ContactCard from './ContactCard';
 import {Contact} from '../../core/contact';
 
@@ -17,17 +17,24 @@ interface ContactListProps {
 }
 
 const ContactList: React.FC<ContactListProps> = ({data, onSelect}) => {
+  const [search, setSearch] = useState('');
+
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Text h3>MEMBERS: {data.length}</Text>
-      </View>
+      <SearchBar
+        placeholder="Type Here..."
+        onChangeText={setSearch}
+        value={search}
+        lightTheme={true}
+        round={true}
+      />
+
       <FlatList
         style={styles.container}
         data={data}
         renderItem={(elem) => (
           <ContactCard
-            key={elem.item._id}
+            key={elem.item.id}
             data={elem.item}
             selectContact={onSelect}
           />

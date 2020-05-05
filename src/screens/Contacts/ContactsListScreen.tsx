@@ -6,10 +6,7 @@
  */
 
 import React, {useEffect} from 'react';
-import {
-  SafeAreaView, ScrollView, StyleSheet,
-  Text,
-} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet, Text} from 'react-native';
 import actions from '../../store/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../store';
@@ -17,8 +14,15 @@ import {STATUS} from '../../store/utils/status';
 import LoadingView from '../../components/Loading';
 import FailureView from '../../components/Failure';
 import ContactList from '../../containers/Contacts/ContactList';
+import {useNavigation} from '@react-navigation/native';
+import {NavigationScreenComponent} from 'react-navigation';
 
-const ContactsListScreen = () => {
+interface ContactsListScreenProps {}
+
+const ContactsListScreen: NavigationScreenComponent<
+  {},
+  ContactsListScreenProps
+> = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(actions.contacts.getList());
@@ -26,9 +30,12 @@ const ContactsListScreen = () => {
 
   const {data, status} = useSelector((state: RootState) => state.contacts.List);
 
+  const navigation = useNavigation();
   const onSelect = (id: string) => {
-    console.log(id);
-  }
+    navigation.navigate('ContactDetails', {
+      id,
+    });
+  };
 
   switch (status) {
     default:
@@ -63,5 +70,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
+
 
 export default ContactsListScreen;

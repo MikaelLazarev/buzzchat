@@ -28,22 +28,14 @@ export const getList = (): DataLoaderListActions<Contact> => {
     type: CONTACT_PREFIX + LIST_SUCCESS,
     payload: [
       {
-        id: 1,
-        name: 'Discuss 1M dollar',
-
+        id: '0',
+        name: 'Vasilii Petrov',
+        avatar: '',
       },
       {
         id: '1',
-        name: 'Weather chat',
-        members: [
-          {
-            _id: 2,
-            name: 'John',
-            pubKey: '0xp123123',
-            avatar: '232.jpg',
-          },
-        ],
-        messages: [],
+        name: 'Eji Gorovets',
+        avatar: '',
       },
     ],
   };
