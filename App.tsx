@@ -23,9 +23,10 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon, ThemeProvider} from 'react-native-elements';
 import {NavigationContainer} from '@react-navigation/native';
 import {theme} from './styles';
-import SettingsScreen from './src/screens/Settings/SettingsScreen';
+
 import {ContactStack} from './src/screens/Contacts/ContactStack';
 import {ChatStack} from './src/screens/Chats/ChatStack';
+import {SettingsScreen} from './src/screens/Settings/SettingsScreen';
 
 declare const global: {HermesInternal: null | {}};
 

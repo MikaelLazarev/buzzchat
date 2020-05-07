@@ -32,7 +32,17 @@ export const ChatDetailsScreen: React.FC = () => {
 
   const onSend = (newMessages: IMessage[]) => {
     // setMessages(GiftedChat.append(messages, newMessages as any));
-    dispatch(actions.chats.addMessage(chatId, newMessages[0] as Message));
+    const message: Message = {
+      id: newMessages[0]._id.toString(),
+      text: newMessages[0].text,
+      createdAt: newMessages[0].createdAt,
+      user: {
+        id: newMessages[0].user._id.toString(),
+        name: newMessages[0].user.name || '',
+        avatar: newMessages[0].user.avatar?.toString(),
+      },
+    };
+    dispatch(actions.chats.addMessage(chatId, message));
   };
 
   const iMessages =

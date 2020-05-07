@@ -5,22 +5,46 @@
  *  Copyright (c) 2020. Mikhail Lazarev
  */
 
-import React, {useEffect} from 'react';
-import {connect} from 'react-redux';
-import {
-  StyleSheet,
-  SafeAreaView,
-  View,
-  ActivityIndicator,
-  Text,
-} from 'react-native';
+import React from 'react';
+import {Contact} from '../../core/contact';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {Image, Text} from 'react-native-elements';
 
-const SettingsScreen = () => {
+interface ContactDetailsProps {
+  data: Contact;
+}
+
+export const SettingsScreen: React.FC<ContactDetailsProps> = ({data}) => {
   return (
-    <SafeAreaView>
-      <Text>Hello, Settings</Text>
-    </SafeAreaView>
+    <View style={styles.title}>
+      <Text h2 style={{margin: 10}}>
+        {data.name}
+      </Text>
+      <Image source={{uri: data.avatar}} style={{width: 150, height: 150}} />
+      <View
+        style={{
+          paddingTop: 10,
+          alignContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Text style={styles.level}>Master of meetings</Text>
+        <Text h4>Score: 100</Text>
+      </View>
+    </View>
   );
 };
 
-export default SettingsScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    paddingTop: 50,
+  },
+  title: {
+    alignItems: 'center',
+    marginBottom: 25,
+  },
+  level: {
+    fontSize: 20,
+  },
+});

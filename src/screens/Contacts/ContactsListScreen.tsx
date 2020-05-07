@@ -15,14 +15,9 @@ import LoadingView from '../../components/Loading';
 import FailureView from '../../components/Failure';
 import ContactList from '../../containers/Contacts/ContactList';
 import {useNavigation} from '@react-navigation/native';
-import {NavigationScreenComponent} from 'react-navigation';
+import {DataScreen} from '../../components/DataScreen';
 
-interface ContactsListScreenProps {}
-
-const ContactsListScreen: NavigationScreenComponent<
-  {},
-  ContactsListScreenProps
-> = () => {
+const ContactsListScreen: React.FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(actions.contacts.getList());
@@ -37,39 +32,14 @@ const ContactsListScreen: NavigationScreenComponent<
     });
   };
 
-  switch (status) {
-    default:
-    case STATUS.LOADING:
-      return <LoadingView />;
-
-    case STATUS.FAILURE:
-      return <FailureView error="Oops! It's a problem connecting server" />;
-
-    case STATUS.UPDATING:
-    case STATUS.SUCCESS:
-      return (
-        <SafeAreaView style={styles.container}>
-          <ScrollView style={styles.scrollContainer}>
-            <ContactList data={data} onSelect={onSelect} />
-          </ScrollView>
-        </SafeAreaView>
-      );
-  }
+  return (
+    <DataScreen
+      data={data}
+      status={status}
+      component={ContactList}
+      onSelect={onSelect}
+    />
+  );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F6F7F8',
-    alignContent: 'center',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  scrollContainer: {
-    width: '100%',
-    marginBottom: 20,
-  },
-});
-
 
 export default ContactsListScreen;

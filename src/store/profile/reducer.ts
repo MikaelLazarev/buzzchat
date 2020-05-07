@@ -11,11 +11,10 @@ import {ProfileActions} from './';
 export interface ProfileState extends Profile {}
 
 const initialState: ProfileState = {
+  contact: undefined,
+  mnemonic: '',
+  pubkey: '',
   status: APP_STATUS_SPLASH,
-  email: '',
-  name: '',
-  job: '',
-  industry: '',
 };
 
 export default function createReducer(

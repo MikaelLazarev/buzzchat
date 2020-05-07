@@ -10,13 +10,12 @@ import {FlatList, ListRenderItemInfo, StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-elements';
 import ChatCard from './ChatCard';
 import {Chat} from '../../core/chat';
+import {DataScreenComponentProps} from '../../components/DataScreen';
 
-interface ChatsListProps {
-  data: readonly Chat[];
-  onPressed: (id: string) => void;
-}
-
-const ChatsList: React.FC<ChatsListProps> = ({data, onPressed}) => {
+const ChatsList: React.FC<DataScreenComponentProps<Chat[]>> = ({
+  data,
+  onSelect,
+}) => {
   if (data.length === 0) {
     return (
       <View style={{paddingLeft: 20, paddingTop: 25}}>
@@ -27,7 +26,7 @@ const ChatsList: React.FC<ChatsListProps> = ({data, onPressed}) => {
   }
 
   const renderItem = (info: ListRenderItemInfo<Chat>) => (
-    <ChatCard key={info.item.id} item={info.item} onPressed={onPressed} />
+    <ChatCard key={info.item.id} item={info.item} onPressed={onSelect!} />
   );
 
   return (

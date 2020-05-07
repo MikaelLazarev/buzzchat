@@ -6,18 +6,20 @@
  */
 
 import React, {useState} from 'react';
-import {FlatList, StyleSheet, View, ScrollView} from 'react-native';
-import {SearchBar, Text} from 'react-native-elements';
+import {FlatList, StyleSheet, ScrollView} from 'react-native';
+import {SearchBar} from 'react-native-elements';
 import ContactCard from './ContactCard';
 import {Contact} from '../../core/contact';
+import {DataScreenComponentProps} from '../../components/DataScreen';
 
-interface ContactListProps {
-  data: Contact[];
-  onSelect: (id: string) => void;
-}
-
-const ContactList: React.FC<ContactListProps> = ({data, onSelect}) => {
+const ContactList: React.FC<DataScreenComponentProps<Contact[]>> = ({
+  data,
+  onSelect,
+}) => {
   const [search, setSearch] = useState('');
+
+  const filteredData =
+    search === '' ? data : data.filter((elm) => elm.name.search(search) !== -1);
 
   return (
     <ScrollView style={styles.container}>
@@ -31,12 +33,12 @@ const ContactList: React.FC<ContactListProps> = ({data, onSelect}) => {
 
       <FlatList
         style={styles.container}
-        data={data}
+        data={filteredData}
         renderItem={(elem) => (
           <ContactCard
             key={elem.item.id}
             data={elem.item}
-            selectContact={onSelect}
+            selectContact={onSelect!}
           />
         )}
       />
