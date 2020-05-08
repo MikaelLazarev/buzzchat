@@ -51,16 +51,27 @@ export const getProfile = (): ThunkAction<
 };
 
 export const updateProfile = (
-  profile: Profile,
+  profileUpdate: Profile,
 ): ThunkAction<void, RootState, unknown, ProfileActions> => async (
   dispatch,
 ) => {
-  await AsyncStorage.setItem('profile', JSON.stringify(profile));
+  const existingProfileString = await AsyncStorage.getItem('profile');
+  if (existingProfileString !== null) {
+    const existingProfile: Profile = JSON.parse(existingProfileString);
+    profileUpdate = {
+      status: 'READY',
+      pubkey: profileUpdate.pubkey || existingProfile.pubkey,
+      mnemonic: profileUpdate.mnemonic || existingProfile.mnemonic,
+      contact: profileUpdate.contact || existingProfile.contact,
+    };
+  }
+
+  await AsyncStorage.setItem('profile', JSON.stringify(profileUpdate));
   dispatch({
     type: 'PROFILE_SUCCESS',
     payload: {
       status: 'READY',
-      payload: profile,
+      payload: profileUpdate,
     },
   });
 };

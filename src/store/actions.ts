@@ -8,6 +8,7 @@
 import * as auth from './auth/actions';
 import * as chats from './chats/actions';
 import * as contacts from './contacts/actions';
+import * as profile from './profile/actions';
 import {ThunkAction} from 'redux-thunk';
 import {RootState} from './index';
 import {Action} from 'redux';
@@ -34,4 +35,5 @@ export default {
   auth,
   chats,
   contacts,
+  profile,
 };

@@ -20,7 +20,6 @@ import {
 } from '../../core/profile';
 import {SSO_ADDR} from '../../../config';
 import {LOGIN_SUCCESS} from './';
-import actions, {actionsAfterAuth} from '../actions';
 
 export const login = (
   email: string,
