@@ -10,6 +10,7 @@ import {StyleSheet, TextInput, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import {Profile} from '../../core/profile';
 import {useDispatch} from 'react-redux';
+import {updateProfile} from '../../store/profile/actions';
 
 export const AccountForm: React.FC = () => {
   const [pubkey, setPubKey] = useState('');
@@ -18,7 +19,9 @@ export const AccountForm: React.FC = () => {
   const dispatch = useDispatch();
 
   const onSubmit = () => {
-    d
+    dispatch(updateProfile({
+
+    }))
   }
 
   const isCorrect = () => {

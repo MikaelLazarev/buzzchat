@@ -7,9 +7,10 @@
 
 import {ThunkAction} from 'redux-thunk';
 import {RootState} from '../index';
-import {Profile} from '../../core/profile';
+import {Profile, ProfileStatus} from '../../core/profile';
 import AsyncStorage from '@react-native-community/async-storage';
 import {ProfileActions} from './index';
+import {Bluzelle} from '../../utils/getBluzelle';
 
 // Get user profile from server
 export const getProfile = (): ThunkAction<
@@ -24,13 +25,7 @@ export const getProfile = (): ThunkAction<
       // We have data!!
       console.log(value);
       const data: Profile = JSON.parse(value);
-      dispatch({
-        type: 'PROFILE_SUCCESS',
-        payload: {
-          status: 'READY',
-          payload: data,
-        },
-      });
+      dispatch(auth(data));
     }
   } catch (error) {
     dispatch({
@@ -67,11 +62,28 @@ export const updateProfile = (
   }
 
   await AsyncStorage.setItem('profile', JSON.stringify(profileUpdate));
-  dispatch({
-    type: 'PROFILE_SUCCESS',
-    payload: {
-      status: 'READY',
-      payload: profileUpdate,
-    },
-  });
+  dispatch(auth(profileUpdate));
+};
+
+const auth = (
+  profile: Profile,
+): ThunkAction<void, RootState, unknown, ProfileActions> => async (
+  dispatch,
+) => {
+  if (profile.mnemonic === undefined || profile.pubkey === undefined) {
+    dispatch({
+      type: 'PROFILE_FAILURE',
+      payload: {
+        ...profile,
+        status: 'AUTH_REQUIRED',
+      },
+    });
+    return;
+  }
+
+  Bluzelle.mnemonic = profile.mnemonic;
+  Bluzelle.address = profile.pubkey;
+
+  const bluzelle = new Bluzelle(profile.pubkey);
+  return bluzelle.check();
 };

@@ -27,6 +27,17 @@ export class Bluzelle {
     this._mnemonic = value;
   }
 
+  public check(): Promise<boolean> {
+    return new Promise<boolean>(async (resolve, reject) => {
+      try {
+        this.getKeys();
+        resolve(true);
+      } catch (e) {
+        reject(e.toString());
+      }
+    });
+  }
+
   public add(key: string, value: Object): Promise<boolean> {
     return new Promise<boolean>(async (resolve, reject) => {
       const bluzelle = await this.getBluzelle();
@@ -34,6 +45,17 @@ export class Bluzelle {
         .create(key, value)
         .then(() => resolve(true))
         .catch((reason) => reject(reason));
+    });
+  }
+
+  public getKeys(): Promise<string[]> {
+    return new Promise<string[]>(async (resolve, reject) => {
+      const bluzelle = await this.getBluzelle();
+      try {
+        resolve(await bluzelle.getKeys());
+      } catch (e) {
+        reject(e.toString());
+      }
     });
   }
 

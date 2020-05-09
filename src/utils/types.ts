@@ -26,4 +26,6 @@ export interface bluzelleInstance {
     gas_info?: gasInfo,
     lease_info?: leaseDays,
   ) => Promise<any>;
+
+  getKeys: () => Promise<string[]>;
 }

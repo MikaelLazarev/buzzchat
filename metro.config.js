@@ -12,6 +12,10 @@
  * @format
  */
 
+const modules = require('node-libs-react-native');
+modules.vm = require.resolve('vm-browserify');
+modules.crypto = require.resolve('react-native-crypto-js');
+
 module.exports = {
   transformer: {
     getTransformOptions: async () => ({
@@ -20,5 +24,8 @@ module.exports = {
         inlineRequires: false,
       },
     }),
+  },
+  resolver: {
+    extraNodeModules: modules,
   },
 };
