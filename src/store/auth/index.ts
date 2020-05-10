@@ -11,5 +11,6 @@ export type AccountActions =
       type: 'ACCOUNT_REQUEST' | 'ACCOUNT_SUCCESS' | 'ACCOUNT_FAILURE';
       payload?: Account;
       error?: string;
+      hash?: string,
     }
   | {type: 'AUTH_UPDATE_STATUS'; status: AuthStatus};

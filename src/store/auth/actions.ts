@@ -38,6 +38,7 @@ export const getAccountFromStorage = (): ThunkAction<
 
 export const authentificate = (
   mnemonic: string,
+  hash?: string,
 ): ThunkAction<void, RootState, unknown, AccountActions> => async (
   dispatch,
 ) => {
@@ -45,6 +46,7 @@ export const authentificate = (
     dispatch({
       type: 'ACCOUNT_FAILURE',
       error: 'Incorrect mnemonic or public key',
+      hash,
     });
     return;
   }
@@ -52,8 +54,7 @@ export const authentificate = (
   Bluzelle.mnemonic = mnemonic;
 
   try {
-    const tmpBluzelle = new Bluzelle('a');
-    const bluzelle = new Bluzelle(Bluzelle.address);
+    const bluzelle = new Bluzelle('buzzchat');
     const check = await bluzelle.check();
     console.log(check);
     if (check) {
@@ -64,10 +65,14 @@ export const authentificate = (
           address: Bluzelle.address,
           mnemonic,
         },
+        hash,
       });
     }
   } catch (e) {
-    console.log(e)
+    dispatch({
+      type: 'ACCOUNT_FAILURE',
+      error: e,
+      hash,
+    });
   }
-  return;
 };

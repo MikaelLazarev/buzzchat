@@ -44,9 +44,9 @@ const AuthSwitcher = () => {
     dispatch(actions.profile.getProfile());
   }, []);
 
-  const profile = useSelector((state: RootState) => state.profile);
+  const {status} = useSelector((state: RootState) => state.auth);
 
-  switch (profile.status) {
+  switch (status) {
     default:
     case 'AUTH_REQUIRED':
       return <WelcomeStack />;

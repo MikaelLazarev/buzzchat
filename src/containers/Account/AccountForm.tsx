@@ -5,20 +5,40 @@
  *  Copyright (c) 2020. Mikhail Lazarev
  */
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import actions from '../../store/actions';
+import {RootState} from '../../store';
+import {STATUS} from '../../store/utils/status';
 
 export const AccountForm: React.FC = () => {
   const [mnemonic, setMnemonic] = useState('');
 
+  const [hash, setHash] = useState('0');
+
   const dispatch = useDispatch();
+  const {hashes, error} = useSelector((state: RootState) => state.auth);
 
   const onSubmit = () => {
-    dispatch(actions.auth.authentificate(mnemonic));
+    const newHash = new Date().toISOString();
+    setHash(newHash);
+    dispatch(actions.auth.authentificate(mnemonic, newHash));
   };
+
+  useEffect(() => {
+    if (hash !== '0') {
+      switch (hashes[hash]) {
+        case STATUS.SUCCESS:
+          console.log('LOGIN!');
+          break;
+        case STATUS.FAILURE:
+          setHash('0');
+          break;
+      }
+    }
+  }, [hash, hashes]);
 
   const isCorrect = () => {
     const mnemonicArray = mnemonic.trim().split(' ');
@@ -35,6 +55,7 @@ export const AccountForm: React.FC = () => {
         style={{fontSize: 18}}
         multiline
       />
+      <Text style={styles.label}>{error}</Text>
       <Button
         title="Enter mnemonic"
         style={styles.button}
