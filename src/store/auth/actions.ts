@@ -51,17 +51,23 @@ export const authentificate = (
 
   Bluzelle.mnemonic = mnemonic;
 
-  const bluzelle = new Bluzelle(Bluzelle.address);
-  const check = bluzelle.check();
-  if (check) {
-    await AsyncStorage.setItem('account', JSON.stringify(mnemonic));
-    dispatch({
-      type: 'ACCOUNT_SUCCESS',
-      payload: {
-        address: Bluzelle.address,
-        mnemonic: mnemonic,
-      },
-    });
+  try {
+    const tmpBluzelle = new Bluzelle('a');
+    const bluzelle = new Bluzelle(Bluzelle.address);
+    const check = await bluzelle.check();
+    console.log(check);
+    if (check) {
+      await AsyncStorage.setItem('account', mnemonic);
+      dispatch({
+        type: 'ACCOUNT_SUCCESS',
+        payload: {
+          address: Bluzelle.address,
+          mnemonic,
+        },
+      });
+    }
+  } catch (e) {
+    console.log(e)
   }
   return;
 };

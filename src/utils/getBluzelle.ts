@@ -29,11 +29,14 @@ export class Bluzelle {
   public check(): Promise<boolean> {
     return new Promise<boolean>(async (resolve, reject) => {
       try {
-        this.getKeys();
+        console.log(await this.getKeys());
+        console.log(await this.getKeys());
         resolve(true);
+        return;
       } catch (e) {
         reject(e.toString());
       }
+      reject('Cant get bluzjs');
     });
   }
 
@@ -50,8 +53,8 @@ export class Bluzelle {
 
   public getKeys(): Promise<string[]> {
     return new Promise<string[]>(async (resolve, reject) => {
-      const bluzelle = await this.getBluzelle();
       try {
+        const bluzelle = await this.getBluzelle();
         resolve(await bluzelle.keys());
       } catch (e) {
         reject(e.toString());
@@ -61,21 +64,32 @@ export class Bluzelle {
 
   private getBluzelle(): Promise<API> {
     return new Promise<API>(async (resolve, reject) => {
-      if (Bluzelle._mnemonic === undefined) {
-        reject('Mnemonic is undefined');
-      }
-      if (this.instance === undefined) {
-        const api = await bluzelle({
-          mnemonic: Bluzelle._mnemonic,
-          uuid: this.uuid,
-          endpoint: BLUZELLE_ENDPOINT,
-          chain_id: BLUZELLE_CHAINID,
-        });
-        this.instance = api;
-        Bluzelle._address = (await api.account()).address;
-      }
+      try {
+        if (Bluzelle._mnemonic === undefined) {
+          reject('Mnemonic is undefined');
+        }
+        if (this.instance === undefined) {
+          console.log('SGAAAAA', Bluzelle._mnemonic);
+          const api = await bluzelle({
+            mnemonic: Bluzelle._mnemonic,
+            uuid: this.uuid,
+            endpoint: BLUZELLE_ENDPOINT,
+            chain_id: BLUZELLE_CHAINID,
+          });
 
-      resolve(this.instance);
+          const account = await api.account();
+          if (account.address === '') {
+            reject('Wrong mnemonic');
+          }
+          console.log(this.uuid, account);
+          this.instance = api;
+          Bluzelle._address = account.address;
+        }
+
+        resolve(this.instance);
+      } catch (e) {
+        reject(e);
+      }
     });
   }
 }

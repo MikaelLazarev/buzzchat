@@ -17,11 +17,7 @@ export const AccountForm: React.FC = () => {
   const dispatch = useDispatch();
 
   const onSubmit = () => {
-    dispatch(
-      actions.auth.authentificate({
-        mnemonic,
-      }),
-    );
+    dispatch(actions.auth.authentificate(mnemonic));
   };
 
   const isCorrect = () => {
