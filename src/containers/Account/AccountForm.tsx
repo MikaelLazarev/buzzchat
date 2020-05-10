@@ -8,39 +8,30 @@
 import React, {useState} from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
-import {Profile} from '../../core/profile';
 import {useDispatch} from 'react-redux';
-import {updateProfile} from '../../store/profile/actions';
+import actions from '../../store/actions';
 
 export const AccountForm: React.FC = () => {
-  const [pubkey, setPubKey] = useState('');
   const [mnemonic, setMnemonic] = useState('');
 
   const dispatch = useDispatch();
 
   const onSubmit = () => {
-    dispatch(updateProfile({
-
-    }))
-  }
+    dispatch(
+      actions.auth.authentificate({
+        mnemonic,
+      }),
+    );
+  };
 
   const isCorrect = () => {
-    if (pubkey.length !== 47) return false;
-    const mnemonicArray = mnemonic.trim().split(" ");
+    const mnemonicArray = mnemonic.trim().split(' ');
     if (mnemonicArray.length !== 24) return false;
     return true;
   };
 
-
   return (
     <View style={styles.input}>
-      <Text style={styles.label}>PublicKey</Text>
-      <TextInput
-        onChangeText={setPubKey}
-        value={pubkey}
-        style={{fontSize: 18}}
-        multiline
-      />
       <Text style={styles.label}>Mnemonic</Text>
       <TextInput
         onChangeText={setMnemonic}
@@ -51,7 +42,7 @@ export const AccountForm: React.FC = () => {
       <Button
         title="Enter mnemonic"
         style={styles.button}
-        // onPress={() => navigation.navigate('EnterMnemonicScreen')}
+        onPress={onSubmit}
         disabled={!isCorrect()}
       />
     </View>

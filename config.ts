@@ -16,4 +16,4 @@ export const SSO_ADDR =
     : 'https://crm.tz-factor.com';
 
 export const BLUZELLE_CHAINID = 'bluzelle';
-export const BLUZELLE_ENDPOINT = 'tcp://testnet.public.bluzelle.com:26657';
+export const BLUZELLE_ENDPOINT = 'http://testnet.public.bluzelle.com:1317';

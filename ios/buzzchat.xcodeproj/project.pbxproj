@@ -8,18 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* buzzchatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* buzzchatTests.m */; };
-		0986EE8FF1F0171731D88098 /* libPods-buzzchat-buzzchatTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8424B5A0C33D8CFD21DF68D /* libPods-buzzchat-buzzchatTests.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		15A2E278F6E0F6924EDE2F2F /* libPods-buzzchat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC44DEE93EEC79ED008FD403 /* libPods-buzzchat.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* buzzchatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* buzzchatTests.m */; };
-		9DC7160505D6389482704ECC /* libPods-buzzchat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB488FC728058212602E3A5A /* libPods-buzzchat.a */; };
-		A7A7928E2F8B60A1926B2634 /* libPods-buzzchat-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F362386E8B49FCE6C6AC2D /* libPods-buzzchat-tvOS.a */; };
-		FBBB6193A99CFDC2E9482497 /* libPods-buzzchat-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45C11E2A5816B6F60F5B5F38 /* libPods-buzzchat-tvOSTests.a */; };
+		B2E50A6179B5D84B1FB1FA23 /* libPods-buzzchat-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B714A4CC5BB47493D0D2ADD /* libPods-buzzchat-tvOSTests.a */; };
+		D6525F8A36D4AC14AA5918F3 /* libPods-buzzchat-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B41B4221A335A22B1A450EB5 /* libPods-buzzchat-tvOS.a */; };
+		FEEFE86F270081C5AA64F03F /* libPods-buzzchat-buzzchatTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 425FC4371864EB208594593E /* libPods-buzzchat-buzzchatTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +37,20 @@
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "buzzchat-tvOS";
 		};
+		74E4507B246831D2006FD7A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74E45076246831D2006FD7A1 /* RNRandomBytes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 73EEC9391BFE4B1D00D468EB;
+			remoteInfo = RNRandomBytes;
+		};
+		74E4507D246831D2006FD7A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74E45076246831D2006FD7A1 /* RNRandomBytes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 163CDE4E2087CAD3001065FB;
+			remoteInfo = "RNRandomBytes-tvOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +58,7 @@
 		00E356EE1AD99517003FC87E /* buzzchatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = buzzchatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* buzzchatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = buzzchatTests.m; sourceTree = "<group>"; };
+		0B714A4CC5BB47493D0D2ADD /* libPods-buzzchat-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-buzzchat-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* buzzchat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = buzzchat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = buzzchat/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = buzzchat/AppDelegate.m; sourceTree = "<group>"; };
@@ -51,22 +66,22 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = buzzchat/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = buzzchat/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = buzzchat/main.m; sourceTree = "<group>"; };
+		258FCD3DCA4D0EF34BE2124D /* Pods-buzzchat-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-buzzchat-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-buzzchat-tvOS/Pods-buzzchat-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* buzzchat-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "buzzchat-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* buzzchat-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "buzzchat-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		45C11E2A5816B6F60F5B5F38 /* libPods-buzzchat-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-buzzchat-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4D9ADE947DF5FE582AF35A0E /* Pods-buzzchat-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-buzzchat-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-buzzchat-tvOSTests/Pods-buzzchat-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		76A0B57E197D8042E92E64EF /* Pods-buzzchat-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-buzzchat-tvOS.release.xcconfig"; path = "Target Support Files/Pods-buzzchat-tvOS/Pods-buzzchat-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		847570377D8A112F9BD8AC62 /* Pods-buzzchat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-buzzchat.debug.xcconfig"; path = "Target Support Files/Pods-buzzchat/Pods-buzzchat.debug.xcconfig"; sourceTree = "<group>"; };
-		852421724BF04BA395552A41 /* Pods-buzzchat-buzzchatTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-buzzchat-buzzchatTests.release.xcconfig"; path = "Target Support Files/Pods-buzzchat-buzzchatTests/Pods-buzzchat-buzzchatTests.release.xcconfig"; sourceTree = "<group>"; };
-		8AA328B2586AD6AC69D66354 /* Pods-buzzchat-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-buzzchat-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-buzzchat-tvOSTests/Pods-buzzchat-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		94F362386E8B49FCE6C6AC2D /* libPods-buzzchat-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-buzzchat-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		993ED7E757638843077C00DB /* Pods-buzzchat-buzzchatTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-buzzchat-buzzchatTests.debug.xcconfig"; path = "Target Support Files/Pods-buzzchat-buzzchatTests/Pods-buzzchat-buzzchatTests.debug.xcconfig"; sourceTree = "<group>"; };
-		AB488FC728058212602E3A5A /* libPods-buzzchat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-buzzchat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B4AAAEDCACB9903CC40B3E96 /* Pods-buzzchat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-buzzchat.release.xcconfig"; path = "Target Support Files/Pods-buzzchat/Pods-buzzchat.release.xcconfig"; sourceTree = "<group>"; };
+		425FC4371864EB208594593E /* libPods-buzzchat-buzzchatTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-buzzchat-buzzchatTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C37FCC8A0B1C0C60EE3EDC7 /* Pods-buzzchat-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-buzzchat-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-buzzchat-tvOSTests/Pods-buzzchat-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5514747F6CD2F662CB201439 /* Pods-buzzchat-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-buzzchat-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-buzzchat-tvOSTests/Pods-buzzchat-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		6E1A4DF23B1506DC9D174088 /* Pods-buzzchat-buzzchatTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-buzzchat-buzzchatTests.debug.xcconfig"; path = "Target Support Files/Pods-buzzchat-buzzchatTests/Pods-buzzchat-buzzchatTests.debug.xcconfig"; sourceTree = "<group>"; };
+		74E45076246831D2006FD7A1 /* RNRandomBytes.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNRandomBytes.xcodeproj; path = "../../node_modules/react-native-randombytes/RNRandomBytes.xcodeproj"; sourceTree = "<group>"; };
+		AC44DEE93EEC79ED008FD403 /* libPods-buzzchat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-buzzchat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B41B4221A335A22B1A450EB5 /* libPods-buzzchat-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-buzzchat-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D56214B5E22217C5B8B5542B /* Pods-buzzchat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-buzzchat.release.xcconfig"; path = "Target Support Files/Pods-buzzchat/Pods-buzzchat.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		EDDA5969530193CCDD7F1E92 /* Pods-buzzchat-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-buzzchat-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-buzzchat-tvOS/Pods-buzzchat-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		F8424B5A0C33D8CFD21DF68D /* libPods-buzzchat-buzzchatTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-buzzchat-buzzchatTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFD6D1ADD696394C7CAE7088 /* Pods-buzzchat-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-buzzchat-tvOS.release.xcconfig"; path = "Target Support Files/Pods-buzzchat-tvOS/Pods-buzzchat-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		F53C8AB463300694EF7CC235 /* Pods-buzzchat-buzzchatTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-buzzchat-buzzchatTests.release.xcconfig"; path = "Target Support Files/Pods-buzzchat-buzzchatTests/Pods-buzzchat-buzzchatTests.release.xcconfig"; sourceTree = "<group>"; };
+		FC706A61CC65EFEDC3821E43 /* Pods-buzzchat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-buzzchat.debug.xcconfig"; path = "Target Support Files/Pods-buzzchat/Pods-buzzchat.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0986EE8FF1F0171731D88098 /* libPods-buzzchat-buzzchatTests.a in Frameworks */,
+				FEEFE86F270081C5AA64F03F /* libPods-buzzchat-buzzchatTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,7 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9DC7160505D6389482704ECC /* libPods-buzzchat.a in Frameworks */,
+				15A2E278F6E0F6924EDE2F2F /* libPods-buzzchat.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,7 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7A7928E2F8B60A1926B2634 /* libPods-buzzchat-tvOS.a in Frameworks */,
+				D6525F8A36D4AC14AA5918F3 /* libPods-buzzchat-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FBBB6193A99CFDC2E9482497 /* libPods-buzzchat-tvOSTests.a in Frameworks */,
+				B2E50A6179B5D84B1FB1FA23 /* libPods-buzzchat-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,12 +156,37 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				AB488FC728058212602E3A5A /* libPods-buzzchat.a */,
-				F8424B5A0C33D8CFD21DF68D /* libPods-buzzchat-buzzchatTests.a */,
-				94F362386E8B49FCE6C6AC2D /* libPods-buzzchat-tvOS.a */,
-				45C11E2A5816B6F60F5B5F38 /* libPods-buzzchat-tvOSTests.a */,
+				AC44DEE93EEC79ED008FD403 /* libPods-buzzchat.a */,
+				425FC4371864EB208594593E /* libPods-buzzchat-buzzchatTests.a */,
+				B41B4221A335A22B1A450EB5 /* libPods-buzzchat-tvOS.a */,
+				0B714A4CC5BB47493D0D2ADD /* libPods-buzzchat-tvOSTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		74E45077246831D2006FD7A1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				74E4507C246831D2006FD7A1 /* libRNRandomBytes.a */,
+				74E4507E246831D2006FD7A1 /* libRNRandomBytes-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		76F22678BA0ACB96F7801A0A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				74E45076246831D2006FD7A1 /* RNRandomBytes.xcodeproj */,
+				FC706A61CC65EFEDC3821E43 /* Pods-buzzchat.debug.xcconfig */,
+				D56214B5E22217C5B8B5542B /* Pods-buzzchat.release.xcconfig */,
+				6E1A4DF23B1506DC9D174088 /* Pods-buzzchat-buzzchatTests.debug.xcconfig */,
+				F53C8AB463300694EF7CC235 /* Pods-buzzchat-buzzchatTests.release.xcconfig */,
+				258FCD3DCA4D0EF34BE2124D /* Pods-buzzchat-tvOS.debug.xcconfig */,
+				EFD6D1ADD696394C7CAE7088 /* Pods-buzzchat-tvOS.release.xcconfig */,
+				4C37FCC8A0B1C0C60EE3EDC7 /* Pods-buzzchat-tvOSTests.debug.xcconfig */,
+				5514747F6CD2F662CB201439 /* Pods-buzzchat-tvOSTests.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -164,7 +204,7 @@
 				00E356EF1AD99517003FC87E /* buzzchatTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				918D18A76233FA314AC27660 /* Pods */,
+				76F22678BA0ACB96F7801A0A /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -182,22 +222,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		918D18A76233FA314AC27660 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				847570377D8A112F9BD8AC62 /* Pods-buzzchat.debug.xcconfig */,
-				B4AAAEDCACB9903CC40B3E96 /* Pods-buzzchat.release.xcconfig */,
-				993ED7E757638843077C00DB /* Pods-buzzchat-buzzchatTests.debug.xcconfig */,
-				852421724BF04BA395552A41 /* Pods-buzzchat-buzzchatTests.release.xcconfig */,
-				EDDA5969530193CCDD7F1E92 /* Pods-buzzchat-tvOS.debug.xcconfig */,
-				76A0B57E197D8042E92E64EF /* Pods-buzzchat-tvOS.release.xcconfig */,
-				8AA328B2586AD6AC69D66354 /* Pods-buzzchat-tvOSTests.debug.xcconfig */,
-				4D9ADE947DF5FE582AF35A0E /* Pods-buzzchat-tvOSTests.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -205,11 +229,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "buzzchatTests" */;
 			buildPhases = (
-				4FD07FF56A6A89C05BF4283C /* [CP] Check Pods Manifest.lock */,
+				81FAE921D59E424D9F257A45 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				70A4E5348F75CD04C76A9B20 /* [CP] Copy Pods Resources */,
+				A55103982BDE4CA0505E9C08 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -225,13 +249,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "buzzchat" */;
 			buildPhases = (
-				6DEC634F92F5F5CEACC7EB94 /* [CP] Check Pods Manifest.lock */,
+				07DA31E92A9CFC08B81B65DF /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				BF479F02A5E447F4B3B414D4 /* [CP] Copy Pods Resources */,
+				019146857F08E76F95C688B3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -246,7 +270,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "buzzchat-tvOS" */;
 			buildPhases = (
-				C391C19385D28F2E2FC785D0 /* [CP] Check Pods Manifest.lock */,
+				3665DF58E56CCAC3E9D2E4C6 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -266,7 +290,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "buzzchat-tvOSTests" */;
 			buildPhases = (
-				E41D09A04E1BFB408BF1CD7E /* [CP] Check Pods Manifest.lock */,
+				DCCA3DC78385AF62D4D1978F /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -318,6 +342,12 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 74E45077246831D2006FD7A1 /* Products */;
+					ProjectRef = 74E45076246831D2006FD7A1 /* RNRandomBytes.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* buzzchat */,
@@ -327,6 +357,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		74E4507C246831D2006FD7A1 /* libRNRandomBytes.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNRandomBytes.a;
+			remoteRef = 74E4507B246831D2006FD7A1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		74E4507E246831D2006FD7A1 /* libRNRandomBytes-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRNRandomBytes-tvOS.a";
+			remoteRef = 74E4507D246831D2006FD7A1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		00E356EC1AD99517003FC87E /* Resources */ = {
@@ -377,113 +424,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native Code And Images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		4FD07FF56A6A89C05BF4283C /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-buzzchat-buzzchatTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6DEC634F92F5F5CEACC7EB94 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-buzzchat-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		70A4E5348F75CD04C76A9B20 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-buzzchat-buzzchatTests/Pods-buzzchat-buzzchatTests-resources.sh",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-buzzchat-buzzchatTests/Pods-buzzchat-buzzchatTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BF479F02A5E447F4B3B414D4 /* [CP] Copy Pods Resources */ = {
+		019146857F08E76F95C688B3 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -531,7 +472,43 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-buzzchat/Pods-buzzchat-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C391C19385D28F2E2FC785D0 /* [CP] Check Pods Manifest.lock */ = {
+		07DA31E92A9CFC08B81B65DF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-buzzchat-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native Code And Images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		3665DF58E56CCAC3E9D2E4C6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -553,7 +530,77 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E41D09A04E1BFB408BF1CD7E /* [CP] Check Pods Manifest.lock */ = {
+		81FAE921D59E424D9F257A45 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-buzzchat-buzzchatTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A55103982BDE4CA0505E9C08 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-buzzchat-buzzchatTests/Pods-buzzchat-buzzchatTests-resources.sh",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-buzzchat-buzzchatTests/Pods-buzzchat-buzzchatTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DCCA3DC78385AF62D4D1978F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -680,7 +727,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 993ED7E757638843077C00DB /* Pods-buzzchat-buzzchatTests.debug.xcconfig */;
+			baseConfigurationReference = 6E1A4DF23B1506DC9D174088 /* Pods-buzzchat-buzzchatTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -703,7 +750,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 852421724BF04BA395552A41 /* Pods-buzzchat-buzzchatTests.release.xcconfig */;
+			baseConfigurationReference = F53C8AB463300694EF7CC235 /* Pods-buzzchat-buzzchatTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -723,7 +770,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 847570377D8A112F9BD8AC62 /* Pods-buzzchat.debug.xcconfig */;
+			baseConfigurationReference = FC706A61CC65EFEDC3821E43 /* Pods-buzzchat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -750,7 +797,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B4AAAEDCACB9903CC40B3E96 /* Pods-buzzchat.release.xcconfig */;
+			baseConfigurationReference = D56214B5E22217C5B8B5542B /* Pods-buzzchat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -771,7 +818,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EDDA5969530193CCDD7F1E92 /* Pods-buzzchat-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 258FCD3DCA4D0EF34BE2124D /* Pods-buzzchat-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -799,7 +846,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 76A0B57E197D8042E92E64EF /* Pods-buzzchat-tvOS.release.xcconfig */;
+			baseConfigurationReference = EFD6D1ADD696394C7CAE7088 /* Pods-buzzchat-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -827,7 +874,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8AA328B2586AD6AC69D66354 /* Pods-buzzchat-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = 4C37FCC8A0B1C0C60EE3EDC7 /* Pods-buzzchat-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -854,7 +901,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4D9ADE947DF5FE582AF35A0E /* Pods-buzzchat-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = 5514747F6CD2F662CB201439 /* Pods-buzzchat-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;

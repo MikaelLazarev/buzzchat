@@ -46,17 +46,15 @@ end
 
 target 'buzzchat' do
   # Pods for buzzchat
-  
   permissions_path = '../node_modules/react-native-permissions/ios'
 
-   pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
 #   pod 'Permission-FaceID', :path => "#{permissions_path}/FaceID.podspec"
-   pod 'Permission-MediaLibrary', :path => "#{permissions_path}/MediaLibrary.podspec"
-   pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone.podspec"
+  pod 'Permission-MediaLibrary', :path => "#{permissions_path}/MediaLibrary.podspec"
+  pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone.podspec"
 #   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications.podspec"
-   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary.podspec"
-   
-   
+  pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary.podspec"
+  
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -88,11 +86,6 @@ target 'buzzchat' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  
-
-
- 
-  
   target 'buzzchatTests' do
     inherit! :complete
     # Pods for testing
