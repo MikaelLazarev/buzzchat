@@ -1,0 +1,23 @@
+From: Address
+To Chat: UUID
+Signature: Signature of message
+Message: string
+System: boolean
+
+
+// AUTHORITY SERVER
+CHAT ROOMS MANAGEMENT
+
+ROOM INVITE?
+#ROOMS::
+
+=> Cached information
+
+CHAT ROOM:
+name:
+memberlist:
+
+
+Private server - orchestationg
+
+REgister

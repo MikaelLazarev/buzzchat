@@ -5,14 +5,16 @@
  *  Copyright (c) 2020. Mikhail Lazarev
  */
 
+import {Contact} from './contact';
 
 export interface Message {
   id: string;
   text: string;
   createdAt: number | Date;
+  user: Contact;
 }
 
-export interface MessagesRepositoryI {
-  list(chatId: string): Promise<Message[] | undefined>;
-  addMessage(id: string, message: Message) : Promise<void>;
+export interface LinkedMessage {
+  message: Message | null;
+  nextId: string;
 }
