@@ -1,11 +1,15 @@
 {
-  "name": "blu-1984",
+  "name": "buzzchat",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": ">=12.6.0",
+    "npm": ">=6.13.0"
+  },
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "start": "ts-node ./src/index.ts",
+    "start": "forever start -v -c ts-node ./src/index.ts",
     "postinstall": "cd client  && npm install && npm run build"
   },
   "resolutions": {
@@ -29,6 +33,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-jwt": "^5.3.1",
+    "forever": "^3.0.0",
     "inversify": "^5.0.1",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.25.3",
