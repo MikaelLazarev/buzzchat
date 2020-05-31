@@ -62,15 +62,22 @@ export class ProfilesService implements ProfilesServiceI {
     return profileFull;
   }
 
-  async addContact(user_id: string, contact_id: string): Promise<Profile> {
+  async addContact(
+    user_id: string,
+    contact_id: string,
+  ): Promise<ProfileFull | undefined> {
     const profile = await this._repository.findOne(user_id);
     if (profile === undefined) throw 'User not found';
-    profile.contactsIdList = [...profile.contactsIdList, contact_id];
+    profile.contactsIdList = profile.contactsIdList.filter(
+      (elm) => elm !== contact_id,
+    );
+    profile.contactsIdList.push(contact_id);
+
     await this._repository.update(user_id, profile);
-    return profile;
+    return await this.getProfile(user_id);
   }
 
   list(): Promise<Profile[] | undefined> {
-    return Promise.resolve(undefined);
+    return this._repository.list();
   }
 }

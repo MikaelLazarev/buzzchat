@@ -15,10 +15,9 @@ export class ProfilesRepository implements ProfilesRepositoryI {
     return this._blu.findOne(id);
   }
 
-  update(user_id: string, newProfile: Profile) : Promise<void> {
+  update(user_id: string, newProfile: Profile): Promise<void> {
     return this._blu.update(user_id, newProfile);
   }
-
 
   async create(newProfile: Profile): Promise<Profile | undefined> {
     const existingAcc = await this._blu.findOne(newProfile.id);
@@ -30,9 +29,6 @@ export class ProfilesRepository implements ProfilesRepositoryI {
     await this._blu.create(newProfile.id, newProfile);
     return newProfile;
   }
-
-
-
 
   list(): Promise<Profile[] | undefined> {
     return this._blu.list();

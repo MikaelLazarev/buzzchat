@@ -57,6 +57,8 @@ export function createApp(config: ConfigParams): Promise<Application> {
     // Profiles Controller
     app.get('/api/profile/', loginRequired, profilesController.retrieve());
     app.post('/api/profile/', loginRequired, profilesController.update());
+    app.post('/api/profile/new_contact/', loginRequired, profilesController.new_contact());
+    app.get('/api/contacts/', loginRequired, profilesController.list());
 
     // DB Controller
     app.get('/api/stat/', dbController.retrieve());

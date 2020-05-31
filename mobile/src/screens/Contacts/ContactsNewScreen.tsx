@@ -13,37 +13,33 @@ import ContactList from '../../containers/Contacts/ContactList';
 import {useNavigation} from '@react-navigation/native';
 import {DataScreen} from '../../components/DataScreen';
 
-const ContactsListScreen: React.FC = () => {
+export const ContactsNewScreen: React.FC = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [hash, setHash] = useState('0');
 
   useEffect(() => {
     const newHash = Date.now().toString();
-    dispatch(actions.profile.getProfile(newHash));
+    dispatch(actions.contacts.getList(newHash));
     setHash(newHash);
-    // dispatch(actions.chats.getList());
   }, []);
 
-  const data = useSelector((state: RootState) => state.profile);
+  const {data} = useSelector((state: RootState) => state.contacts.List);
   const status = useSelector(
     (state: RootState) => state.operations.data[hash]?.data?.status,
   );
 
   const onSelect = (id: string) => {
-    navigation.navigate('ChatDetails', {
-      id,
-    });
+    dispatch(actions.profile.addContract(id));
+    navigation.navigate('ContactsList');
   };
 
   return (
     <DataScreen
-      data={data.contactsList}
+      data={data}
       status={status}
       component={ContactList}
       onSelect={onSelect}
     />
   );
 };
-
-export default ContactsListScreen;

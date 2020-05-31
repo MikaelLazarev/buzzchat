@@ -10,6 +10,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
 import {ChatsListScreen} from './ChatsListScreen';
 import {ChatDetailsScreen} from './ChatDetails';
+import {Button} from 'react-native-elements';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,8 @@ export type ContactStackParamList = {
 };
 
 export const ChatStack: React.FC = () => {
+  const navigation = useNavigation();
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -25,9 +28,19 @@ export const ChatStack: React.FC = () => {
         component={ChatsListScreen}
         options={{
           title: 'Chats',
+          headerRight: () => (
+            <Button
+              onPress={() => navigation.navigate('ContactEdit', {id: 'new'})}
+              icon={{
+                name: 'add',
+                size: 22,
+              }}
+              type="clear"
+            />
+          ),
         }}
       />
-      <Stack.Screen name="ChatDetails" component={ChatDetailsScreen} />
+      {/*<Stack.Screen name="ChatDetails" component={ChatDetailsScreen} />*/}
     </Stack.Navigator>
   );
 };

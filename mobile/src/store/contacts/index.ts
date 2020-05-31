@@ -5,4 +5,4 @@
  *  Copyright (c) 2020. Mikhail Lazarev
  */
 export const CONTACT_PREFIX = 'CONTACTS@@';
-export const endpoint = '/api/features/';
+export const endpoint = '/api/contacts/';

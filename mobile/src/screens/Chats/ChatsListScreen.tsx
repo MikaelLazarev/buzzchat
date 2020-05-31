@@ -5,45 +5,32 @@
  *  Copyright (c) 2020. Mikhail Lazarev
  */
 
-/**
- * HomeSceen
- * Wrike Meeting App
- * https://github.com/MikaelLazarev/WrikeMeeting
- *
- * @format
- * @flow
- */
-
-/* eslint-disable react-native/no-inline-styles */
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Button} from 'react-native-elements';
 import ChatsList from '../../containers/Chats/ChatsList';
-import {NavigationScreenComponent} from 'react-navigation';
 import actions from '../../store/actions';
 import {RootState} from '../../store';
 import {useNavigation} from '@react-navigation/native';
 import {DataScreen} from '../../components/DataScreen';
 import {Chat} from '../../core/chat';
 
-interface ChatsListScreenProps {
-  // navigation: NavigationScreenProp<NavigationState, NavigationParams>;
-  // navigationOptions?: Object;
-}
-
-export const ChatsListScreen: NavigationScreenComponent<
-  {},
-  ChatsListScreenProps
-> = () => {
+export const ChatsListScreen: React.FC = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const [hash, setHash] = useState('0');
+
   useEffect(() => {
-    dispatch(actions.profile.getProfile());
+    const newHash = Date.now().toString();
+    dispatch(actions.profile.getProfile(newHash));
+    setHash(newHash);
     // dispatch(actions.chats.getList());
   }, []);
 
-  const {data, status} = useSelector((state: RootState) => state.chats.List);
+  const data = useSelector((state: RootState) => state.profile);
+  const status = useSelector(
+    (state: RootState) => state.operations.data[hash]?.data?.status,
+  );
 
-  const navigation = useNavigation();
   const onChatSelect = (id: string) => {
     navigation.navigate('ChatDetails', {
       id,
@@ -52,7 +39,7 @@ export const ChatsListScreen: NavigationScreenComponent<
 
   return (
     <DataScreen<Chat[]>
-      data={data}
+      data={data.chatsList}
       status={status}
       component={ChatsList}
       onSelect={onChatSelect}

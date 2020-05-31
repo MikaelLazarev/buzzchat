@@ -43,6 +43,22 @@ export const profileUpdateDTOSchema = {
   },
 };
 
+
+export interface ProfileContactDTO {
+  id: string;
+}
+
+export const profileContactDTOSchema = {
+  type: 'object',
+  required: ['id'],
+  properties: {
+    id: {
+      type: 'string',
+    },
+  },
+};
+
+
 export interface ProfilesRepositoryI {
   create(newProfile: Profile): Promise<Profile | undefined>;
   findOne(id: string): Promise<Profile | undefined>;
@@ -52,7 +68,7 @@ export interface ProfilesRepositoryI {
 
 export interface ProfilesServiceI {
   getProfile(user_id: string): Promise<ProfileFull | undefined>;
-  addContact(user_id: string, contact_id: string): Promise<Profile>;
+  addContact(user_id: string, contact_id: string): Promise<ProfileFull | undefined>
   update(user_id: string, dto: ProfileUpdateDTO): Promise<ProfileFull>;
   list(): Promise<Profile[] | undefined>;
 }

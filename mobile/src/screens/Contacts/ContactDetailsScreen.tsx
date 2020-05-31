@@ -27,7 +27,6 @@ export const ContactDetailsScreen: React.FC = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(actions.contacts.getDetails(id));
   }, []);
 
   const contactData = getDetailsItem(

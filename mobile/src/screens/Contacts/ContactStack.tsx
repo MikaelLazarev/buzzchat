@@ -13,6 +13,7 @@ import {ContactEditScreen} from './ContactEditScreen';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
 import {ContactQRScanScreen} from './ContactQRScanScreen';
+import {ContactsNewScreen} from "./ContactsNewScreen";
 
 const Stack = createStackNavigator();
 
@@ -43,7 +44,7 @@ export const ContactStack: React.FC = () => {
           title: 'Contacts',
           headerRight: () => (
             <Button
-              onPress={() => navigation.navigate('ContactEdit', {id: 'new'})}
+              onPress={() => navigation.navigate('ContactNewScreen')}
               icon={{
                 name: 'add',
                 size: 22,
@@ -55,8 +56,8 @@ export const ContactStack: React.FC = () => {
       />
       <Stack.Screen name="ContactDetails" component={ContactDetailsScreen} />
       <Stack.Screen
-        name="ContactEdit"
-        component={ContactEditScreen}
+        name="ContactNewScreen"
+        component={ContactsNewScreen}
         initialParams={{id: 'new'}}
         options={{
           title: 'Contacts',

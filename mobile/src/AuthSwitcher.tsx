@@ -38,7 +38,7 @@ const tabIcons: Record<string, string> = {
   Settings: 'ios-settings',
 };
 
-const AuthSwitcher = () => {
+export const AuthSwitcher : React.FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(actions.auth.getTokenAtStartup());
@@ -81,4 +81,3 @@ const AuthSwitcher = () => {
   }
 };
 
-export default AuthSwitcher;

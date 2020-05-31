@@ -14,19 +14,23 @@ import {RootState} from '../index';
 import {Action} from 'redux';
 import {updateStatus} from '../operations/actions';
 import {STATUS} from '../utils/status';
+import {withAuth} from '../auth';
 
 export const createDataLoaderListActions = (
   api: string,
   actionPrefix: string,
 ) => {
-  return (): ThunkAction<void, RootState, unknown, Action<string>> => async (
+  return (
+    hash?: string,
+  ): ThunkAction<void, RootState, unknown, Action<string>> => async (
     dispatch,
   ) => {
+    dispatch(updateStatus(hash || '0', STATUS.LOADING));
     const action = await dispatch(
       createAction({
         endpoint: getApiById(api, ''),
         method: 'GET',
-        headers: {'Content-Type': 'application/json'},
+        headers: withAuth({'Content-Type': 'application/json'}),
         types: [
           actionPrefix + actionTypes.LIST_REQUEST,
           actionPrefix + actionTypes.LIST_SUCCESS,
@@ -35,8 +39,13 @@ export const createDataLoaderListActions = (
       }),
     );
 
-    console.log('GLIST', action.type);
-
+    if (action === undefined || action.error) {
+      dispatch(
+        updateStatus(hash || '0', STATUS.FAILURE, action.payload.message),
+      );
+    } else {
+      dispatch(updateStatus(hash || '0', STATUS.SUCCESS));
+    }
     return action;
   };
 };
@@ -56,7 +65,7 @@ export const createDataLoaderDetailActions = (
     createAction({
       endpoint: getApiById(api, id),
       method: 'GET',
-      headers: {'Content-Type': 'application/json'},
+      headers: withAuth({'Content-Type': 'application/json'}),
       types: [
         {
           type: actionPrefix + actionTypes.DETAIL_REQUEST,
@@ -111,7 +120,7 @@ export const createDataLoaderCreateUpdateDataAction = <T>(
     createAction({
       endpoint: api,
       method: method,
-      headers: {'Content-Type': 'application/json'},
+      headers: withAuth({'Content-Type': 'application/json'}),
       body: JSON.stringify(data),
       types: [
         {

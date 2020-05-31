@@ -58,3 +58,29 @@ export const updateProfile = (
   }
   return action;
 };
+
+export const addContract = (
+  id: string,
+  hash?: string,
+): ThunkAction<void, RootState, unknown, Action<string>> => async (
+  dispatch,
+) => {
+  dispatch(updateStatus(hash || '0', STATUS.LOADING));
+
+  const action = await dispatch(
+    createAction({
+      endpoint: getFullAPIAddress('/api/profile/new_contact/'),
+      method: 'POST',
+      body: JSON.stringify({id}),
+      headers: withAuth({'Content-Type': 'application/json'}),
+      types: ['PROFILE_REQUEST', 'PROFILE_SUCCESS', 'PROFILE_FAILURE'],
+    }),
+  );
+
+  if (action === undefined || action.error) {
+    dispatch(updateStatus(hash || '0', STATUS.FAILURE, action.payload.message));
+  } else {
+    dispatch(updateStatus(hash || '0', STATUS.SUCCESS));
+  }
+  return action;
+};
