@@ -23,6 +23,7 @@ import {SSO_ADDR} from '../../../config';
 import AsyncStorage from '@react-native-community/async-storage';
 import {updateStatus} from '../operations/actions';
 import {STATUS} from '../utils/status';
+import {actionsAfterAuth} from '../actions';
 
 export const login = (
   email: string,
@@ -170,7 +171,7 @@ export const authenticate = (
     result.type === actionTypes.LOGIN_SUCCESS
   ) {
     await AsyncStorage.setItem('token', result.payload.refresh.toString());
-    await dispatch(getProfile());
+    await dispatch(actionsAfterAuth());
   }
 
   console.log(result);
@@ -204,7 +205,7 @@ export const getTokenAtStartup = (): ThunkAction<
       result.payload.refresh &&
       result.type === actionTypes.TOKEN_RECEIVED
     ) {
-      await dispatch(getProfile());
+      await dispatch(actionsAfterAuth());
     }
   }
 };

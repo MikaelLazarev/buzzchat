@@ -1,122 +1,82 @@
 import {
-  ProfilesServiceI, profileUpdateDTOSchema, ProfileUpdateDTO, profileContactDTOSchema, ProfileContactDTO
-} from "../core/profiles";
-import {  Response } from "express";
-import { inject, injectable } from "inversify";
-import { TYPES } from "../types";
-import Ajv, { ValidateFunction } from "ajv";
-import {RequestWithUser} from "./types";
+  ProfilesServiceI,
+  ProfileUpdateDTO,
+  ProfileContactDTO,
+} from '../core/profiles';
+import {inject, injectable} from 'inversify';
+import {TYPES} from '../types';
+import {
+  SocketController,
+  socketListeners,
+  SocketWithToken,
+} from './socketRouter';
+import {SocketUpdate} from '../core/operations';
 
 @injectable()
-export class ProfilesController {
+export class ProfilesController implements SocketController {
   private _service: ProfilesServiceI;
-  private readonly _updateDTOValidate: ValidateFunction;
-  private readonly _contactDTOValidate: ValidateFunction;
+  private _namespace = 'profile';
 
   constructor(@inject(TYPES.ProfilesService) service: ProfilesServiceI) {
+    console.log('Profiles controller started');
     this._service = service;
-    this._updateDTOValidate = new Ajv().compile(profileUpdateDTOSchema);
-    this._contactDTOValidate = new Ajv().compile(profileContactDTOSchema);
   }
 
+  get namespace(): string {
+    return this._namespace;
+  }
 
-  retrieve() {
-    return async (req: RequestWithUser, res: Response) => {
-      const id = req.user?.user_id;
-      console.log("RETRIEVE", id)
-      if (id === undefined) {
-        return res.status(400).send("No id");
-      }
+  getListeners(socket: SocketWithToken, userId: string): socketListeners {
+    return {
+      list: async (data: string, opHash: string) => {
+        try {
+          const result = await this._service.list();
+          socket.emit(this._namespace + ':updateList', result);
 
-      try {
-        const result = await this._service.getProfile(id);
-        res.status(200).json(result);
-      } catch (e) {
-        console.log(e);
-        res.status(400).send();
-      }
+          socket.ok(opHash);
+        } catch (e) {
+          console.log(e);
+          socket.failure(opHash, e);
+        }
+      },
+
+      retrieve: async (data: string, opHash: string) => {
+        try {
+          const result = await this._service.getProfile(userId);
+          console.log(result);
+          socket.emit(this._namespace + ':updateDetails', result);
+          socket.ok(opHash);
+        } catch (e) {
+          console.log(e);
+          socket.failure(opHash, e);
+        }
+      },
+
+      update: async (dto: ProfileUpdateDTO, opHash: string) => {
+        console.log(dto);
+        try {
+          const result = await this._service.update(userId, dto);
+          socket.emit(this._namespace + ':updateDetails', result);
+          socket.ok(opHash);
+        } catch (e) {
+          socket.failure(opHash, e);
+        }
+      },
+
+      new_contact: async (dto: ProfileContactDTO, opHash: string) => {
+        console.log(dto);
+        try {
+          const result = await this._service.addContact(userId, dto.id);
+          socket.emit(this._namespace + ':updateDetails', result);
+          socket.ok(opHash);
+        } catch (e) {
+          socket.failure(opHash, e);
+        }
+      },
     };
   }
 
-  update() {
-    return async (req: RequestWithUser, res: Response) => {
-
-      const user_id = req.user?.user_id;
-      if (user_id === undefined) {
-        return res.status(400).send("No user_id");
-      }
-      console.log("UPDATING", user_id)
-      const dto: ProfileUpdateDTO = {
-        name: req.body.name,
-        avatar: req.body.avatar,
-      };
-
-      if (!this._updateDTOValidate(dto)) {
-        console.log("Incorrect request", dto);
-        return res.status(400).send("Incorrect request");
-      }
-
-      console.log(dto);
-
-      try {
-        const result = await this._service.update(user_id, dto);
-        console.log(result);
-        res.status(200).json(result);
-      } catch (e) {
-        console.log(e);
-        res.status(400).send(e);
-      }
-    };
+  update(): SocketUpdate[] {
+    return this._service.getUpdateQueue();
   }
-
-  list() {
-    return async (req: RequestWithUser, res: Response) => {
-      const id = req.user?.user_id;
-      console.log("LIST", id)
-      if (id === undefined) {
-        return res.status(400).send("No id");
-      }
-
-      try {
-        const result = await this._service.list();
-        console.log(result);
-        res.status(200).json(result);
-      } catch (e) {
-        console.log(e);
-        res.status(400).send();
-      }
-    };
-  }
-
-  new_contact() {
-    return async (req: RequestWithUser, res: Response) => {
-
-      const user_id = req.user?.user_id;
-      if (user_id === undefined) {
-        return res.status(400).send("No user_id");
-      }
-      console.log("UPDATING", user_id)
-      const dto: ProfileContactDTO = {
-        id: req.body.id,
-      };
-
-      if (!this._contactDTOValidate(dto)) {
-        console.log("Incorrect request", dto);
-        return res.status(400).send("Incorrect request");
-      }
-
-      console.log(dto);
-
-      try {
-        const result = await this._service.addContact(user_id, dto.id)
-        console.log(result);
-        res.status(200).json(result);
-      } catch (e) {
-        console.log(e);
-        res.status(400).send(e);
-      }
-    };
-  }
-
-
 }

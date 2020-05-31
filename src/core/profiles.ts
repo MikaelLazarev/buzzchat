@@ -1,5 +1,6 @@
 import {Contact} from './contact';
 import {Chat} from './chat';
+import {SocketUpdate} from './operations';
 
 export interface Profile {
   id: string;
@@ -30,45 +31,32 @@ export interface ProfileUpdateDTO {
   avatar: string;
 }
 
-export const profileUpdateDTOSchema = {
-  type: 'object',
-  required: ['name', 'avatar'],
-  properties: {
-    name: {
-      type: 'string',
-    },
-    avatar: {
-      type: 'string',
-    },
-  },
-};
-
-
 export interface ProfileContactDTO {
   id: string;
 }
 
-export const profileContactDTOSchema = {
-  type: 'object',
-  required: ['id'],
-  properties: {
-    id: {
-      type: 'string',
-    },
-  },
-};
-
-
 export interface ProfilesRepositoryI {
   create(newProfile: Profile): Promise<Profile | undefined>;
   findOne(id: string): Promise<Profile | undefined>;
+  findOneFull(id: string): Promise<ProfileFull | undefined>;
   update(user_id: string, newProfile: Profile): Promise<void>;
   list(): Promise<Profile[] | undefined>;
 }
 
 export interface ProfilesServiceI {
   getProfile(user_id: string): Promise<ProfileFull | undefined>;
-  addContact(user_id: string, contact_id: string): Promise<ProfileFull | undefined>
+  addContact(
+    user_id: string,
+    contact_id: string,
+  ): Promise<ProfileFull | undefined>;
+
   update(user_id: string, dto: ProfileUpdateDTO): Promise<ProfileFull>;
   list(): Promise<Profile[] | undefined>;
+  getUpdateQueue(): SocketUpdate[];
 }
+
+export const profile2Contact = (p: Profile): Contact => ({
+  id: p.id,
+  avatar: p.avatar,
+  name: p.name,
+});

@@ -8,7 +8,5 @@
 export interface Contact {
   id: string;
   name: string;
-  avatar?: string;
-  pubKey?: string;
-  zeroMessage?: string;
+  avatar: string;
 }

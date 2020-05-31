@@ -12,9 +12,5 @@ export interface Message {
   text: string;
   createdAt: number | Date;
   user: Contact;
-}
-
-export interface LinkedMessage {
-  message: Message | null;
-  nextId: string;
+  pending: boolean;
 }

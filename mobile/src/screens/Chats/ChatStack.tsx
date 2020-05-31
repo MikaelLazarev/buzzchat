@@ -14,8 +14,8 @@ import {Button} from 'react-native-elements';
 
 const Stack = createStackNavigator();
 
-export type ContactStackParamList = {
-  ContactDetailsScreen: {id: string};
+export type ChatsStackParamList = {
+  ChatDetailsScreen: {id: string};
 };
 
 export const ChatStack: React.FC = () => {
@@ -40,7 +40,7 @@ export const ChatStack: React.FC = () => {
           ),
         }}
       />
-      {/*<Stack.Screen name="ChatDetails" component={ChatDetailsScreen} />*/}
+      <Stack.Screen name="ChatDetails" component={ChatDetailsScreen} />
     </Stack.Navigator>
   );
 };

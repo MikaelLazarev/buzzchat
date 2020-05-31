@@ -5,12 +5,13 @@ import {
 } from './socketRouter';
 import {inject, injectable} from 'inversify';
 import {TYPES} from '../types';
-import {Chat, ChatsServiceI, PostMessageDTO} from '../core/chat';
+import { ChatCreateDTO, ChatsServiceI, PostMessageDTO} from '../core/chat';
+import {SocketUpdate} from '../core/operations';
 
 @injectable()
 export class ChatsController implements SocketController {
   private _service: ChatsServiceI;
-  private _namespace = 'chats';
+  private _namespace = 'chat';
 
   constructor(@inject(TYPES.ChatsService) issuersService: ChatsServiceI) {
     this._service = issuersService;
@@ -22,41 +23,45 @@ export class ChatsController implements SocketController {
 
   getListeners(socket: SocketWithToken, userId: string): socketListeners {
     return {
-      list: async () => {
-        const list = await this.list();
-        socket.emit(this._namespace + ':updateList', list);
+      create: async (dto: ChatCreateDTO, opHash: string) => {
+        try {
+          const chat = await this._service.create(userId, dto);
+          socket.emit(this._namespace + ':updateDetails', chat);
+          socket.ok(opHash);
+        } catch (e) {
+          socket.failure(opHash, e);
+        }
       },
 
-      retrieve: async ({id}) => {
-        const data = await this.retrieveItem(userId, id);
-        socket.emit(this._namespace + ':updateDetails', data);
+      retrieve: async (id: string, opHash: string) => {
+        try {
+          const data = await this._service.findById(userId, id);
+          console.log("GOTT", data)
+          socket.emit(this._namespace + ':updateDetails', data);
+          socket.ok(opHash);
+        } catch (e) {
+          console.log(e);
+          socket.failure(opHash, e);
+        }
       },
 
       postMessage: async (dto: PostMessageDTO, opHash: string) => {
         console.log(dto);
         try {
           const result = await this._service.postMessage(userId, dto);
+          console.log(result)
 
           socket.emit(this._namespace + ':updateDetails', result);
           socket.ok(opHash);
         } catch (e) {
+          console.log(e);
           socket.failure(opHash, e);
         }
       },
     };
   }
 
-  list(): Promise<Chat[] | undefined> {
-    return this._service.list();
-  }
-
-  retrieveItem(userID: string, id: string): Promise<Chat | undefined> {
-    return this._service.findById(userID, id);
-  }
-
-  update(): Promise<void> {
-    return new Promise<void>((resolve) => {
-      resolve();
-    });
+  update(): SocketUpdate[] {
+    return this._service.getUpdateQueue();
   }
 }

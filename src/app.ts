@@ -14,7 +14,6 @@ import {BluzelleHelper} from './repository/bluzelleHelper';
 import {DbController} from './controllers/dbController';
 import {UsersController} from './controllers/usersController';
 import {SocketRouter} from './controllers/socketRouter';
-import {loginRequireMiddleware} from "./middleware/loginRequired";
 
 export function createApp(config: ConfigParams): Promise<Application> {
   return new Promise<Application>(async (resolve) => {
@@ -41,24 +40,19 @@ export function createApp(config: ConfigParams): Promise<Application> {
       TYPES.UsersController,
     );
 
-    const profilesController = container.get<ProfilesController>(
-      TYPES.ProfilesController,
-    );
-
     const dbController = new DbController();
-
-    const loginRequired = loginRequireMiddleware(config.jwt_secret);
 
     // Users Controller
     app.post('/auth/phone/get_code/', usersController.sendCode());
     app.post('/auth/phone/login/', usersController.login());
     app.post('/auth/token/refresh/', usersController.refresh());
 
-    // Profiles Controller
-    app.get('/api/profile/', loginRequired, profilesController.retrieve());
-    app.post('/api/profile/', loginRequired, profilesController.update());
-    app.post('/api/profile/new_contact/', loginRequired, profilesController.new_contact());
-    app.get('/api/contacts/', loginRequired, profilesController.list());
+    // // Profiles Controller
+    // app.get('/api/profile/', loginRequired, profilesController.retrieve());
+    // app.post('/api/profile/', loginRequired, profilesController.update());
+    // app.post('/api/profile/new_contact/', loginRequired, profilesController.new_contact());
+    // app.post('/api/profile/new_chat/', loginRequired, profilesController.new_contact());
+    // app.get('/api/contacts/', loginRequired, profilesController.list());
 
     // DB Controller
     app.get('/api/stat/', dbController.retrieve());
@@ -76,11 +70,17 @@ export function createApp(config: ConfigParams): Promise<Application> {
     // http server.
     let io = require('socket.io').listen(server, {origins: '*:*'});
     try {
+      const profilesController = container.get<ProfilesController>(
+          TYPES.ProfilesController,
+      );
       const chatsController = container.get<ChatsController>(
-        TYPES.ChatsController,
+          TYPES.ChatsController,
       );
 
-      const socketRouter = new SocketRouter([chatsController]);
+      const socketRouter = new SocketRouter([
+        profilesController,
+        chatsController,
+      ]);
       socketRouter.connect(io);
     } catch (e) {
       console.log('Cant start socket controllers', e);

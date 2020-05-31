@@ -9,6 +9,9 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
+  "resolutions": {
+    "@expo/react-native-action-sheet": "^3.6.0"
+  },
   "dependencies": {
     "@react-native-community/async-storage": "^1.10.0",
     "@react-native-community/masked-view": "^0.1.10",
@@ -17,6 +20,7 @@
     "@react-navigation/stack": "^5.2.10",
     "@types/jwt-decode": "^2.2.1",
     "@types/redux-api-middleware": "^3.2.0",
+    "@types/socket.io-client": "^1.4.33",
     "@types/uuid": "^7.0.3",
     "bluzelle": "^1.0.11",
     "formik": "^2.1.4",
@@ -43,6 +47,7 @@
     "redux-api-middleware": "^3.2.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
+    "socket.io-client": "2.1.1",
     "uuid": "^8.0.0",
     "vm-browserify": "^1.1.2",
     "yup": "^0.28.4"

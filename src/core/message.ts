@@ -10,9 +10,10 @@ export interface Message {
   id: string;
   text: string;
   createdAt: number | Date;
+  pending: boolean;
 }
 
 export interface MessagesRepositoryI {
   list(chatId: string): Promise<Message[] | undefined>;
-  addMessage(id: string, message: Message) : Promise<void>;
+  addMessage(id: string, message: Message): Promise<Message[] | undefined>
 }

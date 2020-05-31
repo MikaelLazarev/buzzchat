@@ -12,6 +12,9 @@ import {RootState} from '../../store';
 import ContactList from '../../containers/Contacts/ContactList';
 import {useNavigation} from '@react-navigation/native';
 import {DataScreen} from '../../components/DataScreen';
+import {ChatCreateDTO} from '../../core/chat';
+import {v4 as uuidv4} from 'uuid';
+import {STATUS} from "../../store/utils/status";
 
 const ContactsListScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -31,15 +34,39 @@ const ContactsListScreen: React.FC = () => {
   );
 
   const onSelect = (id: string) => {
-    navigation.navigate('ChatDetails', {
-      id,
+    const chats = data.chatsList;
+    const foundChats = chats
+      .filter((c) => c.isTetATetChat)
+      .filter((c) => c.members.length === 2)
+      .filter((c) => c.members[0].id === id || c.members[1].id === id);
+
+    if (foundChats.length > 0) {
+      navigation.navigate('Chats', {
+        screen: 'ChatDetails',
+        params: {id: foundChats[0].id},
+      });
+      return;
+    }
+
+    const newChat: ChatCreateDTO = {
+      id: uuidv4(),
+      members: [data.id, id],
+      isTetATetChat: true,
+    };
+
+    const newHash = Date.now().toString();
+    dispatch(actions.chats.create(newChat, newHash));
+    setHash(newHash);
+    navigation.navigate('Chats', {
+      screen: 'ChatDetails',
+      params: {id: newChat.id},
     });
   };
 
   return (
     <DataScreen
-      data={data.contactsList}
-      status={status}
+      data={data.contactsList || []}
+      status={STATUS.SUCCESS}
       component={ContactList}
       onSelect={onSelect}
     />

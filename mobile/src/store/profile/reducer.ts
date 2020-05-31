@@ -5,14 +5,19 @@
  *  Copyright (c) 2020. Mikhail Lazarev
  */
 
-import {APP_STATUS_ERROR, APP_STATUS_SPLASH, Profile} from '../../core/profile';
+import {Profile} from '../../core/profile';
 import {ProfileActions} from './';
 
 export interface ProfileState extends Profile {}
 
 const initialState: ProfileState = {
-  contact: undefined,
+  id: '',
+  name: 'Loading',
+  avatar: '',
+  chatsList: [],
+  contactsList: [],
 };
+
 
 export default function createReducer(
   state: ProfileState = initialState,
@@ -26,13 +31,6 @@ export default function createReducer(
     case 'PROFILE_FAILURE':
       return {
         ...state,
-        status: APP_STATUS_ERROR,
-      };
-
-    case 'PROFILE_UPDATE_STATUS':
-      return {
-        ...state,
-        status: action.status,
       };
   }
 

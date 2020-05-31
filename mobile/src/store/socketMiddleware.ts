@@ -9,8 +9,8 @@ import io from 'socket.io-client';
 import {RootState} from './index';
 import {ThunkDispatch, ThunkMiddleware} from 'redux-thunk';
 import {Action, MiddlewareAPI, Dispatch} from 'redux';
-import {BACKEND_ADDR} from '../config';
-import {namespace} from './companies';
+import {BACKEND_ADDR} from '../../config';
+// import {namespace} from './companies';
 
 // interface ThunkMiddleware {
 //   dispatch: ThunkDispatch<RootState, unknown, Action<string>>;
@@ -53,29 +53,41 @@ export function createSocketMiddleware(): ThunkMiddleware<
   Action<string>,
   Action<string>
 > {
-  let socket = io(BACKEND_ADDR);
+  let socket = io(BACKEND_ADDR, {
+    reconnection: true,
+    reconnectionDelay: 500,
+    jsonp: false,
+    reconnectionAttempts: Infinity,
+    transports: ['websocket'],
+  });
+
+  socket.on('connect_error', (err: string) => {
+    console.log(err);
+  });
+
   let socketAuth: SocketIOClient.Socket | undefined = undefined;
   let isConnecting: boolean = false;
-  let waitingPromises: Record<string, resolver[]> = {};
+  let waitingPromises: resolver[] = [];
 
   /*
    * getNamespace returns promise for connected and authentificated namespace
    */
-  const getNamespace: (
-    jwtToken: string,
-  ) => Promise<SocketIOClient.Socket> = jwtToken => {
+  const getNamespace: (jwtToken: string) => Promise<SocketIOClient.Socket> = (
+    jwtToken,
+  ) => {
     return new Promise<SocketIOClient.Socket>((resolve, reject) => {
       if (socketAuth) {
         resolve(socketAuth);
       }
 
+      console.log('CONNE23G');
       // If connection in progress we add resolver in queue
       if (isConnecting) {
-        waitingPromises[namespace].push(resolve);
+        waitingPromises.push(resolve);
         return;
       } else {
         isConnecting = true;
-        waitingPromises[namespace] = [];
+        waitingPromises = [];
       }
 
       socket
@@ -85,7 +97,7 @@ export function createSocketMiddleware(): ThunkMiddleware<
           console.log('CONNECTED', socketAuth);
           resolve(socket);
 
-          for (const f of waitingPromises[namespace]) {
+          for (const f of waitingPromises) {
             f(socket);
           }
         })
@@ -95,6 +107,7 @@ export function createSocketMiddleware(): ThunkMiddleware<
           throw new Error(msg.data.type);
         })
         .on('disconnect', () => {
+          console.log('DISCONNECTED!');
           if (socketAuth) socketAuth = undefined;
         });
     });
@@ -105,19 +118,18 @@ export function createSocketMiddleware(): ThunkMiddleware<
    */
 
   return ({dispatch, getState}) => {
-
-    return (next: Dispatch) => (
-        action: SocketEmitAction | SocketOnAction,
-    ) => {
+    return (next: Dispatch) => (action: SocketEmitAction | SocketOnAction) => {
       const jwt = getState().auth.access?.token;
 
       console.log('DISPATCH', action);
       switch (action.type) {
         case 'SOCKET_EMIT':
           if (jwt) {
-            getNamespace(jwt).then(socket => {
+            getNamespace(jwt).then((socket) => {
               socket.emit(action.event, action.payload, action.opHash);
-              console.log(`[SOCKET.IO] : EMIT : ${action.event} with opHash ${action.opHash}`);
+              console.log(
+                `[SOCKET.IO] : EMIT : ${action.event} with opHash ${action.opHash}`,
+              );
             });
           } else {
             dispatch({type: action.typeOnFailure});
@@ -127,7 +139,7 @@ export function createSocketMiddleware(): ThunkMiddleware<
 
         case 'SOCKET_ON':
           if (jwt) {
-            getNamespace(jwt).then(socket => {
+            getNamespace(jwt).then((socket) => {
               socket.on(action.event, (payload: any) => {
                 console.log('[SOCKET.IО] : GET NEW INFO : ', payload);
                 dispatch({
@@ -143,11 +155,11 @@ export function createSocketMiddleware(): ThunkMiddleware<
           return next(action);
 
         default:
-          console.log("NEXT", action);
+          console.log('NEXT', action);
           return next(action);
       }
-    }
-  }
+    };
+  };
 }
 
 export default createSocketMiddleware();

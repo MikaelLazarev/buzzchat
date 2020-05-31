@@ -13,4 +13,16 @@ export interface Chat {
   name: string;
   members: Contact[];
   messages: Message[];
+  isTetATetChat: boolean;
+}
+
+export interface ChatCreateDTO {
+  id: string;
+  members: string[];
+  isTetATetChat: boolean;
+}
+
+export interface PostMessageDTO {
+  chat_id: string;
+  msg: Message;
 }

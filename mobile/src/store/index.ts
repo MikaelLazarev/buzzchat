@@ -10,7 +10,7 @@ import reducer from './reducer';
 import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import createApiMiddleware from './middleware';
-// import createSocketMiddleware from './socketMiddleware';
+import createSocketMiddleware from './socketMiddleware';
 
 let composeEnhancers: typeof compose;
 
@@ -26,11 +26,7 @@ export default function configureStore() {
   return createStore(
     reducer,
     composeEnhancers(
-      applyMiddleware(
-        thunk,
-        // createSocketMiddleware,
-        createApiMiddleware,
-      ),
+      applyMiddleware(thunk, createSocketMiddleware, createApiMiddleware),
     ),
   );
 }

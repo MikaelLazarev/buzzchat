@@ -8,8 +8,6 @@
 import React from 'react';
 import ContactsListScreen from './ContactsListScreen';
 import {Button} from 'react-native-elements';
-import {ContactDetailsScreen} from './ContactDetailsScreen';
-import {ContactEditScreen} from './ContactEditScreen';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
 import {ContactQRScanScreen} from './ContactQRScanScreen';
@@ -18,7 +16,6 @@ import {ContactsNewScreen} from "./ContactsNewScreen";
 const Stack = createStackNavigator();
 
 export type ContactStackParamList = {
-  ContactDetailsScreen: {id: string};
   ContactEditScreen: {id: string};
 };
 
@@ -54,7 +51,6 @@ export const ContactStack: React.FC = () => {
           ),
         }}
       />
-      <Stack.Screen name="ContactDetails" component={ContactDetailsScreen} />
       <Stack.Screen
         name="ContactNewScreen"
         component={ContactsNewScreen}

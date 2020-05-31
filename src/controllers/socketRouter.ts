@@ -2,14 +2,14 @@ import SocketIO, {Socket} from 'socket.io';
 import socketioJwt from 'socketio-jwt';
 import config from '../config/config';
 import {tokenData} from '../core/users';
-import {STATUS} from '../core/operations';
+import {SocketUpdate, STATUS} from '../core/operations';
 
 export type socketListeners = Record<string, (...args: any[]) => Promise<void>>;
 
 export interface SocketController {
   namespace: string;
   getListeners: (socket: SocketWithToken, userId: string) => socketListeners;
-  update: () => Promise<void>;
+  update: () => SocketUpdate[];
 }
 
 export interface SocketWithToken extends SocketIO.Socket {
@@ -24,7 +24,10 @@ export class SocketRouter {
 
   constructor(controllers: SocketController[]) {
     this._controllers = [...controllers];
+    setTimeout(() => this.update(), 5000);
   }
+
+
 
   connect(io: SocketIO.Server) {
     io.on(
@@ -34,11 +37,14 @@ export class SocketRouter {
         timeout: 15000, // 15 seconds to send the authentication message
         decodedPropertyName: 'tData',
       }),
-    ).on('authenticated', this._onNewAuthSocket.bind(this));
+    )
+      .on('authenticated', this._onNewAuthSocket.bind(this))
+      .on('*', console.log);
   }
 
   // Connect new socket to pool
   private _onNewAuthSocket(socket: SocketWithToken) {
+    console.log('HELLLO!');
     console.log(this);
 
     const userId = socket.tData.user_id;
@@ -105,5 +111,18 @@ export class SocketRouter {
         `[SOCKET.IO] : ${namespace} | ${event} | ${finish - start} ms`,
       );
     };
+  }
+
+  private update() : void{
+    for (const controller of this._controllers) {
+      const updates = controller.update();
+      updates.filter(elm => this.socketsPool[elm.userId] !== undefined)
+          .forEach(elm => {
+            const socket =  this.socketsPool[elm.userId];
+            socket.emit(elm.event, elm.payload);
+          })
+    }
+
+    setTimeout(() => this.update(), 500);
   }
 }

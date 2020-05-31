@@ -8,16 +8,22 @@ import {
 } from '../core/profiles';
 import {inject, injectable} from 'inversify';
 import {TYPES} from '../types';
-// @ts-ignore
+import {SocketUpdate} from '../core/operations';
+import {ChatsRepositoryI} from '../core/chat';
 
 @injectable()
 export class ProfilesService implements ProfilesServiceI {
   private _repository: ProfilesRepositoryI;
+  private _chatsRepository: ChatsRepositoryI;
+  private _updateQueue: SocketUpdate[];
 
   public constructor(
     @inject(TYPES.ProfilesRepository) repository: ProfilesRepositoryI,
+    @inject(TYPES.ChatsRepository) chatsRepository: ChatsRepositoryI,
   ) {
     this._repository = repository;
+    this._chatsRepository = chatsRepository;
+    this._updateQueue = [];
   }
 
   async getProfile(user_id: string): Promise<ProfileFull | undefined> {
@@ -28,18 +34,16 @@ export class ProfilesService implements ProfilesServiceI {
       await this._repository.create(profile);
     }
 
-    const profileFull: ProfileFull = {
-      ...profile,
-      chatsList: [],
-      contactsList: [],
-    };
+    const profileFull = await this._repository.findOneFull(user_id);
+    if (!profileFull) throw "Internal error";
+    profileFull.chatsList = []
 
-    for (let contactId of profile.contactsIdList) {
-      const c = await this._repository.findOne(contactId);
-      if (c) profileFull.contactsList.push(c);
+    for (let chatId of profile.chatsIdList) {
+      const c = await this._chatsRepository.findById(chatId);
+      if (c) profileFull.chatsList.push(c);
     }
 
-    return profileFull;
+    return profileFull
   }
 
   async update(user_id: string, dto: ProfileUpdateDTO): Promise<ProfileFull> {
@@ -57,6 +61,11 @@ export class ProfilesService implements ProfilesServiceI {
     for (let contactId of profile.contactsIdList) {
       const c = await this._repository.findOne(contactId);
       if (c) profileFull.contactsList.push(c);
+    }
+
+    for (let chatId of profile.chatsIdList) {
+      const c = await this._chatsRepository.findById(chatId);
+      if (c) profileFull.chatsList.push(c);
     }
 
     return profileFull;
@@ -79,5 +88,11 @@ export class ProfilesService implements ProfilesServiceI {
 
   list(): Promise<Profile[] | undefined> {
     return this._repository.list();
+  }
+
+  getUpdateQueue(): SocketUpdate[] {
+    const copy = this._updateQueue;
+    this._updateQueue = [];
+    return copy;
   }
 }

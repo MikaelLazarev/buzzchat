@@ -12,4 +12,8 @@ export enum STATUS {
     FAILURE = '@@status/FAILURE',
 }
 
-
+export interface SocketUpdate {
+    userId: string
+    event: string,
+    payload: Object,
+}
