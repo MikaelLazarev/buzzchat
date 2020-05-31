@@ -1,40 +1,60 @@
-/*
- *  Buzz Chat - Spam-free decentralized chat
- *
- *  https://github.com/MikaelLazarev/buzzchat
- *  Copyright (c) 2020. Mikhail Lazarev
- */
-
 import {ThunkAction} from 'redux-thunk';
+import {Action} from 'redux';
 import {RootState} from '../index';
+import {updateStatus} from '../operations/actions';
+import {createAction} from 'redux-api-middleware';
+import {STATUS} from '../utils/status';
+import {endpoint} from './index';
+import {getFullAPIAddress} from '../utils/api';
+import {withAuth} from '../auth';
 import {Profile} from '../../core/profile';
-import {ProfileActions} from './index';
-import {Bluzelle} from '../../utils/getBluzelle';
 
-// Get user profile from server
-export const getProfile = (): ThunkAction<
-  void,
-  RootState,
-  unknown,
-  ProfileActions
-> => async (dispatch) => {
-  try {
-    const bluzelle = new Bluzelle();
-    const profile = JSON.parse(await bluzelle.read('buzzchat_profile'));
-    dispatch({
-      type: 'PROFILE_SUCCESS',
-      payload: profile,
-    });
-  } catch (e) {
-    dispatch({
-      type: 'PROFILE_FAILURE',
-      error: e,
-    });
+export const getProfile = (
+  hash?: string,
+): ThunkAction<void, RootState, unknown, Action<string>> => async (
+  dispatch,
+) => {
+  dispatch(updateStatus(hash || '0', STATUS.LOADING));
+
+  const action = await dispatch(
+    createAction({
+      endpoint: getFullAPIAddress(endpoint),
+      method: 'GET',
+      headers: withAuth({'Content-Type': 'application/json'}),
+      types: ['PROFILE_REQUEST', 'PROFILE_SUCCESS', 'PROFILE_FAILURE'],
+    }),
+  );
+
+  if (action === undefined || action.error) {
+    dispatch(updateStatus(hash || '0', STATUS.FAILURE, action.payload.message));
+  } else {
+    dispatch(updateStatus(hash || '0', STATUS.SUCCESS));
   }
+  return action;
 };
 
 export const updateProfile = (
   profile: Profile,
-): ThunkAction<void, RootState, unknown, ProfileActions> => async (
+  hash?: string,
+): ThunkAction<void, RootState, unknown, Action<string>> => async (
   dispatch,
-) => {};
+) => {
+  dispatch(updateStatus(hash || '0', STATUS.LOADING));
+
+  const action = await dispatch(
+    createAction({
+      endpoint: getFullAPIAddress(endpoint),
+      method: 'POST',
+      body: JSON.stringify(profile),
+      headers: withAuth({'Content-Type': 'application/json'}),
+      types: ['PROFILE_REQUEST', 'PROFILE_SUCCESS', 'PROFILE_FAILURE'],
+    }),
+  );
+
+  if (action === undefined || action.error) {
+    dispatch(updateStatus(hash || '0', STATUS.FAILURE, action.payload.message));
+  } else {
+    dispatch(updateStatus(hash || '0', STATUS.SUCCESS));
+  }
+  return action;
+};

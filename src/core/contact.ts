@@ -5,6 +5,8 @@
  *  Copyright (c) 2020. Mikhail Lazarev
  */
 
-export const BACKEND_ADDR = 'http://localhost:4000';
-
-export const SSO_ADDR = 'http://localhost:4000';
+export interface Contact {
+  id: string;
+  name: string;
+  avatar?: string;
+}

@@ -5,7 +5,7 @@ import {TYPES} from '../types';
 import Ajv, { ValidateFunction } from "ajv";
 import {
   LoginDTO,
-  loginDTOSchema,
+  loginDTOSchema, refreshDTO, refreshDTOSchema,
   sendCodeDTOSchema, UserSendCodeDTO,
   UsersServiceI,
 } from '../core/users';
@@ -16,11 +16,13 @@ export class UsersController  {
   private _service: UsersServiceI;
   private readonly _sendCodeDTOValidate: ValidateFunction;
   private readonly _loginDTOValidate: ValidateFunction;
+  private readonly _refreshDTOValidate: ValidateFunction;
 
   constructor(@inject(TYPES.UsersService) service: UsersServiceI) {
     this._service = service;
     this._sendCodeDTOValidate = new Ajv().compile(sendCodeDTOSchema);
     this._loginDTOValidate = new Ajv().compile(loginDTOSchema);
+    this._refreshDTOValidate = new Ajv().compile(refreshDTOSchema);
   }
 
   sendCode() {
@@ -63,6 +65,28 @@ export class UsersController  {
 
       try {
         const result = await this._service.login(dto.phone, dto.code);
+        console.log(result);
+        res.status(200).json(result);
+      } catch (e) {
+        console.log(e);
+        res.status(400).send(e);
+      }
+    };
+  }
+
+  refresh() {
+    return async (req: Request, res: Response) => {
+      const dto: refreshDTO = {
+        refresh: req.body.refresh,
+      };
+
+      if (!this._refreshDTOValidate(dto)) {
+        console.log("Incorrect request", dto);
+        return res.status(400).send("Incorrect request");
+      }
+
+      try {
+        const result = await this._service.refresh(dto.refresh);
         console.log(result);
         res.status(200).json(result);
       } catch (e) {

@@ -5,46 +5,35 @@
  *  Copyright (c) 2020. Mikhail Lazarev
  */
 
-import React from 'react';
-import {Contact} from '../../core/contact';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
-import {Image, Text} from 'react-native-elements';
+import {useDispatch, useSelector} from 'react-redux';
+import actions from '../../store/actions';
+import {RootState} from '../../store';
+import {DataScreen} from '../../components/DataScreen';
+import {STATUS} from '../../store/utils/status';
+import {ProfileDetails} from '../../containers/Settings/ProfileDetails';
 
-interface ContactDetailsProps {
-  data: Contact;
-}
+export const SettingsScreen: React.FC = () => {
+  const dispatch = useDispatch();
+  const [hash, setHash] = useState('0');
+  useEffect(() => {
+    const newHash = Date.now().toString();
+    dispatch(actions.profile.getProfile(newHash));
+    setHash(newHash);
+    // dispatch(actions.chats.getList());
+  }, []);
 
-export const SettingsScreen: React.FC<ContactDetailsProps> = ({data}) => {
+  const data = useSelector((state: RootState) => state.profile);
+  const status = useSelector(
+    (state: RootState) => state.operations.data[hash]?.data?.status,
+  );
+
   return (
-    <View style={styles.title}>
-      <Text h2 style={{margin: 10}}>
-        {data.name}
-      </Text>
-      <Image source={{uri: data.avatar}} style={{width: 150, height: 150}} />
-      <View
-        style={{
-          paddingTop: 10,
-          alignContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Text style={styles.level}>Master of meetings</Text>
-        <Text h4>Score: 100</Text>
-      </View>
-    </View>
+    <DataScreen
+      data={data}
+      component={ProfileDetails}
+      status={hash === '0' ? STATUS.LOADING : status}
+    />
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    paddingTop: 50,
-  },
-  title: {
-    alignItems: 'center',
-    marginBottom: 25,
-  },
-  level: {
-    fontSize: 20,
-  },
-});

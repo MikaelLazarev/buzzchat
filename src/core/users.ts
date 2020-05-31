@@ -47,7 +47,22 @@ export const loginDTOSchema = {
   },
 };
 
+export interface refreshDTO {
+  refresh: string;
+}
+
+export const refreshDTOSchema = {
+  type: 'object',
+  required: ['refresh'],
+  properties: {
+    refresh: {
+      type: 'string',
+    },
+  },
+};
+
 export interface UsersServiceI {
   sendCode(phone: string): Promise<boolean>;
   login(phone: string, code: string): TokenPair;
+  refresh(refreshToken: string): TokenPair;
 }

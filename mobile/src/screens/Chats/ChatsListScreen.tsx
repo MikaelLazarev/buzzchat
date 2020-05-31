@@ -37,7 +37,8 @@ export const ChatsListScreen: NavigationScreenComponent<
 > = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(actions.chats.getList());
+    dispatch(actions.profile.getProfile());
+    // dispatch(actions.chats.getList());
   }, []);
 
   const {data, status} = useSelector((state: RootState) => state.chats.List);

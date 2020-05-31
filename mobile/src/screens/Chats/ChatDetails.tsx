@@ -18,7 +18,7 @@ export const ChatDetailsScreen: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(actions.chats.getDetails());
+    dispatch(actions.profile.getProfile());
   }, []);
 
   const chatData = getDetailsItem(

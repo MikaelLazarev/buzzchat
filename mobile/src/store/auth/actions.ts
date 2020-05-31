@@ -42,7 +42,7 @@ export const loginWithPhone = (
 ): ThunkAction<void, RootState, unknown, Action<string>> => async (
   dispatch,
 ) => {
-  const endpoint = '/api/users/login/';
+  const endpoint = '/auth/phone/login/';
   const json = JSON.stringify({phone, code});
 
   dispatch(authenticate(endpoint, json));
@@ -118,7 +118,7 @@ export const getCode = (
 ) => {
   const action = await dispatch(
     createAction({
-      endpoint: getFullAPIAddress('/api/users/send_code/', undefined, SSO_ADDR),
+      endpoint: getFullAPIAddress('/auth/phone/get_code/', undefined, SSO_ADDR),
       method: 'POST',
       body: JSON.stringify({phone}),
       headers: {'Content-Type': 'application/json'},

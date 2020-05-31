@@ -14,6 +14,7 @@ import {BluzelleHelper} from './repository/bluzelleHelper';
 import {DbController} from './controllers/dbController';
 import {UsersController} from './controllers/usersController';
 import {SocketRouter} from './controllers/socketRouter';
+import {loginRequireMiddleware} from "./middleware/loginRequired";
 
 export function createApp(config: ConfigParams): Promise<Application> {
   return new Promise<Application>(async (resolve) => {
@@ -46,13 +47,16 @@ export function createApp(config: ConfigParams): Promise<Application> {
 
     const dbController = new DbController();
 
+    const loginRequired = loginRequireMiddleware(config.jwt_secret);
+
     // Users Controller
-    app.post('/api/users/send_code/', usersController.sendCode());
-    app.post('/api/users/login/', usersController.login());
+    app.post('/auth/phone/get_code/', usersController.sendCode());
+    app.post('/auth/phone/login/', usersController.login());
+    app.post('/auth/token/refresh/', usersController.refresh());
 
     // Profiles Controller
-    app.get('/api/profile/', profilesController.retrieve());
-    app.post('/api/profile/', profilesController.update());
+    app.get('/api/profile/', loginRequired, profilesController.retrieve());
+    app.post('/api/profile/', loginRequired, profilesController.update());
 
     // DB Controller
     app.get('/api/stat/', dbController.retrieve());

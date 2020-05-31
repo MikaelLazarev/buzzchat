@@ -63,6 +63,7 @@ export function FormikForm<T, S>({
               placeholder={f.placeholder || f.label}
               onChangeText={(e) => setFieldValue(name, e)}
               key={name}
+              value={values[name] || ''}
             />
           </View>
         );

@@ -24,8 +24,8 @@ import {Icon} from 'react-native-elements';
 
 import {ContactStack} from './screens/Contacts/ContactStack';
 import {ChatStack} from './screens/Chats/ChatStack';
-import {SettingsScreen} from './screens/Settings/SettingsScreen';
 import {WelcomeStack} from './screens/Welcome/WelcomeStack';
+import {SettingsStack} from './screens/Settings/SettingsStack';
 
 import actions from './store/actions';
 import {STATUS} from './store/utils/status';
@@ -75,7 +75,7 @@ const AuthSwitcher = () => {
           }}>
           <Tab.Screen name="Contacts" component={ContactStack} />
           <Tab.Screen name="Chats" component={ChatStack} />
-          <Tab.Screen name="Settings" component={SettingsScreen} />
+          <Tab.Screen name="Settings" component={SettingsStack} />
         </Tab.Navigator>
       );
   }
