@@ -8,10 +8,9 @@ export interface ConfigParams {
   bluzelle_chain_id: string;
   mainDB: string;
   jwt_secret: string;
-  ts_customerId : string,
-  ts_apiKey : string,
-  ts_rest_endpoint : string,
-  ts_timeout : number,
+  twillio_sid: string;
+  twillio_key: string;
+  sentryDSN: string;
 }
 
 const configSchema = {
@@ -23,10 +22,9 @@ const configSchema = {
     'bluzelle_chain_id',
     'mainDB',
     'jwt_secret',
-    "ts_customerId",
-    "ts_apiKey",
-    "ts_rest_endpoint",
-    "ts_timeout"
+    'twillio_sid',
+    'twillio_key',
+    "sentryDSN",
   ],
 };
 
@@ -39,7 +37,6 @@ export function getConfig(): ConfigParams {
     if (fs.existsSync(fileName)) {
       const configFileContent = fs.readFileSync(fileName);
       configData = JSON.parse(configFileContent.toString());
-
     } else {
       configData = {
         port: parseInt(process.env.PORT || '5000'),
@@ -48,10 +45,9 @@ export function getConfig(): ConfigParams {
         bluzelle_chain_id: process.env.BLUZELLE_CHAIN_ID || '',
         mainDB: process.env.MAIN_DB || 'BuzzChat',
         jwt_secret: process.env.JWT_SECRET || '',
-        ts_customerId: process.env.TS_CUSTOMER_ID || '',
-        ts_apiKey: process.env.TS_API_KEY || '',
-        ts_rest_endpoint: process.env.REST_ENDPOINT || '',
-        ts_timeout: parseInt(process.env.TS_TIMEOUT || '10'),
+        twillio_sid: process.env.TWILLIO_SID || '',
+        twillio_key: process.env.TWILLIO_KEY || '',
+        sentryDSN: process.env.SENTRY_DSN || "",
       };
     }
 

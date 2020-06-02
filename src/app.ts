@@ -14,10 +14,26 @@ import {BluzelleHelper} from './repository/bluzelleHelper';
 import {DbController} from './controllers/dbController';
 import {UsersController} from './controllers/usersController';
 import {SocketRouter} from './controllers/socketRouter';
+import * as Sentry from "@sentry/node";
 
 export function createApp(config: ConfigParams): Promise<Application> {
   return new Promise<Application>(async (resolve) => {
     const app = express();
+
+    if (process.env.NODE_ENV !== "development") {
+      Sentry.init({
+        dsn: config.sentryDSN,
+        integrations: [
+          new Sentry.Integrations.OnUncaughtException(),
+          new Sentry.Integrations.OnUnhandledRejection(),
+        ],
+      });
+      // The request handler must be the first middleware on the app
+      app.use(Sentry.Handlers.requestHandler());
+      // The error handler must be before any other error middleware
+      app.use(Sentry.Handlers.errorHandler());
+    }
+
     app.use(
       cors({
         credentials: true,

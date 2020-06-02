@@ -15,7 +15,8 @@ import {getDetailsItem} from '../../store/dataloader';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {ChatsStackParamList} from './ChatStack';
 import Loading from '../../components/Loading';
-import {v4 as uuidv4} from 'uuid';
+import Modal from 'react-native-modal';
+import {View, Text, Alert} from 'react-native';
 
 type ChatDetailsScreenRouteProp = RouteProp<
   ChatsStackParamList,
@@ -91,15 +92,42 @@ export const ChatDetailsScreen: React.FC = () => {
 
   console.log('MESSGGAA', iMessages);
 
+  const onLongPress = (msg: IMessage) => {
+    Alert.alert(
+      'Message',
+      msg.text,
+      [
+        {
+          text: 'Delete Message',
+          onPress: () => console.log('Ask me later pressed'),
+        },
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
   return (
-    <GiftedChat
-      messages={iMessages}
-      onSend={onSend}
-      user={{
-        _id: profile.id,
-        name: profile.name,
-        avatar: profile.avatar,
-      }}
-    />
+    <>
+      <Modal isVisible={false}>
+        <View style={{flex: 1}}>
+          <Text>I am the modal content!</Text>
+        </View>
+      </Modal>
+      <GiftedChat
+        messages={iMessages}
+        onSend={onSend}
+        user={{
+          _id: profile.id,
+          name: profile.name,
+          avatar: profile.avatar,
+        }}
+        onLongPress={(e, msg) => onLongPress(msg)}
+      />
+    </>
   );
 };

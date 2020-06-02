@@ -20,7 +20,15 @@ export type WelcomeStackParamList = {
 export const WelcomeStack: React.FC = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="SplashScreen" component={SplashScreen} />
+      <Stack.Screen
+        name="SplashScreen"
+        component={SplashScreen}
+        options={{
+          header: () => {
+            visible: false;
+          },
+        }}
+      />
       <Stack.Screen name="PhoneScreen" component={EnterPhoneScreen} />
       <Stack.Screen name="EnterCodeScreen" component={EnterCodeScreen} />
     </Stack.Navigator>

@@ -117,7 +117,6 @@ export class ChatsService implements ChatsServiceI {
     };
 
     console.log('Creating new chat...');
-    console.log('Creating new chat...');
     await this._repository.create(newChat);
     member0.chatsIdList.push(newChat.id);
     member1.chatsIdList.push(newChat.id);

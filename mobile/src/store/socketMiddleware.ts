@@ -59,6 +59,7 @@ export function createSocketMiddleware(): ThunkMiddleware<
     jsonp: false,
     reconnectionAttempts: Infinity,
     transports: ['websocket'],
+    pingTimeout: 30000,
   });
 
   socket.on('connect_error', (err: string) => {

@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {Image, SafeAreaView, StyleSheet, View} from 'react-native';
+import {Image, SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 
@@ -37,8 +37,9 @@ export const SplashScreen: React.FC = () => {
           title="Login / Signup"
           onPress={() => navigation.navigate('PhoneScreen')}
         />
+      </View>
+      <View style={styles.button2}>
         <Button
-          style={styles.button2}
           title="Take a tour"
           onPress={() => navigation.navigate('EnterMnemonicScreen')}
         />
@@ -60,6 +61,7 @@ const styles = StyleSheet.create({
     paddingTop: 50,
   },
   button2: {
-    paddingTop: 20,
+    width: '80%',
+    marginTop: 20,
   },
 });

@@ -210,7 +210,7 @@ dependencies {
         exclude group:'com.facebook.flipper'
     }
 
-
+ compile project(':react-native-uuid-generator')
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";

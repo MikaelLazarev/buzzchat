@@ -15,6 +15,7 @@ import {DataScreen} from '../../components/DataScreen';
 import {ChatCreateDTO} from '../../core/chat';
 import {v4 as uuidv4} from 'uuid';
 import {STATUS} from "../../store/utils/status";
+import UUIDGenerator from 'react-native-uuid-generator';
 
 const ContactsListScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const ContactsListScreen: React.FC = () => {
     (state: RootState) => state.operations.data[hash]?.data?.status,
   );
 
-  const onSelect = (id: string) => {
+  const onSelect = async (id: string) => {
     const chats = data.chatsList;
     const foundChats = chats
       .filter((c) => c.isTetATetChat)
@@ -48,8 +49,9 @@ const ContactsListScreen: React.FC = () => {
       return;
     }
 
+    const newID = await UUIDGenerator.getRandomUUID();
     const newChat: ChatCreateDTO = {
-      id: uuidv4(),
+      id: newID,
       members: [data.id, id],
       isTetATetChat: true,
     };

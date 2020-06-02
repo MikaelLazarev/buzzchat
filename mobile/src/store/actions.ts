@@ -34,6 +34,7 @@ export const actionsAfterAuth = (): ThunkAction<
   dispatch(profile.getProfile('actionsAfterAuth'));
   dispatch(operations.connectSocket());
   dispatch(chats.connectSocket());
+  dispatch(contacts.connectSocket());
 
   console.log('[SOCKET.IO]: All listeners connected!');
 };

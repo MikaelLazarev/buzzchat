@@ -19,9 +19,7 @@ export class UsersService implements UsersServiceI {
 
     console.log('CFGGG', config);
 
-    const accountSid = 'ACc730049cf01d3a24ffa7e37abc2af68f';
-    const authToken = '245cdaa547693aa3b24e6927f6b14552';
-    this._tsClient = require('twilio')(accountSid, authToken);
+    this._tsClient = require('twilio')(config.twillio_sid, config.twillio_key);
     console.log(this._tsClient);
 
     // const phoneNumber = '79219451207';
