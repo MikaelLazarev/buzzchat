@@ -67,19 +67,14 @@ export function createApp(config: ConfigParams): Promise<Application> {
     app.post('/auth/token/refresh/', usersController.refresh());
     app.post('/auth/web_auth/', loginRequired, usersController.authorize_web());
 
-    // // Profiles Controller
-    // app.get('/api/profile/', loginRequired, profilesController.retrieve());
-    // app.post('/api/profile/', loginRequired, profilesController.update());
-    // app.post('/api/profile/new_contact/', loginRequired, profilesController.new_contact());
-    // app.post('/api/profile/new_chat/', loginRequired, profilesController.new_contact());
-    // app.get('/api/contacts/', loginRequired, profilesController.list());
+
 
     // DB Controller
     app.get('/api/stat/', dbController.retrieve());
 
-    app.use(express.static(path.join(__dirname, '../client/build/')));
+    app.use(express.static(path.join(__dirname, '../web/build/')));
     app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname + '/client/build/index.html'));
+      res.sendFile(path.join(__dirname + '/web/build/index.html'));
     });
 
     // ERROR HANDLER

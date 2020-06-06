@@ -43,10 +43,13 @@ export const ChatDetailsScreen: React.FC = () => {
   );
   const profile = useSelector((state: RootState) => state.profile);
 
+  console.log("COPPPP", chatData, route.params);
+
   if (chatData === undefined || chatData.data === undefined) return <Loading />;
   const {data} = chatData;
 
-  navigation.setOptions({title: 'Updated!'});
+
+  // navigation.setOptions({title: 'Updated!'});
   const messages = data.messages;
 
   const users: User[] = data.members.map((elm) => ({

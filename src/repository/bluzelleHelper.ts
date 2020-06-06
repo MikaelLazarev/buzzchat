@@ -71,8 +71,9 @@ export class BluzelleHelper<T> {
       return data;
     } catch (e) {
       const repeatQty = repeat === undefined ? REPEAT_QTY : repeat - 1;
-      if (repeatQty === 0) {
+      if (repeatQty <= 0) {
         ErrorHandler.captureException(e);
+        return ;
       }
       console.log(
         `Error happened!\n${e} Try attempt: ${REPEAT_QTY - repeatQty}`,
@@ -98,8 +99,9 @@ export class BluzelleHelper<T> {
       return key;
     } catch (e) {
       const repeatQty = repeat === undefined ? REPEAT_QTY : repeat - 1;
-      if (repeatQty === 0) {
+      if (repeatQty <= 0) {
         ErrorHandler.captureException(e);
+        return ;
       }
       console.log(
         `Error happened!\n${e} Try attempt: ${REPEAT_QTY - repeatQty}`,
@@ -128,8 +130,9 @@ export class BluzelleHelper<T> {
       BluzelleHelper._cache.del(this.getLishHash());
     } catch (e) {
       const repeatQty = repeat === undefined ? REPEAT_QTY : repeat - 1;
-      if (repeatQty === 0) {
+      if (repeatQty <= 0) {
         ErrorHandler.captureException(e);
+        return ;
       }
       console.log(
         `Error happened!\n${e} Try attempt: ${REPEAT_QTY - repeatQty}`,
