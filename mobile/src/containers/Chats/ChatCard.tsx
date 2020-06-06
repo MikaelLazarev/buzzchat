@@ -7,7 +7,7 @@
 
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
-import {Badge, Text} from 'react-native-elements';
+import {Text} from 'react-native-elements';
 import SmartAvatar from '../../components/SmartAvatar';
 import {Chat} from '../../core/chat';
 
@@ -17,15 +17,6 @@ interface ChatCardProps {
 }
 
 const ChatCard: React.FC<ChatCardProps> = ({item, onPressed}) => {
-  const FolderBadge = <Text>folder_name</Text>;
-
-  const online = (
-    <View style={{flexDirection: 'row'}}>
-      <Badge status="success" containerStyle={{marginTop: 3}} />
-      <Text style={{fontSize: 11}}>{' Online '}</Text>
-    </View>
-  );
-
   return (
     <TouchableOpacity onPress={() => onPressed(item.id)}>
       <View style={styles.container}>
@@ -36,9 +27,9 @@ const ChatCard: React.FC<ChatCardProps> = ({item, onPressed}) => {
 
         {/* TEXT CONTAINER */}
         <View style={styles.textContainer}>
-          <Text h4>{item.name}AAAA</Text>
-          {FolderBadge}
-          {online}
+          <Text h4>
+            {item.name}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -60,12 +51,15 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     // paddingLeft: 15,
-    width: '90%',
     paddingRight: 10,
     alignItems: 'stretch',
     alignContent: 'space-between',
     marginBottom: 5,
     marginTop: 0,
+    flexDirection: 'row',
+    flex: 1,
+    flexWrap: 'wrap',
+    flexShrink: 1,
   },
   rightContainer: {
     width: 55,

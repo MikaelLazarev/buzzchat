@@ -49,7 +49,7 @@ export const ChatDetailsScreen: React.FC = () => {
   const {data} = chatData;
 
 
-  // navigation.setOptions({title: 'Updated!'});
+  navigation.setOptions({title: data.name});
   const messages = data.messages;
 
   const users: User[] = data.members.map((elm) => ({
