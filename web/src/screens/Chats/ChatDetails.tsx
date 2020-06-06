@@ -48,6 +48,8 @@ export const ChatDetailsScreen: React.FC<ChatDetailsScreenProps> = ({id}) => {
   if (chatData === undefined || chatData.data === undefined) return <Loading />;
   const {data} = chatData;
 
+
+
   const messages = data.messages;
 
   const users: User[] = data.members.map((elm) => ({

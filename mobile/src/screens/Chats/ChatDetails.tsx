@@ -12,7 +12,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Message} from '../../core/message';
 import {RootState} from '../../store';
 import {getDetailsItem} from '../../store/dataloader';
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {RouteProp, useRoute, useNavigation} from '@react-navigation/native';
 import {ChatsStackParamList} from './ChatStack';
 import Loading from '../../components/Loading';
 import Modal from 'react-native-modal';
@@ -25,6 +25,7 @@ type ChatDetailsScreenRouteProp = RouteProp<
 
 export const ChatDetailsScreen: React.FC = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const [hash, setHash] = useState('0');
 
   const route = useRoute<ChatDetailsScreenRouteProp>();
@@ -45,6 +46,7 @@ export const ChatDetailsScreen: React.FC = () => {
   if (chatData === undefined || chatData.data === undefined) return <Loading />;
   const {data} = chatData;
 
+  navigation.setOptions({title: 'Updated!'});
   const messages = data.messages;
 
   const users: User[] = data.members.map((elm) => ({
