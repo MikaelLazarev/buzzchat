@@ -96,6 +96,7 @@ export function createSocketMiddleware(): ThunkMiddleware<
         .emit('authenticate', {token: jwtToken}) //send the jwt
         .on('authenticated', () => {
           socketAuth = socket;
+          isConnecting = false;
           console.log('CONNECTED', socketAuth);
           resolve(socket);
 
