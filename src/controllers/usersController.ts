@@ -4,11 +4,14 @@ import { Request, Response } from "express";
 import {TYPES} from '../types';
 import Ajv, { ValidateFunction } from "ajv";
 import {
+  AuthorizeWebDTO,
+  authorizeWebDTOSchema,
   LoginDTO,
   loginDTOSchema, refreshDTO, refreshDTOSchema,
   sendCodeDTOSchema, UserSendCodeDTO,
   UsersServiceI,
 } from '../core/users';
+import {RequestWithUser} from "./types";
 
 
 @injectable()
@@ -17,12 +20,14 @@ export class UsersController  {
   private readonly _sendCodeDTOValidate: ValidateFunction;
   private readonly _loginDTOValidate: ValidateFunction;
   private readonly _refreshDTOValidate: ValidateFunction;
+  private readonly  _authorizeWebDTOSchema : ValidateFunction;
 
   constructor(@inject(TYPES.UsersService) service: UsersServiceI) {
     this._service = service;
     this._sendCodeDTOValidate = new Ajv().compile(sendCodeDTOSchema);
     this._loginDTOValidate = new Ajv().compile(loginDTOSchema);
     this._refreshDTOValidate = new Ajv().compile(refreshDTOSchema);
+    this._authorizeWebDTOSchema = new Ajv().compile(authorizeWebDTOSchema);
   }
 
   sendCode() {
@@ -96,5 +101,37 @@ export class UsersController  {
     };
   }
 
+  authorize_web() {
+    return async (req: RequestWithUser, res: Response) => {
+
+      const user_id = req.user?.user_id
+      if (user_id === undefined) {
+        console.log("No user ID");
+        return res.status(400).send("Incorrect request");
+      }
+
+      const dto: AuthorizeWebDTO = {
+        code: req.body.code,
+      };
+
+
+
+      if (!this._authorizeWebDTOSchema(dto)) {
+        console.log("Incorrect request", dto);
+        return res.status(400).send("Incorrect request");
+      }
+
+      console.log(dto);
+
+      try {
+        const result = await this._service.authorizeWeb(user_id, dto.code);
+        console.log(result);
+        res.status(200).json(result);
+      } catch (e) {
+        console.log(e);
+        res.status(400).send(e);
+      }
+    };
+  }
 
 }

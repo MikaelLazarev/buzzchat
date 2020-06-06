@@ -47,6 +47,21 @@ export const loginDTOSchema = {
   },
 };
 
+
+export interface AuthorizeWebDTO {
+  code: string;
+}
+
+export const authorizeWebDTOSchema = {
+  type: 'object',
+  required: ['code'],
+  properties: {
+    code: {
+      type: 'string',
+    },
+  },
+};
+
 export interface refreshDTO {
   refresh: string;
 }
@@ -65,4 +80,5 @@ export interface UsersServiceI {
   sendCode(phone: string): Promise<boolean>;
   login(phone: string, code: string): TokenPair;
   refresh(refreshToken: string): TokenPair;
+  authorizeWeb(userId: string, code: string) : void;
 }

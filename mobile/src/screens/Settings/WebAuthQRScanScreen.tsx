@@ -8,11 +8,17 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Text, Button} from 'react-native-elements';
-import QRCodeScanner from 'react-native-qrcode-scanner';
+import QRCodeScanner, {Event} from 'react-native-qrcode-scanner';
+import {useDispatch} from 'react-redux';
+import actions from '../../store/actions';
 
-export const ContactQRScanScreen: React.FC = () => {
+export const WebAuthQRScanScreen: React.FC = () => {
+  const dispatch = useDispatch();
+
   const onSuccess = (e: Event) => {
-    console.log(e);
+    const qrcode = e.data as string;
+    const newHash = Date.now().toString();
+    dispatch(actions.auth.authWeb(qrcode, newHash));
   };
   return (
     // <Text>Hello!</Text>

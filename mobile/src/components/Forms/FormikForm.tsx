@@ -15,6 +15,14 @@ export interface FieldI {
   label: string;
   placeholder?: string;
   type?: 'input' | 'textarea';
+  keyboard?:
+    | 'default'
+    | 'number-pad'
+    | 'decimal-pad'
+    | 'numeric'
+    | 'email-address'
+    | 'phone-pad';
+
   onChange?: (value: string) => void;
   disabled?: boolean;
 }
@@ -64,6 +72,7 @@ export function FormikForm<T, S>({
               onChangeText={(e) => setFieldValue(name, e)}
               key={name}
               value={values[name] || ''}
+              keyboardType={f.keyboard || 'default'}
             />
           </View>
         );

@@ -24,13 +24,14 @@ export class SocketRouter {
 
   constructor(controllers: SocketController[]) {
     this._controllers = [...controllers];
-    setTimeout(() => this.update(), 5000);
+    // setTimeout(() => this.update(), 5000);
   }
 
 
 
   connect(io: SocketIO.Server) {
-    io.on(
+    const nsp = io.of('/data');
+    nsp.on(
       'connection',
       socketioJwt.authorize({
         secret: config.jwt_secret,
@@ -39,7 +40,7 @@ export class SocketRouter {
       }),
     )
       .on('authenticated', this._onNewAuthSocket.bind(this))
-      .on('*', console.log);
+
   }
 
   // Connect new socket to pool

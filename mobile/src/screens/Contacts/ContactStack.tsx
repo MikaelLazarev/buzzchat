@@ -10,8 +10,7 @@ import ContactsListScreen from './ContactsListScreen';
 import {Button} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
-import {ContactQRScanScreen} from './ContactQRScanScreen';
-import {ContactsNewScreen} from "./ContactsNewScreen";
+import {ContactsNewScreen} from './ContactsNewScreen';
 
 const Stack = createStackNavigator();
 
@@ -70,7 +69,6 @@ export const ContactStack: React.FC = () => {
           ),
         }}
       />
-      <Stack.Screen name="ContactQR" component={ContactQRScanScreen} />
     </Stack.Navigator>
   );
 };

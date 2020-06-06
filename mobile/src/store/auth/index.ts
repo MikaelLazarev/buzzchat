@@ -26,6 +26,11 @@ export const TOKEN_REQUEST = '@@auth/TOKEN_REQUEST';
 export const TOKEN_RECEIVED = '@@auth/TOKEN_RECEIVED';
 export const TOKEN_FAILURE = '@@auth/TOKEN_FAILURE';
 
+export const AUTH_WEB_REQUEST = '@@auth/AUTH_WEBREQUEST';
+export const AUTH_WEB_SUCCESS = '@@auth/AUTH_WEBRECEIVED';
+export const AUTH_WEB_FAILURE = '@@auth/AUTH_WEBFAILURE';
+
+
 export const CLEAR_AUTH_DATA = '@@auth/CLEAR_AUTH_DATA';
 export const LOGOUT = '@@auth/LOGOUT';
 

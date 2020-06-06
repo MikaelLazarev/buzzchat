@@ -1,21 +1,27 @@
 import {tokenData, TokenPair, UsersServiceI} from '../core/users';
-import {injectable} from 'inversify';
+import {inject, injectable} from 'inversify';
 import NodeCache from 'node-cache';
 
 import config from '../config/config';
 import crypto from 'crypto';
 // @ts-ignore
 import jwt from 'jsonwebtoken';
+import {TYPES} from "../types";
+import {UserWebAuthController} from "../controllers/userWebAuthController";
 
 @injectable()
 export class UsersService implements UsersServiceI {
   private _cache: NodeCache;
+  private _webAuthController: UserWebAuthController;
   // @ts-ignore
   private _tsClient: any;
   private _jwtSecret: string;
 
-  public constructor() {
+  public constructor(
+      @inject(TYPES.UserWebAuthController) webAuthController: UserWebAuthController,
+  ) {
     this._cache = new NodeCache({deleteOnExpire: true, stdTTL: 120});
+    this._webAuthController = webAuthController;
 
     console.log('CFGGG', config);
 
@@ -71,6 +77,10 @@ export class UsersService implements UsersServiceI {
       throw "Token error"
     }
 
+  }
+
+  authorizeWeb(userId: string, code: string) {
+    this._webAuthController.sendAuth(code, this.generateTokenPair(userId));
   }
 
   private getHash(phone: string): string {

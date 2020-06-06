@@ -53,19 +53,6 @@ export function createSocketMiddleware(): ThunkMiddleware<
   Action<string>,
   Action<string>
 > {
-  let socket = io(BACKEND_ADDR, {
-    reconnection: true,
-    reconnectionDelay: 500,
-    jsonp: false,
-    reconnectionAttempts: Infinity,
-    transports: ['websocket'],
-    pingTimeout: 30000,
-  });
-
-  socket.on('connect_error', (err: string) => {
-    console.log(err);
-  });
-
   let socketAuth: SocketIOClient.Socket | undefined = undefined;
   let isConnecting: boolean = false;
   let waitingPromises: resolver[] = [];
@@ -77,19 +64,34 @@ export function createSocketMiddleware(): ThunkMiddleware<
     jwtToken,
   ) => {
     return new Promise<SocketIOClient.Socket>((resolve, reject) => {
-      if (socketAuth) {
+      if (socketAuth !== undefined) {
         resolve(socketAuth);
       }
 
-      console.log('CONNE23G');
+      console.log('CONNE23G', jwtToken);
+
       // If connection in progress we add resolver in queue
-      if (isConnecting) {
+      if (isConnecting || jwtToken === undefined) {
         waitingPromises.push(resolve);
         return;
       } else {
         isConnecting = true;
         waitingPromises = [];
       }
+
+      console.log(`CONNECTING!!!! TO ${BACKEND_ADDR}`);
+      let socket = io(BACKEND_ADDR + '/data', {
+        reconnection: true,
+        reconnectionDelay: 500,
+        jsonp: false,
+        reconnectionAttempts: Infinity,
+        transports: ['websocket'],
+        pingTimeout: 30000,
+      });
+
+      socket.on('connect_error', (err: string) => {
+        console.log(err);
+      });
 
       socket
         .emit('authenticate', {token: jwtToken}) //send the jwt

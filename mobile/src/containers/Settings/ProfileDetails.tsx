@@ -30,6 +30,11 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({data}) => {
         console.log('QQ');
       },
     },
+    {
+      title: 'Connect web',
+      icon: 'desktop-windows',
+      action: () => navigation.navigate('WebAuthQRScreen'),
+    },
   ];
   return (
     <>

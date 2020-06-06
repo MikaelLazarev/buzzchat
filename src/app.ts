@@ -14,13 +14,15 @@ import {BluzelleHelper} from './repository/bluzelleHelper';
 import {DbController} from './controllers/dbController';
 import {UsersController} from './controllers/usersController';
 import {SocketRouter} from './controllers/socketRouter';
-import * as Sentry from "@sentry/node";
+import * as Sentry from '@sentry/node';
+import {UserWebAuthController} from './controllers/userWebAuthController';
+import {loginRequireMiddleware} from './middleware/loginRequired';
 
 export function createApp(config: ConfigParams): Promise<Application> {
   return new Promise<Application>(async (resolve) => {
     const app = express();
 
-    if (process.env.NODE_ENV !== "development") {
+    if (process.env.NODE_ENV !== 'development') {
       Sentry.init({
         dsn: config.sentryDSN,
         integrations: [
@@ -58,10 +60,12 @@ export function createApp(config: ConfigParams): Promise<Application> {
 
     const dbController = new DbController();
 
+    const loginRequired = loginRequireMiddleware(config.jwt_secret);
     // Users Controller
     app.post('/auth/phone/get_code/', usersController.sendCode());
     app.post('/auth/phone/login/', usersController.login());
     app.post('/auth/token/refresh/', usersController.refresh());
+    app.post('/auth/web_auth/', loginRequired, usersController.authorize_web());
 
     // // Profiles Controller
     // app.get('/api/profile/', loginRequired, profilesController.retrieve());
@@ -84,20 +88,29 @@ export function createApp(config: ConfigParams): Promise<Application> {
     let server = require('http').Server(app);
     // set up socket.io and bind it to our
     // http server.
-    let io = require('socket.io').listen(server, {origins: '*:*'});
+    let io = require('socket.io').listen(server, {
+      origins: '*:*',
+      pingTimeout: 50000,
+      pingInterval: 50000,
+    });
     try {
       const profilesController = container.get<ProfilesController>(
-          TYPES.ProfilesController,
+        TYPES.ProfilesController,
       );
       const chatsController = container.get<ChatsController>(
-          TYPES.ChatsController,
+        TYPES.ChatsController,
       );
 
       const socketRouter = new SocketRouter([
         profilesController,
         chatsController,
       ]);
+
+      const webAuthController = container.get<UserWebAuthController>(
+        TYPES.UserWebAuthController,
+      );
       socketRouter.connect(io);
+      webAuthController.connect(io);
     } catch (e) {
       console.log('Cant start socket controllers', e);
     }

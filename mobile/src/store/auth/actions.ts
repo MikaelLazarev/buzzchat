@@ -18,12 +18,13 @@ import * as actionTypes from './';
 
 import {RootState} from '../index';
 import {AuthPayload} from './reducer';
-import {getProfile} from '../profile/actions';
 import {SSO_ADDR} from '../../../config';
 import AsyncStorage from '@react-native-community/async-storage';
 import {updateStatus} from '../operations/actions';
 import {STATUS} from '../utils/status';
 import {actionsAfterAuth} from '../actions';
+import {withAuth} from './';
+import {updateOperationStatusByAction} from "../operations/actions";
 
 export const login = (
   email: string,
@@ -208,6 +209,29 @@ export const getTokenAtStartup = (): ThunkAction<
       await dispatch(actionsAfterAuth());
     }
   }
+};
+
+export const authWeb = (
+  code: string,
+  opHash?: string,
+): ThunkAction<void, RootState, unknown, Action<string>> => async (
+  dispatch,
+) => {
+  const action = await dispatch(
+    createAction({
+      endpoint: getFullAPIAddress('/auth/web_auth/', undefined, SSO_ADDR),
+      method: 'POST',
+      body: JSON.stringify({code}),
+      headers: withAuth({'Content-Type': 'application/json'}),
+      types: [
+        actionTypes.AUTH_WEB_REQUEST,
+        actionTypes.AUTH_WEB_SUCCESS,
+        actionTypes.AUTH_WEB_FAILURE,
+      ],
+    }),
+  );
+
+  dispatch(updateOperationStatusByAction(action, opHash || '0'));
 };
 
 declare module 'redux-thunk' {

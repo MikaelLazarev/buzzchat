@@ -12,6 +12,7 @@ import {Profile} from '../../core/profile';
 import {SettingsScreen} from './SettingsScreen';
 import {ChangeNameScreen} from './ChangeNameScreen';
 import {Button} from 'react-native-elements';
+import {WebAuthQRScanScreen} from "./WebAuthQRScanScreen";
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,7 @@ export type SettingsStackParamList = {
 };
 
 export const SettingsStack: React.FC = () => {
+  const navigation = useNavigation();
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -27,6 +29,13 @@ export const SettingsStack: React.FC = () => {
         component={SettingsScreen}
         options={{
           title: 'Settings',
+          headerRight: () => (
+            <Button
+              onPress={() => navigation.navigate('ContactEdit', {id: 'new'})}
+              title={'Logout'}
+              type="clear"
+            />
+          ),
         }}
       />
       <Stack.Screen
@@ -36,6 +45,7 @@ export const SettingsStack: React.FC = () => {
           title: 'Changing name',
         }}
       />
+        <Stack.Screen name="WebAuthQRScreen" component={WebAuthQRScanScreen} />
     </Stack.Navigator>
   );
 };

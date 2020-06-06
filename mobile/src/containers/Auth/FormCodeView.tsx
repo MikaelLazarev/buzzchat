@@ -27,7 +27,7 @@ export const FormCodeView: React.FC<FormViewProfileProps> = ({
   isSubmitted,
 }) => {
   const fields = {
-    code: {},
+    code: {keyboard: 'numeric'},
   };
 
   if (!data) return <Loading />;

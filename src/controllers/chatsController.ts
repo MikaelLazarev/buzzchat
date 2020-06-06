@@ -58,6 +58,20 @@ export class ChatsController implements SocketController {
           socket.failure(opHash, e);
         }
       },
+
+      deleteMessage: async (dto: PostMessageDTO, opHash: string) => {
+        console.log(dto);
+        try {
+          const result = await this._service.postMessage(userId, dto);
+          console.log(result)
+
+          socket.emit(this._namespace + ':updateDetails', result);
+          socket.ok(opHash);
+        } catch (e) {
+          console.log(e);
+          socket.failure(opHash, e);
+        }
+      },
     };
   }
 
