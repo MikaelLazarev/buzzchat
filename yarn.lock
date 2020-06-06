@@ -590,7 +590,7 @@ blob@0.0.4:
   resolved "https://registry.yarnpkg.com/blob/-/blob-0.0.4.tgz#bcf13052ca54463f30f9fc7e95b9a47630a94921"
   integrity sha1-vPEwUspURj8w+fx+lbmkdjCpSSE=
 
-bluzelle@^1.0.14:
+bluzelle@^1.0.15:
   version "1.0.15"
   resolved "https://registry.yarnpkg.com/bluzelle/-/bluzelle-1.0.15.tgz#844687af08511d3a04459edba4edfe374414e410"
   integrity sha512-tYQ0BlA/ujD5P1pVSQZr/zmdXkmCNsTE5kjJU/eWqLnrE+M0gvXiDrxGsRgUui7buQ+9T5wT/7IcFgjs4l1FQg==

@@ -29,7 +29,7 @@
     "@types/socketio-jwt": "^0.0.0",
     "@types/uuid": "^8.0.0",
     "ajv": "^6.12.2",
-    "bluzelle": "^1.0.14",
+    "bluzelle": "^1.0.15",
     "chalk": "^4.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
