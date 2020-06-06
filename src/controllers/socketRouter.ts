@@ -128,17 +128,20 @@ export class SocketRouter {
   }
 
   private update(): void {
+
     for (const controller of this._controllers) {
       const updates = controller.update();
       updates
         .filter((elm) => this.socketsMobilePool[elm.userId] !== undefined)
         .forEach((elm) => {
+          console.log("[UPDATE:MOBILE]", elm.event);
           const socket = this.socketsMobilePool[elm.userId];
           socket.emit(elm.event, elm.payload);
         });
       updates
           .filter((elm) => this.socketsWebPool[elm.userId] !== undefined)
           .forEach((elm) => {
+            console.log("[UPDATE:WEB]", elm.event);
             const socket = this.socketsWebPool[elm.userId];
             socket.emit(elm.event, elm.payload);
           });

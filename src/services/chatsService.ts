@@ -10,7 +10,11 @@ import {
 import {inject, injectable} from 'inversify';
 import {TYPES} from '../types';
 import {MessagesRepositoryI} from '../core/message';
-import {profile2Contact, ProfilesRepositoryI} from '../core/profiles';
+import {
+  profile2Contact,
+  ProfilesRepositoryI,
+  ProfilesServiceI,
+} from '../core/profiles';
 import {SocketUpdate} from '../core/operations';
 import {Contact} from '../core/contact';
 
@@ -19,16 +23,19 @@ export class ChatsService implements ChatsServiceI {
   private _repository: ChatsRepositoryI;
   private _messagesRepository: MessagesRepositoryI;
   private _profilesRepository: ProfilesRepositoryI;
+  private _profilesService: ProfilesServiceI;
   private _updateQueue: SocketUpdate[];
 
   public constructor(
     @inject(TYPES.ChatsRepository) repository: ChatsRepositoryI,
     @inject(TYPES.ProfilesRepository) profilesRepository: ProfilesRepositoryI,
+    @inject(TYPES.ProfilesService) profilesService: ProfilesServiceI,
     @inject(TYPES.MessagesRepository) messagesRepository: MessagesRepositoryI,
   ) {
     this._repository = repository;
     this._messagesRepository = messagesRepository;
     this._profilesRepository = profilesRepository;
+    this._profilesService = profilesService;
     this._updateQueue = [];
   }
 
@@ -148,36 +155,42 @@ export class ChatsService implements ChatsServiceI {
 
     const newChat: Chat = {
       id: dto.id,
-      name: 'New chat ' + member0?.name + member1?.name,
+      name: `${member0?.name} with ${member1?.name}`,
       members: dto.members,
       isTetATetChat: dto.isTetATetChat,
     };
 
     console.log('Creating new chat...');
     await this._repository.create(newChat);
+    member0.chatsIdList = member0.chatsIdList || [];
+    member1.chatsIdList = member1.chatsIdList || [];
+
     member0.chatsIdList.push(newChat.id);
     member1.chatsIdList.push(newChat.id);
-    console.log(member0);
-    console.log(member1);
+    console.log('M0', member0);
+    console.log('M1', member1);
     await this._profilesRepository.update(member0.id, member0);
     await this._profilesRepository.update(member1.id, member1);
 
+    const profile0 = await this._profilesService.getProfile(member0.id);
+
+    const profile1 = await this._profilesService.getProfile(member1.id);
+
+    console.log(`0: ${this._updateQueue}`);
     this._updateQueue.push({
       userId: member0.id,
       event: 'profile:updateDetails',
-      payload: (await this._profilesRepository.findOneFull(
-        member0.id,
-      )) as Object,
+      payload: profile0 as Object,
     });
+
+    console.log(`1: ${this._updateQueue}`);
 
     this._updateQueue.push({
       userId: member1.id,
       event: 'profile:updateDetails',
-      payload: (await this._profilesRepository.findOneFull(
-        member1.id,
-      )) as Object,
+      payload: profile1 as Object,
     });
-
+    console.log(`2: ${this._updateQueue}`);
     return {
       ...newChat,
       members: [profile2Contact(member0), profile2Contact(member1)],
@@ -186,8 +199,10 @@ export class ChatsService implements ChatsServiceI {
   }
 
   getUpdateQueue(): SocketUpdate[] {
-    const copy = this._updateQueue;
+    const copy = [...this._updateQueue];
+    if (copy.length > 0) console.log('$1', copy);
     this._updateQueue = [];
+    if (copy.length > 0) console.log('$2', copy);
     return copy;
   }
 }

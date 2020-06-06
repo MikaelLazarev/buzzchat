@@ -4,12 +4,12 @@ import {Button, Dimensions, View} from 'react-native';
 import {ChatsListScreen} from './ChatsListScreen';
 import {ChatDetailsScreen} from './ChatDetails';
 import {Text} from 'react-native-elements';
-import actions from "../../store/actions";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../store";
+import actions from '../../store/actions';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../store';
 
 export const ChatsScreen: React.FC = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [activeChat, setActiveChat] = useState<string | undefined>(undefined);
   const [height, setHeight] = useState(Dimensions.get('window').height);
 
@@ -19,7 +19,7 @@ export const ChatsScreen: React.FC = () => {
     });
   }, []);
 
-    const {account, amount} = useSelector((state: RootState) => state.profile);
+  const {account, amount} = useSelector((state: RootState) => state.profile);
 
   return (
     <FullScreenView>
@@ -38,9 +38,26 @@ export const ChatsScreen: React.FC = () => {
         </View>
         <View style={{marginRight: '2%'}}>
           <Text>
-              Bluzelle account: <strong> {account + ' '}</strong>
-              Amount: <strong>{amount+ ' '}</strong>
-              <Button title={'Refund'} onPress={() => { window.location.assign('http://staking.bluzelle.com/fundwallet') }} />
+            Bluzelle account: <strong> {account + ' '}</strong>
+            Amount: <strong>{amount + ' '}</strong>
+            <Button
+              title={'Refund'}
+              onPress={() => {
+                window.location.assign(
+                  'http://staking.bluzelle.com/fundwallet',
+                );
+              }}
+            />
+            <View style={{marginLeft: 10}}>
+              <Button
+                  title={'Logout'}
+                  onPress={() => {
+                      dispatch(actions.auth.logout())
+                  }}
+                  color={'red'}
+
+              />
+            </View>
           </Text>
         </View>
       </View>

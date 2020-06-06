@@ -59,6 +59,7 @@ export class ProfilesController implements SocketController {
           socket.emit(this._namespace + ':updateDetails', result);
           socket.ok(opHash);
         } catch (e) {
+          console.log(e);
           socket.failure(opHash, e);
         }
       },
@@ -70,6 +71,7 @@ export class ProfilesController implements SocketController {
           socket.emit(this._namespace + ':updateDetails', result);
           socket.ok(opHash);
         } catch (e) {
+          console.log(e);
           socket.failure(opHash, e);
         }
       },

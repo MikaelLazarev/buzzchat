@@ -29,6 +29,9 @@ import {SettingsStack} from './screens/Settings/SettingsStack';
 
 import actions from './store/actions';
 import {STATUS} from './store/utils/status';
+import {View} from 'react-native';
+import {Text} from 'react-native-elements';
+import {NoMoneyScreen} from './containers/Account/NoMoney';
 
 const Tab = createBottomTabNavigator();
 
@@ -38,13 +41,14 @@ const tabIcons: Record<string, string> = {
   Settings: 'ios-settings',
 };
 
-export const AuthSwitcher : React.FC = () => {
+export const AuthSwitcher: React.FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(actions.auth.getTokenAtStartup());
   }, []);
 
   const {status} = useSelector((state: RootState) => state.auth);
+  const {amount, account} = useSelector((state: RootState) => state.profile);
 
   switch (status) {
     default:
@@ -52,6 +56,10 @@ export const AuthSwitcher : React.FC = () => {
     case STATUS.FAILURE:
       return <WelcomeStack />;
     case STATUS.SUCCESS:
+      if (amount === 'ZERO') {
+        return <NoMoneyScreen account={account} />;
+      }
+
       return (
         <Tab.Navigator
           screenOptions={({route}) => ({
@@ -80,4 +88,3 @@ export const AuthSwitcher : React.FC = () => {
       );
   }
 };
-

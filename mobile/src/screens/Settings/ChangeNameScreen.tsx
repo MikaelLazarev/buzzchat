@@ -34,15 +34,19 @@ export const ChangeNameScreen: React.FC = () => {
   const [hash, setHash] = useState('0');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const operationStatus = useSelector(
+  const status = useSelector(
     (state: RootState) => state.operations.data[hash]?.data?.status,
+  );
+
+  const error = useSelector(
+      (state: RootState) => state.operations.data[hash]?.data?.error,
   );
 
   // TODO: Move status to new Dataloader component
 
   useEffect(() => {
     if (hash !== '0') {
-      switch (operationStatus) {
+      switch (status) {
         case STATUS.SUCCESS:
           navigation.navigate('SettingsScreen');
           break;
@@ -50,10 +54,11 @@ export const ChangeNameScreen: React.FC = () => {
         case STATUS.FAILURE:
           setHash('0');
           setIsSubmitted(false);
+          console.log(error)
         // alert("Cant submit your operation to server");
       }
     }
-  }, [hash, operationStatus]);
+  }, [hash, status]);
 
   const onSubmit = (values: ProfileChangeNameDTO) => {
     console.log('SUMMMMMIT', values);
@@ -67,7 +72,7 @@ export const ChangeNameScreen: React.FC = () => {
     dispatch(actions.profile.updateProfile(data, newHash));
   };
 
-  console.log(data)
+  console.log(data);
 
   return (
     <SafeAreaView style={styles.container}>

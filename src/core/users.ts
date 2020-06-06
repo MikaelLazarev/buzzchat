@@ -78,7 +78,7 @@ export const refreshDTOSchema = {
 
 export interface UsersServiceI {
   sendCode(phone: string): Promise<boolean>;
-  login(phone: string, code: string): TokenPair;
+  login(phone: string, code: string): Promise<TokenPair>;
   refresh(refreshToken: string): TokenPair;
   authorizeWeb(userId: string, code: string) : void;
 }

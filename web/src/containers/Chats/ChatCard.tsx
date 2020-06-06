@@ -17,15 +17,6 @@ interface ChatCardProps {
 }
 
 const ChatCard: React.FC<ChatCardProps> = ({item, onPressed}) => {
-  const FolderBadge = <Text>folder_name</Text>;
-
-  const online = (
-    <View style={{flexDirection: 'row'}}>
-      <Badge status="success" containerStyle={{marginTop: 3}} />
-      <Text style={{fontSize: 11}}>{' Online '}</Text>
-    </View>
-  );
-
   return (
     <TouchableOpacity onPress={() => onPressed(item.id)}>
       <View style={styles.container}>
@@ -37,9 +28,8 @@ const ChatCard: React.FC<ChatCardProps> = ({item, onPressed}) => {
         {/* TEXT CONTAINER */}
         <View style={styles.textContainer}>
           <View style={{width: '90%'}}>
-          <Text h4>{item.name}</Text>
+            <Text h4>{item.name}</Text>
           </View>
-          {FolderBadge}
         </View>
       </View>
     </TouchableOpacity>

@@ -5,6 +5,7 @@ import {BluzelleConfig} from 'bluzelle/lib/BluzelleConfig';
 import NodeCache from 'node-cache';
 import {Db} from '../core/db';
 import {ErrorHandler} from '../middleware/errorHandler';
+import {object} from 'twilio/lib/base/serialize';
 
 const REPEAT_QTY = 2;
 
@@ -22,7 +23,7 @@ export class BluzelleHelper<T> {
   };
 
   constructor(uuid: string) {
-    this._config = BluzelleHelper._globalConfig;
+    this._config = Object.create(BluzelleHelper._globalConfig);
     this._config.uuid = uuid;
     this._uuid = uuid;
   }
@@ -43,7 +44,7 @@ export class BluzelleHelper<T> {
     return this._amount;
   }
 
-  async findOne(id: string): Promise<T | undefined> {
+  async findOne(id: string, repeat?: number): Promise<T | undefined> {
     try {
       if (BluzelleHelper._cache.has(this.getItemHash(id))) {
         console.log('got from cache');
@@ -57,15 +58,27 @@ export class BluzelleHelper<T> {
       const dataStr = await api.read(id);
       return JSON.parse(dataStr);
     } catch (e) {
-      ErrorHandler.captureException(e);
+      const repeatQty = repeat === undefined ? REPEAT_QTY : repeat - 1;
+      if (repeatQty <= 0) {
+        ErrorHandler.captureException(e);
+        return;
+      }
+      console.log(
+        `[Bluzelle FindOne]: Error, DB: ${this._uuid}\n${e} Try attempt: ${
+          REPEAT_QTY - repeatQty
+        }`,
+      );
+      return await this.findOne(id, repeatQty);
     }
   }
 
   async list(repeat?: number): Promise<T[] | undefined> {
     try {
-      if (BluzelleHelper._cache.has(this.getLishHash())) {
-        return BluzelleHelper._cache.get<T[]>(this.getLishHash());
-      }
+      // if (BluzelleHelper._cache.has(this.getLishHash())) {
+      //   return BluzelleHelper._cache.get<T[]>(this.getLishHash());
+      // }
+
+      console.log(this._config);
 
       const api = await this.getBluzelle();
 
@@ -84,10 +97,12 @@ export class BluzelleHelper<T> {
       const repeatQty = repeat === undefined ? REPEAT_QTY : repeat - 1;
       if (repeatQty <= 0) {
         ErrorHandler.captureException(e);
-        return ;
+        return;
       }
       console.log(
-        `Error happened!\n${e} Try attempt: ${REPEAT_QTY - repeatQty}`,
+        `[Bluzelle List]: Error, DB: ${this._uuid}\n${e} Try attempt: ${
+          REPEAT_QTY - repeatQty
+        }`,
       );
       return await this.list(repeatQty);
     }
@@ -112,10 +127,12 @@ export class BluzelleHelper<T> {
       const repeatQty = repeat === undefined ? REPEAT_QTY : repeat - 1;
       if (repeatQty <= 0) {
         ErrorHandler.captureException(e);
-        return ;
+        return;
       }
       console.log(
-        `Error happened!\n${e} Try attempt: ${REPEAT_QTY - repeatQty}`,
+        `[Bluzelle Create]:Error, DB: ${this._uuid}\n${e} Try attempt: ${
+          REPEAT_QTY - repeatQty
+        }`,
       );
       return await this.create(key, item, repeatQty);
     }
@@ -142,11 +159,13 @@ export class BluzelleHelper<T> {
     } catch (e) {
       const repeatQty = repeat === undefined ? REPEAT_QTY : repeat - 1;
       if (repeatQty <= 0) {
-        ErrorHandler.captureException(e);
-        return ;
+        ErrorHandler.captureException(new Error(`Bluzelle:Update ${e}`));
+        return;
       }
       console.log(
-        `Error happened!\n${e} Try attempt: ${REPEAT_QTY - repeatQty}`,
+        `[Bluzelle Update]: Error, DB: ${this._uuid}\n${e} Try attempt: ${
+          REPEAT_QTY - repeatQty
+        }`,
       );
       return await this.update(key, item, repeatQty);
     }
@@ -168,7 +187,8 @@ export class BluzelleHelper<T> {
       }
 
       BluzelleHelper._account = account.address;
-      BluzelleHelper._amount = account.coins[0].amount;
+      BluzelleHelper._amount = account.coins.length >0 ? account.coins[0].amount : 'ZERO';
+
 
     }
 
@@ -182,29 +202,29 @@ export class BluzelleHelper<T> {
       if (!has) {
         return undefined;
       }
-      await api.delete(key,  BluzelleHelper.gasPrice);
+      await api.delete(key, BluzelleHelper.gasPrice);
       BluzelleHelper._cache.del(this.getItemHash(key));
       BluzelleHelper._cache.del(this.getLishHash());
     } catch (e) {
       const repeatQty = repeat === undefined ? REPEAT_QTY : repeat - 1;
       if (repeatQty <= 0) {
         ErrorHandler.captureException(e);
-        return ;
+        return;
       }
       console.log(
-          `Error happened!\n${e} Try attempt: ${REPEAT_QTY - repeatQty}`,
+        `[Bluzelle Delete]: Error, DB: ${this._uuid}\n${e} Try attempt: ${
+          REPEAT_QTY - repeatQty
+        }`,
       );
       return await this.delete(key, repeatQty);
     }
   }
 
-
-
   private getLishHash(): string {
-    return this.uuid + '!LIST';
+    return this._uuid + '!LIST';
   }
 
   private getItemHash(key: string): string {
-    return this.uuid + '@' + key;
+    return this._uuid + '@' + key;
   }
 }

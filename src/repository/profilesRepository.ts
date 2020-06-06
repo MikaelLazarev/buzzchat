@@ -1,7 +1,7 @@
-import {Profile, ProfileFull, ProfilesRepositoryI} from "../core/profiles";
-import { BluzelleHelper } from "./bluzelleHelper";
-import { injectable } from "inversify";
-import config from "../config/config";
+import {Profile, ProfileFull, ProfilesRepositoryI} from '../core/profiles';
+import {BluzelleHelper} from './bluzelleHelper';
+import {injectable} from 'inversify';
+import config from '../config/config';
 
 @injectable()
 export class ProfilesRepository implements ProfilesRepositoryI {
@@ -17,7 +17,7 @@ export class ProfilesRepository implements ProfilesRepositoryI {
 
   async findOneFull(id: string): Promise<ProfileFull | undefined> {
     let profile = await this.findOne(id);
-    if (profile === undefined) return undefined;
+    if (profile === undefined)  throw "Profile not found!"
 
     const profileFull: ProfileFull = {
       ...profile,
@@ -27,15 +27,12 @@ export class ProfilesRepository implements ProfilesRepositoryI {
       amount: BluzelleHelper.amount,
     };
 
-    for (let contactId of profile.contactsIdList) {
+    for (let contactId of profile.contactsIdList || []) {
       const c = await this.findOne(contactId);
       if (c) profileFull.contactsList.push(c);
     }
     return profileFull;
   }
-
-
-
 
   update(user_id: string, newProfile: Profile): Promise<void> {
     return this._blu.update(user_id, newProfile);

@@ -10,23 +10,36 @@ import {useDispatch, useSelector} from 'react-redux';
 import ChatsList from '../../containers/Chats/ChatsList';
 import actions from '../../store/actions';
 import {RootState} from '../../store';
-import {useNavigation} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {DataScreen} from '../../components/DataScreen';
 import {Chat} from '../../core/chat';
+import {STATUS} from '../../store/utils/status';
+import {ChatsStackParamList} from './ChatStack';
+
+type ChatsListScreenRouteProp = RouteProp<
+  ChatsStackParamList,
+  'ChatListScreen'
+>;
 
 export const ChatsListScreen: React.FC = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [hash, setHash] = useState('0');
 
-  useEffect(() => {
-    const newHash = Date.now().toString();
-    dispatch(actions.profile.getProfile(newHash));
-    setHash(newHash);
-    // dispatch(actions.chats.getList());
-  }, []);
+  const route = useRoute<ChatsListScreenRouteProp>();
+  const reroute = route.params?.reroute;
 
   const data = useSelector((state: RootState) => state.profile);
+
+  useEffect(() => {
+    if (data === undefined) {
+      const newHash = Date.now().toString();
+      dispatch(actions.profile.getProfile(newHash));
+      setHash(newHash);
+    }
+    // dispatch(actions.chats.getList());
+  }, [data]);
+
   const status = useSelector(
     (state: RootState) => state.operations.data[hash]?.data?.status,
   );
@@ -37,10 +50,17 @@ export const ChatsListScreen: React.FC = () => {
     });
   };
 
+  if (reroute !== undefined) {
+    onChatSelect(reroute);
+  }
+
+  const realStatus =
+    hash === '0' && data !== undefined ? STATUS.SUCCESS : status;
+
   return (
     <DataScreen<Chat[]>
       data={data.chatsList}
-      status={status}
+      status={realStatus}
       component={ChatsList}
       onSelect={onChatSelect}
       onRefresh={() => dispatch(actions.profile.getProfile('r'))}

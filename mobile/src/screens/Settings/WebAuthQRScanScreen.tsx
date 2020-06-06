@@ -11,14 +11,17 @@ import {Text, Button} from 'react-native-elements';
 import QRCodeScanner, {Event} from 'react-native-qrcode-scanner';
 import {useDispatch} from 'react-redux';
 import actions from '../../store/actions';
+import { useNavigation } from '@react-navigation/native';
 
 export const WebAuthQRScanScreen: React.FC = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const onSuccess = (e: Event) => {
     const qrcode = e.data as string;
     const newHash = Date.now().toString();
     dispatch(actions.auth.authWeb(qrcode, newHash));
+    navigation.navigate('SettingsScreen');
   };
   return (
     // <Text>Hello!</Text>

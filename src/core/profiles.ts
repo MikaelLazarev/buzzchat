@@ -47,6 +47,7 @@ export interface ProfilesRepositoryI {
 }
 
 export interface ProfilesServiceI {
+  createProfile(user_id: string): Promise<void>;
   getProfile(user_id: string): Promise<ProfileFull | undefined>;
   addContact(
     user_id: string,

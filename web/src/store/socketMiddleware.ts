@@ -10,6 +10,7 @@ import {RootState} from './index';
 import {ThunkDispatch, ThunkMiddleware} from 'redux-thunk';
 import {Action, MiddlewareAPI, Dispatch} from 'redux';
 import {BACKEND_ADDR} from '../config';
+import {actionsAfterAuth} from './actions';
 // import {namespace} from './companies';
 
 // interface ThunkMiddleware {
@@ -37,6 +38,9 @@ export interface SocketOnAction {
   typeOnSuccess: string;
 }
 
+export interface SocketOffAction {
+  type: 'SOCKET_OFF';
+}
 /**
  * An Error Object used by the package.
  */
@@ -60,12 +64,14 @@ export function createSocketMiddleware(): ThunkMiddleware<
   /*
    * getNamespace returns promise for connected and authentificated namespace
    */
-  const getNamespace: (jwtToken: string) => Promise<SocketIOClient.Socket> = (
-    jwtToken,
-  ) => {
+  const getNamespace: (
+    jwtToken: string,
+    dispatch: Dispatch,
+  ) => Promise<SocketIOClient.Socket> = (jwtToken, dispatch) => {
     return new Promise<SocketIOClient.Socket>((resolve, reject) => {
       if (socketAuth !== undefined) {
         resolve(socketAuth);
+        return;
       }
 
       console.log('CONNE23G', jwtToken);
@@ -85,6 +91,7 @@ export function createSocketMiddleware(): ThunkMiddleware<
         reconnectionDelay: 500,
         jsonp: false,
         reconnectionAttempts: Infinity,
+        transports: ['websocket'],
       });
 
       socket.on('connect_error', (err: string) => {
@@ -95,7 +102,10 @@ export function createSocketMiddleware(): ThunkMiddleware<
         .emit('authenticate', {token: jwtToken}) //send the jwt
         .on('authenticated', () => {
           socketAuth = socket;
+          isConnecting = false;
           console.log('CONNECTED', socketAuth);
+          // @ts-ignore
+          dispatch(actionsAfterAuth());
           resolve(socket);
 
           for (const f of waitingPromises) {
@@ -119,15 +129,17 @@ export function createSocketMiddleware(): ThunkMiddleware<
    */
 
   return ({dispatch, getState}) => {
-    return (next: Dispatch) => (action: SocketEmitAction | SocketOnAction) => {
-      const auth  = getState().auth.access
-      const jwt = auth === undefined ? undefined :auth.token;
+    return (next: Dispatch) => (
+      action: SocketEmitAction | SocketOnAction | SocketOffAction,
+    ) => {
+      const access = getState().auth.access
+      const jwt = access === undefined ? undefined : access.token;
 
       console.log('DISPATCH', action);
       switch (action.type) {
         case 'SOCKET_EMIT':
           if (jwt) {
-            getNamespace(jwt).then((socket) => {
+            getNamespace(jwt, dispatch).then((socket) => {
               socket.emit(action.event, action.payload, action.opHash);
               console.log(
                 `[SOCKET.IO] : EMIT : ${action.event} with opHash ${action.opHash}`,
@@ -141,7 +153,7 @@ export function createSocketMiddleware(): ThunkMiddleware<
 
         case 'SOCKET_ON':
           if (jwt) {
-            getNamespace(jwt).then((socket) => {
+            getNamespace(jwt, dispatch).then((socket) => {
               socket.on(action.event, (payload: any) => {
                 console.log('[SOCKET.IО] : GET NEW INFO : ', payload);
                 dispatch({
@@ -154,6 +166,12 @@ export function createSocketMiddleware(): ThunkMiddleware<
           } else {
             console.log('Cant connect');
           }
+          return next(action);
+
+        case 'SOCKET_OFF':
+          socketAuth = undefined;
+          isConnecting = false;
+          waitingPromises = [];
           return next(action);
 
         default:

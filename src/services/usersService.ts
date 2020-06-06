@@ -8,11 +8,13 @@ import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import {TYPES} from '../types';
 import {UserWebAuthController} from '../controllers/userWebAuthController';
+import {ProfilesServiceI} from '../core/profiles';
 
 @injectable()
 export class UsersService implements UsersServiceI {
   private _cache: NodeCache;
   private _webAuthController: UserWebAuthController;
+  private _profileService: ProfilesServiceI;
   // @ts-ignore
   private _tsClient: any;
   private _jwtSecret: string;
@@ -23,9 +25,11 @@ export class UsersService implements UsersServiceI {
   public constructor(
     @inject(TYPES.UserWebAuthController)
     webAuthController: UserWebAuthController,
+    @inject(TYPES.ProfilesService) profilesService: ProfilesServiceI,
   ) {
     this._cache = new NodeCache({deleteOnExpire: true, stdTTL: 120});
     this._webAuthController = webAuthController;
+    this._profileService = profilesService;
     this._tsClient = require('twilio')(config.twillio_sid, config.twillio_key);
     this._jwtSecret = config.jwt_secret;
     this._from = config.twillio_from;
@@ -55,13 +59,20 @@ export class UsersService implements UsersServiceI {
     });
   }
 
-  login(phone: string, code: string): TokenPair {
-    const savedCode = this._cache.get(phone);
-    console.log(this._cache.get(phone), code);
-    if (savedCode === undefined || code !== savedCode) throw 'Wrong code';
-    const user_id = this.getHash(phone);
-    console.log(`Logged in ${phone} with id ${user_id}`);
-    return this.generateTokenPair(user_id);
+  login(phone: string, code: string): Promise<TokenPair> {
+    return new Promise<TokenPair>(async (resolve, reject) => {
+      const savedCode = this._cache.get(phone);
+      console.log(this._cache.get(phone), code);
+      if (savedCode === undefined || code !== savedCode) reject('Wrong code');
+      const user_id = this.getHash(phone);
+      console.log(`Logged in ${phone} with id ${user_id}`);
+      try {
+        await this._profileService.getProfile(user_id);
+      } catch (e) {
+        await this._profileService.createProfile(user_id);
+      }
+      resolve(this.generateTokenPair(user_id));
+    });
   }
 
   refresh(refreshToken: string): TokenPair {

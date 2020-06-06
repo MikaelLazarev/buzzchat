@@ -35,6 +35,8 @@ export default function createReducer(
       return {
         ...state,
       };
+    case 'PROFILE_LOGOUT':
+      return initialState;
   }
 
   return state;

@@ -34,6 +34,7 @@ export class ChatsController implements SocketController {
           socket.emit(this._namespace + ':updateDetails', chat);
           socket.ok(opHash);
         } catch (e) {
+          console.log(e);
           socket.failure(opHash, e);
         }
       },

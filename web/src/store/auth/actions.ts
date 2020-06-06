@@ -170,6 +170,10 @@ export const logout = (): ThunkAction<
   dispatch({
     type: actionTypes.LOGOUT,
   });
+
+  dispatch({
+    type: 'PROFILE_LOGOUT',
+  })
 };
 
 export const getTokenAtStartup = (): ThunkAction<
