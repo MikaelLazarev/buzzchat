@@ -27,16 +27,6 @@ export const ContactStack: React.FC = () => {
         name="ContactsList"
         component={ContactsListScreen}
         options={{
-          headerLeft: () => (
-            <Button
-              // onPress={navigation.getParam('toggleDrawer')}
-              icon={{
-                name: 'menu',
-                size: 22,
-              }}
-              type="clear"
-            />
-          ),
           title: 'Contacts',
           headerRight: () => (
             <Button
@@ -56,17 +46,7 @@ export const ContactStack: React.FC = () => {
         initialParams={{id: 'new'}}
         options={{
           title: 'Contacts',
-          headerRight: () => (
-            <Button
-              onPress={() => navigation.navigate('ContactQR')}
-              icon={{
-                name: 'ios-qr-scanner',
-                size: 22,
-                type: 'ionicon',
-              }}
-              type="clear"
-            />
-          ),
+
         }}
       />
     </Stack.Navigator>

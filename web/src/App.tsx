@@ -21,6 +21,8 @@ import configureStore from './store';
 const store = configureStore();
 
 const App = () => {
+
+    console.log(window.location.protocol + '://' + window.location.host)
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
