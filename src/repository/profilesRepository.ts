@@ -23,6 +23,8 @@ export class ProfilesRepository implements ProfilesRepositoryI {
       ...profile,
       chatsList: [],
       contactsList: [],
+      account: BluzelleHelper.account,
+      amount: BluzelleHelper.amount,
     };
 
     for (let contactId of profile.contactsIdList) {

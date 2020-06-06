@@ -1,11 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {FullScreenView} from '../../components/FullScreenView';
-import {Dimensions, View} from 'react-native';
+import {Button, Dimensions, View} from 'react-native';
 import {ChatsListScreen} from './ChatsListScreen';
 import {ChatDetailsScreen} from './ChatDetails';
 import {Text} from 'react-native-elements';
+import actions from "../../store/actions";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../store";
 
 export const ChatsScreen: React.FC = () => {
+    const dispatch = useDispatch();
   const [activeChat, setActiveChat] = useState<string | undefined>(undefined);
   const [height, setHeight] = useState(Dimensions.get('window').height);
 
@@ -14,6 +18,8 @@ export const ChatsScreen: React.FC = () => {
       setHeight(Dimensions.get('window').height);
     });
   }, []);
+
+    const {account, amount} = useSelector((state: RootState) => state.profile);
 
   return (
     <FullScreenView>
@@ -25,15 +31,18 @@ export const ChatsScreen: React.FC = () => {
           alignContent: 'center',
           alignItems: 'center',
           flexDirection: 'row',
-            justifyContent: 'space-between'
+          justifyContent: 'space-between',
         }}>
         <View style={{marginLeft: '2%'}}>
           <Text h2>Buzzzchat</Text>
         </View>
-          <View style={{marginRight: '2%'}}>
-              <Text>
-                  <a href={"http://staking.bluzelle.com/fundwallet"} target={"_new"}>Bluzelle account</a>: qdq3d3, Money: 1920930129</Text>
-          </View>
+        <View style={{marginRight: '2%'}}>
+          <Text>
+              Bluzelle account: <strong> {account + ' '}</strong>
+              Amount: <strong>{amount+ ' '}</strong>
+              <Button title={'Refund'} onPress={() => { window.location.assign('http://staking.bluzelle.com/fundwallet') }} />
+          </Text>
+        </View>
       </View>
       <View style={{flexDirection: 'row', height: height - 40}}>
         <View style={{width: '30%'}}>

@@ -40,6 +40,7 @@ export const ContactsNewScreen: React.FC = () => {
       status={status}
       component={ContactList}
       onSelect={onSelect}
+      onRefresh={() => dispatch(actions.profile.getProfile('r'))}
     />
   );
 };

@@ -11,15 +11,21 @@ import {SearchBar} from 'react-native-elements';
 import ContactCard from './ContactCard';
 import {Contact} from '../../core/contact';
 import {DataScreenComponentProps} from '../../components/DataScreen';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store';
 
 const ContactList: React.FC<DataScreenComponentProps<Contact[]>> = ({
   data,
   onSelect,
 }) => {
   const [search, setSearch] = useState('');
+  const profile = useSelector((state: RootState) => state.profile);
 
+  const otherContactsData = data.filter((elm) => elm.id !== profile.id);
   const filteredData =
-    search === '' ? data : data.filter((elm) => elm.name.search(search) !== -1);
+    search === ''
+      ? otherContactsData
+      : otherContactsData.filter((elm) => elm.name.search(search) !== -1);
 
   return (
     <ScrollView style={styles.container}>

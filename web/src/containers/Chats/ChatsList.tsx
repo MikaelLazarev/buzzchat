@@ -20,7 +20,7 @@ const ChatsList: React.FC<DataScreenComponentProps<Chat[]>> = ({
     return (
       <View style={{paddingLeft: 20, paddingTop: 25}}>
         <Text h2>There is no chats yet.</Text>
-        <Text h4>Press '+' to add a new one.</Text>
+        <Text h4>Add chats from your mobile device.</Text>
       </View>
     );
   }

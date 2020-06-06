@@ -43,6 +43,7 @@ export const ChatsListScreen: React.FC = () => {
       status={status}
       component={ChatsList}
       onSelect={onChatSelect}
+      onRefresh={() => dispatch(actions.profile.getProfile('r'))}
     />
   );
 };

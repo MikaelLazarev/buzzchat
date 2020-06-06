@@ -22,12 +22,7 @@ export class UsersService implements UsersServiceI {
   ) {
     this._cache = new NodeCache({deleteOnExpire: true, stdTTL: 120});
     this._webAuthController = webAuthController;
-
-    console.log('CFGGG', config);
-
     this._tsClient = require('twilio')(config.twillio_sid, config.twillio_key);
-    console.log(this._tsClient);
-
     this._jwtSecret = config.jwt_secret;
   }
 

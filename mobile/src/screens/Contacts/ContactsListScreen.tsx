@@ -29,13 +29,13 @@ const ContactsListScreen: React.FC = () => {
     // dispatch(actions.chats.getList());
   }, []);
 
-  const data = useSelector((state: RootState) => state.profile);
+  const profile = useSelector((state: RootState) => state.profile);
   const status = useSelector(
     (state: RootState) => state.operations.data[hash]?.data?.status,
   );
 
   const onSelect = async (id: string) => {
-    const chats = data.chatsList;
+    const chats = profile.chatsList;
     const foundChats = chats
       .filter((c) => c.isTetATetChat)
       .filter((c) => c.members.length === 2)
@@ -52,7 +52,7 @@ const ContactsListScreen: React.FC = () => {
     const newID = await UUIDGenerator.getRandomUUID();
     const newChat: ChatCreateDTO = {
       id: newID,
-      members: [data.id, id],
+      members: [profile.id, id],
       isTetATetChat: true,
     };
 
@@ -67,10 +67,11 @@ const ContactsListScreen: React.FC = () => {
 
   return (
     <DataScreen
-      data={data.contactsList || []}
+      data={profile.contactsList || []}
       status={STATUS.SUCCESS}
       component={ContactList}
       onSelect={onSelect}
+      onRefresh={() => dispatch(actions.profile.getProfile('r'))}
     />
   );
 };

@@ -6,26 +6,35 @@
  */
 
 import React from 'react';
-import {StyleSheet, SafeAreaView, StatusBar, View} from 'react-native';
+import {StyleSheet, SafeAreaView, StatusBar, View, Button} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 
 interface FailureProps {
   error: string;
+  reload?: () => void;
 }
 
-const FailureView: React.FC<FailureProps> = ({error}) => (
-  <>
-    <StatusBar barStyle="default" />
-    <SafeAreaView style={styles.container}>
-      <View style={styles.containerText}>
-        <Icon name="ios-bug" type="ionicon" size={50} color="blue" />
-        <Text h4 style={{textAlign: 'center'}}>
-          {error}
-        </Text>
-      </View>
-    </SafeAreaView>
-  </>
-);
+const FailureView: React.FC<FailureProps> = ({error, reload}) => {
+
+  const reloadBtn = reload === undefined ? undefined : <Button title={'Reload'} onPress={reload} />
+
+  return (
+    <>
+      <StatusBar barStyle="default" />
+      <SafeAreaView style={styles.container}>
+        <View style={styles.containerText}>
+          <Icon name="ios-bug" type="ionicon" size={50} color="blue" />
+          <Text h4 style={{textAlign: 'center'}}>
+            {error}
+          </Text>
+        </View>
+        <View>
+          {reloadBtn}
+        </View>
+      </SafeAreaView>
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

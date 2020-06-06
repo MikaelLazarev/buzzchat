@@ -5,11 +5,16 @@
  *  Copyright (c) 2020. Mikhail Lazarev
  */
 
-import React, {ReactElement, ReactNode} from 'react';
+import React, {ReactElement} from 'react';
 import {STATUS} from '../store/utils/status';
 import LoadingView from './Loading';
 import FailureView from './Failure';
-import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {
+  RefreshControl,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+} from 'react-native';
 
 export interface DataScreenComponentProps<T> {
   data: T;
@@ -21,6 +26,7 @@ interface DataScreenProps<T> {
   status: STATUS;
   component: (props: DataScreenComponentProps<T>) => React.ReactNode;
   onSelect?: (id: string) => void;
+  onRefresh?: () => void;
 }
 
 export function DataScreen<T>({
@@ -28,6 +34,7 @@ export function DataScreen<T>({
   status,
   component,
   onSelect,
+  onRefresh,
 }: DataScreenProps<T>): ReactElement {
   switch (status) {
     default:
@@ -41,7 +48,14 @@ export function DataScreen<T>({
     case STATUS.SUCCESS:
       return (
         <SafeAreaView style={styles.container}>
-          <ScrollView style={styles.scrollContainer}>
+          <ScrollView
+            style={styles.scrollContainer}
+            refreshControl={
+              <RefreshControl
+                refreshing={status === STATUS.UPDATING}
+                onRefresh={onRefresh}
+              />
+            }>
             {component({data, onSelect})}
           </ScrollView>
         </SafeAreaView>

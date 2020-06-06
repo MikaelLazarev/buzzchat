@@ -16,11 +16,14 @@ export interface ProfileFull {
   avatar: string;
   contactsList: Contact[];
   chatsList: Chat[];
+  account: string;
+  amount: string;
+
 }
 
 export const DefaultProfile: Profile = {
   id: '',
-  name: '',
+  name: 'New user',
   avatar: '',
   contactsIdList: [],
   chatsIdList: [],

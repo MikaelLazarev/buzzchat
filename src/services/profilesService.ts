@@ -10,6 +10,7 @@ import {inject, injectable} from 'inversify';
 import {TYPES} from '../types';
 import {SocketUpdate} from '../core/operations';
 import {ChatsRepositoryI} from '../core/chat';
+import {BluzelleHelper} from "../repository/bluzelleHelper";
 
 @injectable()
 export class ProfilesService implements ProfilesServiceI {
@@ -56,6 +57,8 @@ export class ProfilesService implements ProfilesServiceI {
       ...profile,
       chatsList: [],
       contactsList: [],
+      account: BluzelleHelper.account,
+      amount: BluzelleHelper.amount,
     };
 
     for (let contactId of profile.contactsIdList) {

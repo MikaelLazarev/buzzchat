@@ -14,6 +14,8 @@ export interface Profile{
   avatar: string;
   contactsList: Contact[];
   chatsList: Chat[];
+  account: string;
+  amount: string;
 }
 
 export interface ProfileChangeNameDTO {

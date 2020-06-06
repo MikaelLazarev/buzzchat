@@ -56,6 +56,8 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({data}) => {
           }}>
           <Text h4>Contacts: {data.contactsList.length}</Text>
           <Text h4>Chats: {data.chatsList.length}</Text>
+          <Text h4>Account: {data.account}</Text>
+          <Text h4>Amount: {data.amount}</Text>
         </View>
       </View>
       <View>

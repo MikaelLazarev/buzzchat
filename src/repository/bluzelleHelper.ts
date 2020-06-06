@@ -11,6 +11,9 @@ const REPEAT_QTY = 5;
 export class BluzelleHelper<T> {
   private static _globalConfig: BluzelleConfig;
   private static _cache = new NodeCache({deleteOnExpire: true, stdTTL: 100});
+  private static _account: string;
+  private static _amount: string;
+
   private _config: BluzelleConfig;
   private _uuid: string;
   private _api: API;
@@ -30,6 +33,14 @@ export class BluzelleHelper<T> {
 
   get uuid() {
     return this._uuid;
+  }
+
+  static get account(): string {
+    return this._account;
+  }
+
+  static get amount(): string {
+    return this._amount;
   }
 
   async findOne(id: string): Promise<T | undefined> {
@@ -155,6 +166,10 @@ export class BluzelleHelper<T> {
       if (account.address === '') {
         throw 'Wrong mnemonic';
       }
+
+      BluzelleHelper._account = account.address;
+      BluzelleHelper._amount = account.coins[0].amount;
+
     }
 
     return this._api;
