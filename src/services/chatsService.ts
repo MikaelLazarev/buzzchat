@@ -4,6 +4,7 @@ import {
   ChatFull,
   ChatsRepositoryI,
   ChatsServiceI,
+  DeleteMessageDTO,
   PostMessageDTO,
 } from '../core/chat';
 import {inject, injectable} from 'inversify';
@@ -56,7 +57,7 @@ export class ChatsService implements ChatsServiceI {
   }
 
   async postMessage(user_id: string, dto: PostMessageDTO): Promise<ChatFull> {
-    const chat = await this._repository.findById(dto.chat_id);
+    const chat = await this._repository.findById(dto.chatId);
     if (!chat) throw 'Chat not found';
 
     const isUserInChat: boolean = chat?.members.indexOf(user_id) !== -1;
@@ -75,18 +76,56 @@ export class ChatsService implements ChatsServiceI {
       ...chat,
       members,
       messages:
-        (await this._messagesRepository.addMessage(dto.chat_id, dto.msg)) || [],
+        (await this._messagesRepository.addMessage(dto.chatId, dto.msg)) || [],
     };
 
-    members
-      .forEach((m) =>
-        this._updateQueue.push({
-          userId: m.id,
-          event: 'chat:updateDetails',
-          payload: chatFull,
-        }),
-      );
+    members.forEach((m) =>
+      this._updateQueue.push({
+        userId: m.id,
+        event: 'chat:updateDetails',
+        payload: chatFull,
+      }),
+    );
     return chatFull;
+  }
+
+  async deleteMessage(user_id: string, dto: DeleteMessageDTO): Promise<void> {
+    const chat = await this._repository.findById(dto.chatId);
+    if (!chat) throw 'Chat not found';
+
+    const isUserInChat: boolean = chat?.members.indexOf(user_id) !== -1;
+    if (!isUserInChat) throw 'User is not member of this chat';
+
+    const message = await this._messagesRepository.findById(
+      dto.chatId,
+      dto.msgId,
+    );
+    if (message === undefined) throw 'Message not found';
+
+    if (message.user.id !== user_id)
+      throw 'Only owners could delete their messages';
+
+    const members: Contact[] = [];
+
+    for (let memberId of chat.members) {
+      const member = await this._profilesRepository.findOne(memberId);
+      if (member) members.push(profile2Contact(member));
+    }
+    const chatFull: ChatFull = {
+      ...chat,
+      members,
+      messages:
+        (await this._messagesRepository.deleteMessage(dto.chatId, dto.msgId)) ||
+        [],
+    };
+
+    members.forEach((m) =>
+      this._updateQueue.push({
+        userId: m.id,
+        event: 'chat:updateDetails',
+        payload: chatFull,
+      }),
+    );
   }
 
   async create(

@@ -10,7 +10,10 @@ export interface ConfigParams {
   jwt_secret: string;
   twillio_sid: string;
   twillio_key: string;
+  twillio_from: string;
   sentryDSN: string;
+  send_to_debug: boolean;
+  debug_phone: string;
 }
 
 const configSchema = {
@@ -24,7 +27,10 @@ const configSchema = {
     'jwt_secret',
     'twillio_sid',
     'twillio_key',
-    "sentryDSN",
+    'twillio_from',
+    'sentryDSN',
+    'send_to_debug',
+    'debug_phone',
   ],
 };
 
@@ -47,7 +53,10 @@ export function getConfig(): ConfigParams {
         jwt_secret: process.env.JWT_SECRET || '',
         twillio_sid: process.env.TWILLIO_SID || '',
         twillio_key: process.env.TWILLIO_KEY || '',
-        sentryDSN: process.env.SENTRY_DSN || "",
+        twillio_from: process.env.TWILLIO_FROM || '',
+        sentryDSN: process.env.SENTRY_DSN || '',
+        send_to_debug: process.env.SEND_TO_DEBUG === 'true' ? true : false,
+        debug_phone: process.env.DEBUG_PHONE || '',
       };
     }
 

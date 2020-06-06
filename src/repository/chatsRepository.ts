@@ -8,7 +8,7 @@ export class ChatsRepository implements ChatsRepositoryI {
   private _blu: BluzelleHelper<Chat>;
 
   constructor() {
-    this._blu = new BluzelleHelper<Chat>(config.mainDB);
+    this._blu = new BluzelleHelper<Chat>(config.mainDB + ':chats');
   }
 
   findById(id: string): Promise<Chat | undefined> {

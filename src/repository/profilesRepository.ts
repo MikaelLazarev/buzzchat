@@ -8,7 +8,7 @@ export class ProfilesRepository implements ProfilesRepositoryI {
   private _blu: BluzelleHelper<Profile>;
 
   constructor() {
-    this._blu = new BluzelleHelper<Profile>(config.mainDB);
+    this._blu = new BluzelleHelper<Profile>(config.mainDB + ':profiles');
   }
 
   findOne(id: string): Promise<Profile | undefined> {

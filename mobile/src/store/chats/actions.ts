@@ -8,7 +8,12 @@
 
 import {endpoint, CHATS_PREFIX} from './';
 
-import {Chat, ChatCreateDTO, PostMessageDTO} from '../../core/chat';
+import {
+  Chat,
+  ChatCreateDTO,
+  DeleteMessageDTO,
+  PostMessageDTO,
+} from '../../core/chat';
 import {ThunkAction} from 'redux-thunk';
 import {RootState} from '../index';
 import {Action} from 'redux';
@@ -62,7 +67,7 @@ export const postMessage: (
   opHash,
 ) => async (dispatch, getState) => {
   const state = getState();
-  const chat = state.chats.Details.data[dto.chat_id].data as Chat;
+  const chat = state.chats.Details.data[dto.chatId].data as Chat;
   chat.messages.push(dto.msg);
 
   dispatch({
@@ -74,6 +79,32 @@ export const postMessage: (
     type: 'SOCKET_EMIT',
     namespace,
     event: 'chat:postMessage',
+    typeOnFailure: CHATS_PREFIX + DETAIL_SUCCESS,
+    payload: dto,
+    opHash,
+  });
+};
+
+export const deleteMessage: (
+  dto: DeleteMessageDTO,
+  opHash: string,
+) => ThunkAction<void, RootState, unknown, Action<string>> = (
+  dto,
+  opHash,
+) => async (dispatch, getState) => {
+  const state = getState();
+  const chat = state.chats.Details.data[dto.chatId].data as Chat;
+  chat.messages = chat.messages.filter((msg) => msg.id !== dto.msgId);
+
+  dispatch({
+    type: CHATS_PREFIX + DETAIL_SUCCESS,
+    payload: chat,
+  });
+
+  dispatch({
+    type: 'SOCKET_EMIT',
+    namespace,
+    event: 'chat:deleteMessage',
     typeOnFailure: CHATS_PREFIX + DETAIL_SUCCESS,
     payload: dto,
     opHash,

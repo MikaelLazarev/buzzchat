@@ -175,6 +175,31 @@ export class BluzelleHelper<T> {
     return this._api;
   }
 
+  async delete(key: string, repeat?: number): Promise<void> {
+    try {
+      const api = await this.getBluzelle();
+      const has = await api.has(key);
+      if (!has) {
+        return undefined;
+      }
+      await api.delete(key,  BluzelleHelper.gasPrice);
+      BluzelleHelper._cache.del(this.getItemHash(key));
+      BluzelleHelper._cache.del(this.getLishHash());
+    } catch (e) {
+      const repeatQty = repeat === undefined ? REPEAT_QTY : repeat - 1;
+      if (repeatQty <= 0) {
+        ErrorHandler.captureException(e);
+        return ;
+      }
+      console.log(
+          `Error happened!\n${e} Try attempt: ${REPEAT_QTY - repeatQty}`,
+      );
+      return await this.delete(key, repeatQty);
+    }
+  }
+
+
+
   private getLishHash(): string {
     return this.uuid + '!LIST';
   }

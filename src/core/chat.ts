@@ -31,8 +31,13 @@ export interface ChatCreateDTO {
 }
 
 export interface PostMessageDTO {
-  chat_id: string;
+  chatId: string;
   msg: Message;
+}
+
+export interface DeleteMessageDTO {
+  chatId: string;
+  msgId: string;
 }
 
 export interface ChatsRepositoryI {
@@ -44,5 +49,6 @@ export interface ChatsServiceI {
   create(user_id: string, dto: ChatCreateDTO): Promise<ChatFull | undefined>;
   findById(user_id: string, chat_id: string): Promise<ChatFull>;
   postMessage(user_id: string, dto: PostMessageDTO): Promise<ChatFull>;
+  deleteMessage(user_id: string, dto: DeleteMessageDTO) : Promise<void>;
   getUpdateQueue(): SocketUpdate[];
 }

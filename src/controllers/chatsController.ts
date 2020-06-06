@@ -5,7 +5,12 @@ import {
 } from './socketRouter';
 import {inject, injectable} from 'inversify';
 import {TYPES} from '../types';
-import { ChatCreateDTO, ChatsServiceI, PostMessageDTO} from '../core/chat';
+import {
+  ChatCreateDTO,
+  ChatsServiceI,
+  DeleteMessageDTO,
+  PostMessageDTO,
+} from '../core/chat';
 import {SocketUpdate} from '../core/operations';
 
 @injectable()
@@ -36,7 +41,7 @@ export class ChatsController implements SocketController {
       retrieve: async (id: string, opHash: string) => {
         try {
           const data = await this._service.findById(userId, id);
-          console.log("GOTT", data)
+          console.log('GOTT', data);
           socket.emit(this._namespace + ':updateDetails', data);
           socket.ok(opHash);
         } catch (e) {
@@ -49,7 +54,7 @@ export class ChatsController implements SocketController {
         console.log(dto);
         try {
           const result = await this._service.postMessage(userId, dto);
-          console.log(result)
+          console.log(result);
 
           socket.emit(this._namespace + ':updateDetails', result);
           socket.ok(opHash);
@@ -59,13 +64,10 @@ export class ChatsController implements SocketController {
         }
       },
 
-      deleteMessage: async (dto: PostMessageDTO, opHash: string) => {
+      deleteMessage: async (dto: DeleteMessageDTO, opHash: string) => {
         console.log(dto);
         try {
-          const result = await this._service.postMessage(userId, dto);
-          console.log(result)
-
-          socket.emit(this._namespace + ':updateDetails', result);
+          await this._service.deleteMessage(userId, dto);
           socket.ok(opHash);
         } catch (e) {
           console.log(e);

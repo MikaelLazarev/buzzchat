@@ -62,7 +62,7 @@ export const postMessage: (
   opHash,
 ) => async (dispatch, getState) => {
   const state = getState();
-  const chat = state.chats.Details.data[dto.chat_id].data as Chat;
+  const chat = state.chats.Details.data[dto.chatId].data as Chat;
   chat.messages.push(dto.msg);
 
   dispatch({

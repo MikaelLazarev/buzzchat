@@ -71,7 +71,7 @@ export const ChatDetailsScreen: React.FC<ChatDetailsScreenProps> = ({id}) => {
     dispatch(
       actions.chats.postMessage(
         {
-          chat_id: id,
+          chatId: id,
           msg: message,
         },
         '1',

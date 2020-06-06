@@ -38,8 +38,10 @@ const ContactsListScreen: React.FC = () => {
     const chats = profile.chatsList;
     const foundChats = chats
       .filter((c) => c.isTetATetChat)
-      .filter((c) => c.members.length === 2)
+      .filter((c) => c.members.length >1 )
       .filter((c) => c.members[0].id === id || c.members[1].id === id);
+
+    console.log("FOUNDCCC", foundChats)
 
     if (foundChats.length > 0) {
       navigation.navigate('Chats', {

@@ -43,11 +43,10 @@ export const ChatDetailsScreen: React.FC = () => {
   );
   const profile = useSelector((state: RootState) => state.profile);
 
-  console.log("COPPPP", chatData, route.params);
+  console.log('COPPPP', chatData, route.params);
 
   if (chatData === undefined || chatData.data === undefined) return <Loading />;
   const {data} = chatData;
-
 
   navigation.setOptions({title: data.name});
   const messages = data.messages;
@@ -70,7 +69,7 @@ export const ChatDetailsScreen: React.FC = () => {
     dispatch(
       actions.chats.postMessage(
         {
-          chat_id: id,
+          chatId: id,
           msg: message,
         },
         '1',
@@ -104,7 +103,16 @@ export const ChatDetailsScreen: React.FC = () => {
       [
         {
           text: 'Delete Message',
-          onPress: () => console.log('Ask me later pressed'),
+          onPress: () =>
+            dispatch(
+              actions.chats.deleteMessage(
+                {
+                  chatId: id,
+                  msgId: msg._id.toString(),
+                },
+                'delete',
+              ),
+            ),
         },
         {
           text: 'Cancel',

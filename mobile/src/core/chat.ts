@@ -23,6 +23,11 @@ export interface ChatCreateDTO {
 }
 
 export interface PostMessageDTO {
-  chat_id: string;
+  chatId: string;
   msg: Message;
+}
+
+export interface DeleteMessageDTO {
+  chatId: string;
+  msgId: string;
 }
