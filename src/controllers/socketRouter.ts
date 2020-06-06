@@ -24,23 +24,21 @@ export class SocketRouter {
 
   constructor(controllers: SocketController[]) {
     this._controllers = [...controllers];
-    // setTimeout(() => this.update(), 5000);
+    setTimeout(() => this.update(), 5000);
   }
-
-
 
   connect(io: SocketIO.Server) {
     const nsp = io.of('/data');
-    nsp.on(
-      'connection',
-      socketioJwt.authorize({
-        secret: config.jwt_secret,
-        timeout: 15000, // 15 seconds to send the authentication message
-        decodedPropertyName: 'tData',
-      }),
-    )
-      .on('authenticated', this._onNewAuthSocket.bind(this))
-
+    nsp
+      .on(
+        'connection',
+        socketioJwt.authorize({
+          secret: config.jwt_secret,
+          timeout: 15000, // 15 seconds to send the authentication message
+          decodedPropertyName: 'tData',
+        }),
+      )
+      .on('authenticated', this._onNewAuthSocket.bind(this));
   }
 
   // Connect new socket to pool
@@ -114,14 +112,15 @@ export class SocketRouter {
     };
   }
 
-  private update() : void{
+  private update(): void {
     for (const controller of this._controllers) {
       const updates = controller.update();
-      updates.filter(elm => this.socketsPool[elm.userId] !== undefined)
-          .forEach(elm => {
-            const socket =  this.socketsPool[elm.userId];
-            socket.emit(elm.event, elm.payload);
-          })
+      updates
+        .filter((elm) => this.socketsPool[elm.userId] !== undefined)
+        .forEach((elm) => {
+          const socket = this.socketsPool[elm.userId];
+          socket.emit(elm.event, elm.payload);
+        });
     }
 
     setTimeout(() => this.update(), 500);
