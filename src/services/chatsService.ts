@@ -79,7 +79,6 @@ export class ChatsService implements ChatsServiceI {
     };
 
     members
-      .filter((m) => m.id !== user_id)
       .forEach((m) =>
         this._updateQueue.push({
           userId: m.id,
@@ -87,7 +86,6 @@ export class ChatsService implements ChatsServiceI {
           payload: chatFull,
         }),
       );
-    console.log('JOJOJOJOJO');
     return chatFull;
   }
 
