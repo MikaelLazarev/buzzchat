@@ -28,10 +28,6 @@ export class UsersService implements UsersServiceI {
     this._tsClient = require('twilio')(config.twillio_sid, config.twillio_key);
     console.log(this._tsClient);
 
-    // const phoneNumber = '79219451207';
-    // const message = `Your code is 12345`;
-    // const messageType = 'ARN';
-
     this._jwtSecret = config.jwt_secret;
   }
 
