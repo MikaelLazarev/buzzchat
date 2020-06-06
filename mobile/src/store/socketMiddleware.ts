@@ -80,13 +80,12 @@ export function createSocketMiddleware(): ThunkMiddleware<
       }
 
       console.log(`CONNECTING!!!! TO ${BACKEND_ADDR}`);
-      let socket = io(BACKEND_ADDR + '/data', {
+      let socket = io(BACKEND_ADDR + '/mobile', {
         reconnection: true,
         reconnectionDelay: 500,
         jsonp: false,
         reconnectionAttempts: Infinity,
         transports: ['websocket'],
-        pingTimeout: 30000,
       });
 
       socket.on('connect_error', (err: string) => {

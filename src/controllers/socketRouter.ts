@@ -19,7 +19,8 @@ export interface SocketWithToken extends SocketIO.Socket {
 }
 
 export class SocketRouter {
-  private readonly socketsPool: Record<string, Socket> = {};
+  private readonly socketsMobilePool: Record<string, Socket> = {};
+  private readonly socketsWebPool: Record<string, Socket> = {};
   private readonly _controllers: SocketController[];
 
   constructor(controllers: SocketController[]) {
@@ -28,8 +29,8 @@ export class SocketRouter {
   }
 
   connect(io: SocketIO.Server) {
-    const nsp = io.of('/data');
-    nsp
+    const mobileNsp = io.of('/mobile');
+    mobileNsp
       .on(
         'connection',
         socketioJwt.authorize({
@@ -38,23 +39,37 @@ export class SocketRouter {
           decodedPropertyName: 'tData',
         }),
       )
-      .on('authenticated', this._onNewAuthSocket.bind(this));
+      .on('authenticated', (socket: SocketWithToken) =>
+        this._onNewAuthSocket.bind(this)(socket, 'mobile'),
+      );
+    const webNsp = io.of('/web');
+    webNsp
+      .on(
+        'connection',
+        socketioJwt.authorize({
+          secret: config.jwt_secret,
+          timeout: 15000, // 15 seconds to send the authentication message
+          decodedPropertyName: 'tData',
+        }),
+      )
+      .on('authenticated', (socket: SocketWithToken) =>
+        this._onNewAuthSocket.bind(this)(socket, 'web'),
+      );
   }
 
   // Connect new socket to pool
-  private _onNewAuthSocket(socket: SocketWithToken) {
-    console.log('HELLLO!');
-    console.log(this);
-
+  private _onNewAuthSocket(socket: SocketWithToken, type: string) {
     const userId = socket.tData.user_id;
+    const socketsPool =
+      type === 'mobile' ? this.socketsMobilePool : this.socketsWebPool;
 
     // Add new socket in socketsPool connection array
-    this.socketsPool[userId] = socket;
-    console.log(`[SOCKET.IO] : user ${userId} connected`);
+    socketsPool[userId] = socket;
+    console.log(`[SOCKET.IO / ${type}] : user ${userId} connected`);
 
     // Middleware to show all incoming requests
     socket.use((packet, next) => {
-      console.log(`[SOCKET.IO] : INCOMING REQUEST ${packet[0]}`);
+      console.log(`[SOCKET.IO / ${type}] : INCOMING REQUEST ${packet[0]}`);
       next();
     });
 
@@ -62,7 +77,7 @@ export class SocketRouter {
     socket.on('disconnect', () => {
       //this socket is authenticated, we are good to handle more events from it.
       console.log(`bye ${userId}`);
-      delete this.socketsPool[userId];
+      delete socketsPool[userId];
     });
 
     socket.ok = (opHash: string) => {
@@ -116,11 +131,17 @@ export class SocketRouter {
     for (const controller of this._controllers) {
       const updates = controller.update();
       updates
-        .filter((elm) => this.socketsPool[elm.userId] !== undefined)
+        .filter((elm) => this.socketsMobilePool[elm.userId] !== undefined)
         .forEach((elm) => {
-          const socket = this.socketsPool[elm.userId];
+          const socket = this.socketsMobilePool[elm.userId];
           socket.emit(elm.event, elm.payload);
         });
+      updates
+          .filter((elm) => this.socketsWebPool[elm.userId] !== undefined)
+          .forEach((elm) => {
+            const socket = this.socketsWebPool[elm.userId];
+            socket.emit(elm.event, elm.payload);
+          });
     }
 
     setTimeout(() => this.update(), 500);

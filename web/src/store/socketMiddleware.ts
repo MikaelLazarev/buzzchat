@@ -80,7 +80,7 @@ export function createSocketMiddleware(): ThunkMiddleware<
       }
 
       console.log(`CONNECTING!!!! TO ${BACKEND_ADDR}`);
-      let socket = io(BACKEND_ADDR + '/data', {
+      let socket = io(BACKEND_ADDR + '/web', {
         reconnection: true,
         reconnectionDelay: 500,
         jsonp: false,
