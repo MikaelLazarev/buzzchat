@@ -37,6 +37,9 @@ export interface SocketOnAction {
   typeOnSuccess: string;
 }
 
+export interface SocketOffAction {
+  type: 'SOCKET_OFF';
+}
 /**
  * An Error Object used by the package.
  */
@@ -121,7 +124,7 @@ export function createSocketMiddleware(): ThunkMiddleware<
    */
 
   return ({dispatch, getState}) => {
-    return (next: Dispatch) => (action: SocketEmitAction | SocketOnAction) => {
+    return (next: Dispatch) => (action: SocketEmitAction | SocketOnAction | SocketOffAction) => {
       const jwt = getState().auth.access?.token;
 
       console.log('DISPATCH', action);
@@ -155,6 +158,12 @@ export function createSocketMiddleware(): ThunkMiddleware<
           } else {
             console.log('Cant connect');
           }
+          return next(action);
+
+        case 'SOCKET_OFF':
+          socketAuth = undefined;
+          isConnecting = false;
+          waitingPromises = [];
           return next(action);
 
         default:

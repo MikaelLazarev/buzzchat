@@ -24,7 +24,7 @@ import {updateStatus} from '../operations/actions';
 import {STATUS} from '../utils/status';
 import {actionsAfterAuth} from '../actions';
 import {withAuth} from './';
-import {updateOperationStatusByAction} from "../operations/actions";
+import {updateOperationStatusByAction} from '../operations/actions';
 
 export const login = (
   email: string,
@@ -188,6 +188,9 @@ export const logout = (): ThunkAction<
   await AsyncStorage.clear();
   dispatch({
     type: actionTypes.LOGOUT,
+  });
+  dispatch({
+    type: 'SOCKET_OFF',
   });
 };
 

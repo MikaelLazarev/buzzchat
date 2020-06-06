@@ -6,7 +6,7 @@ import NodeCache from 'node-cache';
 import {Db} from '../core/db';
 import {ErrorHandler} from '../middleware/errorHandler';
 
-const REPEAT_QTY = 5;
+const REPEAT_QTY = 2;
 
 export class BluzelleHelper<T> {
   private static _globalConfig: BluzelleConfig;

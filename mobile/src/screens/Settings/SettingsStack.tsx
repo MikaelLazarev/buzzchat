@@ -13,6 +13,8 @@ import {SettingsScreen} from './SettingsScreen';
 import {ChangeNameScreen} from './ChangeNameScreen';
 import {Button} from 'react-native-elements';
 import {WebAuthQRScanScreen} from "./WebAuthQRScanScreen";
+import {useDispatch} from "react-redux";
+import actions from "../../store/actions";
 
 const Stack = createStackNavigator();
 
@@ -22,6 +24,7 @@ export type SettingsStackParamList = {
 
 export const SettingsStack: React.FC = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -31,7 +34,7 @@ export const SettingsStack: React.FC = () => {
           title: 'Settings',
           headerRight: () => (
             <Button
-              onPress={() => navigation.navigate('ContactEdit', {id: 'new'})}
+              onPress={() => dispatch(actions.auth.logout())}
               title={'Logout'}
               type="clear"
             />

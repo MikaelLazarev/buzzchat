@@ -54,6 +54,7 @@ export class UsersService implements UsersServiceI {
     console.log(this._cache.get(phone), code);
     if (savedCode === undefined || code !== savedCode) throw 'Wrong code';
     const user_id = this.getHash(phone);
+    console.log(`Logged in ${phone} with id ${user_id}`)
     return this.generateTokenPair(user_id);
   }
 

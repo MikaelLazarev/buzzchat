@@ -34,6 +34,7 @@ export const EnterPhoneScreen: React.FC = () => {
     if (hash !== '0') {
       switch (operationStatus) {
         case STATUS.SUCCESS:
+          setIsSubmitted(false);
           navigation.navigate('EnterCodeScreen', {phone});
           break;
 
