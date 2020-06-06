@@ -1,6 +1,15 @@
 # Buzzzchat
 ## Decentralised chat app using Bluzelle DB
 
+### Features
+
+[x] Works on both Android and iOS  
+[x] Web browser PC support. Must somehow use phone to authenticate web browser app, like WhatsApp.  
+[ ] Use IPFS to enable file transfers, avatars, etc. All files must be encrypted.  
+[ ] Room chat messages are encrypted and have signing proofs  
+[x] Ability for message owners to delete their own messages.  
+
+
 ### Components
 
 /src - Node.JS server
@@ -32,6 +41,9 @@ Clone repository
   "sentryDSN": "<Sentry DSN code>",
   "twillio_sid" : "<Twillio account ID>",
   "twillio_key" : "<Twillio api key>"
+  "twillio_from" : "<Twillio outgouing number>",
+  "send_to_debug": "<if true it sends all codes to debug_phone>",
+  "debug_phone" : "<debug phone number to get all auth codes if send_to_debug is set>"
 }
 ```
 5. Save configuration
