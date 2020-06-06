@@ -12,15 +12,22 @@
 
 ### Components
 
-/src - Node.JS server
+/src - Node.JS server  
+/mobile - Mobile Client (React native)  
+/web - Web Client (React native web)  
 
-/mobile - Mobile Client (React native)
+### Requirements
 
-/web - Web Client (React native web)
+* NodeJS and package manager
+* Typescript
+* Java 14
+* XCode
+* Sentry account
+* Twillio account
 
 ### How to install
 
-Clone repository
+Clone this repository
 
 #### Installing server
 
