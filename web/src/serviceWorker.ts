@@ -1,3 +1,8 @@
+/*
+ * Buzzzchat - P2P Chat based on Bluzelle DB
+ * Copyright (c) 2020. Mikhail Lazarev
+ */
+
 // This optional code is used to register a service worker.
 // register() is not called by default.
 

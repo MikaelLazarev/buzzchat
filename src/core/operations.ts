@@ -1,3 +1,8 @@
+/*
+ * Buzzzchat - P2P Chat based on Bluzelle DB
+ * Copyright (c) 2020. Mikhail Lazarev
+ */
+
 export interface Operation {
     id: string,
     status: string,

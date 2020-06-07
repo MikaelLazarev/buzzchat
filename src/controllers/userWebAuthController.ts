@@ -1,3 +1,8 @@
+/*
+ * Buzzzchat - P2P Chat based on Bluzelle DB
+ * Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import SocketIO, {Socket} from 'socket.io';
 import {TokenPair} from '../core/users';
 import {injectable} from 'inversify';
@@ -7,12 +12,7 @@ import {v4 as uuidv4} from 'uuid';
 export class UserWebAuthController {
   private readonly socketsPool: Record<string, Socket> = {};
 
-  constructor() {
-    console.log("HELKLLLO")
-  }
-
   connect(io: SocketIO.Server) {
-    console.log("CNTK")
     const nsp = io.of('/webwait');
     nsp.on('connection', (socket) => {
       socket.use((packet, next) => {
@@ -25,11 +25,11 @@ export class UserWebAuthController {
       console.log(`Web waiting connected with ${code}`);
       socket.on('getCode', () => {
         socket.emit('code', code);
-      })
+      });
 
       socket.on('error', (error) => {
-        console.log(error)
-      })
+        console.log(error);
+      });
 
       socket.on('disconnect', (reason: string) => {
         //this socket is authenticated, we are good to handle more events from it.

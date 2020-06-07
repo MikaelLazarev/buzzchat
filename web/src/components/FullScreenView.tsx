@@ -1,3 +1,8 @@
+/*
+ * Buzzzchat - P2P Chat based on Bluzelle DB
+ * Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import React, {useEffect, useState} from 'react';
 import {Dimensions, View} from 'react-native';
 

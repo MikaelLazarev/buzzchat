@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Buzzzchat - P2P Chat based on Bluzelle DB
+  ~ Copyright (c) 2020. Mikhail Lazarev
+  -->
+
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
     <background android:drawable="@drawable/ic_launcher_background"/>
     <foreground android:drawable="@mipmap/ic_launcher_foreground"/>

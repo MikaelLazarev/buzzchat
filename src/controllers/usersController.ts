@@ -1,4 +1,9 @@
 
+/*
+ * Buzzzchat - P2P Chat based on Bluzelle DB
+ * Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import {inject, injectable} from 'inversify';
 import { Request, Response } from "express";
 import {TYPES} from '../types';

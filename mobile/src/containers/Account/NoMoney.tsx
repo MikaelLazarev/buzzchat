@@ -1,3 +1,8 @@
+/*
+ * Buzzzchat - P2P Chat based on Bluzelle DB
+ * Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import { SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
 import {Button,Icon, Text} from 'react-native-elements';
 import React from 'react';

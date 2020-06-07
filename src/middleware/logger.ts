@@ -1,3 +1,8 @@
+/*
+ * Buzzzchat - P2P Chat based on Bluzelle DB
+ * Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import morgan from 'morgan';
 import chalk, {Chalk} from 'chalk';
 import moment from 'moment';

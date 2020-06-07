@@ -1,3 +1,8 @@
+/*
+ * Buzzzchat - P2P Chat based on Bluzelle DB
+ * Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import { createApp } from "./app";
 import config from "./config/config";
 import { ErrorHandler } from "./middleware/errorHandler";

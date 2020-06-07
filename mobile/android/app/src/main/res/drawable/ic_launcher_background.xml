@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Buzzzchat - P2P Chat based on Bluzelle DB
+  ~ Copyright (c) 2020. Mikhail Lazarev
+  -->
+
 <vector
     android:height="108dp"
     android:width="108dp"

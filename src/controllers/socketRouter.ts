@@ -1,3 +1,8 @@
+/*
+ * Buzzzchat - P2P Chat based on Bluzelle DB
+ * Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import SocketIO, {Socket} from 'socket.io';
 import socketioJwt from 'socketio-jwt';
 import config from '../config/config';

@@ -1,3 +1,8 @@
+/*
+ * Buzzzchat - P2P Chat based on Bluzelle DB
+ * Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import {Profile, ProfileFull, ProfilesRepositoryI} from '../core/profiles';
 import {BluzelleHelper} from './bluzelleHelper';
 import {injectable} from 'inversify';

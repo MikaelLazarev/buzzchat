@@ -1,9 +1,6 @@
 /*
- * Lean tool - hypothesis testing application
- *
- * https://github.com/MikaelLazarev/lean-tool/
+ * Buzzzchat - P2P Chat based on Bluzelle DB
  * Copyright (c) 2020. Mikhail Lazarev
- *
  */
 
 import {combineReducers} from 'redux';

@@ -1,3 +1,8 @@
+/*
+ * Buzzzchat - P2P Chat based on Bluzelle DB
+ * Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import {Action} from 'redux';
 import {namespace, OPERATION_PREFIX} from './index';
 import {DETAIL_SUCCESS, LIST_SUCCESS} from '../dataloader';

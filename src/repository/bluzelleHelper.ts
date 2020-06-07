@@ -1,3 +1,8 @@
+/*
+ * Buzzzchat - P2P Chat based on Bluzelle DB
+ * Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import {bluzelle, API} from 'bluzelle';
 import {v4 as uuidv4} from 'uuid';
 import {GasInfo} from 'bluzelle/lib/GasInfo';

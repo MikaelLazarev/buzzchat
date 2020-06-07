@@ -1,3 +1,8 @@
+/*
+ * Buzzzchat - P2P Chat based on Bluzelle DB
+ * Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import 'reflect-metadata';
 import {ConfigParams} from './config/config';
 import express, {Application} from 'express';
@@ -58,20 +63,27 @@ export function createApp(config: ConfigParams): Promise<Application> {
       TYPES.UsersController,
     );
 
+    const profilesController = container.get<ProfilesController>(
+      TYPES.ProfilesController,
+    );
+    const chatsController = container.get<ChatsController>(
+      TYPES.ChatsController,
+    );
+
     const dbController = new DbController();
 
     const loginRequired = loginRequireMiddleware(config.jwt_secret);
+
     // Users Controller
     app.post('/auth/phone/get_code/', usersController.sendCode());
     app.post('/auth/phone/login/', usersController.login());
     app.post('/auth/token/refresh/', usersController.refresh());
     app.post('/auth/web_auth/', loginRequired, usersController.authorize_web());
 
-
-
     // DB Controller
     app.get('/api/stat/', dbController.retrieve());
 
+    // Static files routes
     app.use(express.static(path.join(__dirname, '../web/build/')));
     app.get('*', (req, res) => {
       res.sendFile(path.join(__dirname + '/web/build/index.html'));
@@ -89,13 +101,6 @@ export function createApp(config: ConfigParams): Promise<Application> {
       pingInterval: 50000,
     });
     try {
-      const profilesController = container.get<ProfilesController>(
-        TYPES.ProfilesController,
-      );
-      const chatsController = container.get<ChatsController>(
-        TYPES.ChatsController,
-      );
-
       const socketRouter = new SocketRouter([
         profilesController,
         chatsController,

@@ -1,13 +1,8 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
+/*
+ * Buzzzchat - P2P Chat based on Bluzelle DB
+ * Copyright (c) 2020. Mikhail Lazarev
  */
-import './global';
+
 import React from 'react';
 import {Provider} from 'react-redux';
 
@@ -34,7 +29,3 @@ const App = () => {
 };
 
 export default App;
-
-//
-//         </NavigationContainer>
-//       </ThemeProvider>

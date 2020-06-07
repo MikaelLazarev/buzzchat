@@ -1,3 +1,8 @@
+/*
+ * Buzzzchat - P2P Chat based on Bluzelle DB
+ * Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import { NextFunction, Request, Response } from "express";
 import * as Sentry from "@sentry/node";
 

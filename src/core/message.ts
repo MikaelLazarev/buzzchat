@@ -1,8 +1,6 @@
 /*
- *  Buzz Chat - Spam-free decentralized chat
- *
- *  https://github.com/MikaelLazarev/buzzchat
- *  Copyright (c) 2020. Mikhail Lazarev
+ * Buzzzchat - P2P Chat based on Bluzelle DB
+ * Copyright (c) 2020. Mikhail Lazarev
  */
 
 import {Contact} from "./contact";
