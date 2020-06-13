@@ -18,21 +18,13 @@
 /mobile - Mobile Client (React native)  
 /web - Web Client (React native web)  
 
-### Requirements
-
-* NodeJS and package manager
-* Typescript
-* Java 14
-* XCode
-* Sentry account
-* Twillio account
-
 ### How to install
 
 ### Prerequisites
 To install this package you should have:
-- NodeJS
-- XCode
+- NodeJS and package manager
+- XCode (for iOS)
+- Java 14 & android studio (for Android)
 - Bluzelle testnet account with enough funds for testing
 - Sentry account
 - Active Twillio account (with ability to send sms to any phone numbers)
