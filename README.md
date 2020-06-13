@@ -34,8 +34,8 @@ To install this package you should have:
 1. Clone this repository ```git clone git@github.com:MikaelLazarev/buzzchat.git```
 2. Go to buzzchat folder: ```cd buzzchat```
 3. Install node modules: ```yarn``` or ```npm i```
-4. Create a configuration file (do not use json file in production!)
-```touch ./src/config/config.json```
+4. Create a configuration file (do not use json file in production!):
+```mv ./src/config/config.sample.json ./src/config/config.json```
 5. Open config file and fill with properties:
 ```
 {
@@ -47,7 +47,7 @@ To install this package you should have:
   "jwt_secret": "<JWT Secret>",
   "sentryDSN": "<Sentry DSN code>",
   "twillio_sid" : "<Twillio account ID>",
-  "twillio_key" : "<Twillio api key>"
+  "twillio_key" : "<Twillio api key>",
   "twillio_from" : "<Twillio outgouing number>",
   "send_to_debug": "<if true it sends all codes to debug_phone>",
   "debug_phone" : "<debug phone number to get all auth codes if send_to_debug is set>"
