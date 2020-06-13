@@ -28,7 +28,7 @@ export class BluzelleHelper<T> {
   };
 
   constructor(uuid: string) {
-    this._config = Object.create(BluzelleHelper._globalConfig);
+    this._config = {...BluzelleHelper._globalConfig};
     this._config.uuid = uuid;
     this._uuid = uuid;
   }
@@ -176,7 +176,7 @@ export class BluzelleHelper<T> {
     }
   }
 
-  private async getBluzelle(): Promise<API> {
+  async getBluzelle(): Promise<API> {
     if (this._api === undefined) {
       this._api = await bluzelle(this._config);
 
@@ -192,9 +192,8 @@ export class BluzelleHelper<T> {
       }
 
       BluzelleHelper._account = account.address;
-      BluzelleHelper._amount = account.coins.length >0 ? account.coins[0].amount : 'ZERO';
-
-
+      BluzelleHelper._amount =
+        account.coins.length > 0 ? account.coins[0].amount : 'ZERO';
     }
 
     return this._api;

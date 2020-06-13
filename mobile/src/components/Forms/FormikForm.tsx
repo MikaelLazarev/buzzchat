@@ -5,11 +5,7 @@
 
 import React from 'react';
 import {
-  ErrorMessage,
-  Field,
-  Form,
   Formik,
-  FormikHelpers,
   FormikProps,
 } from 'formik';
 import * as yup from 'yup';
@@ -70,7 +66,7 @@ export function FormikForm<T, S>({
       case 'input':
       case 'textarea':
         return (
-          <View style={{width: '80%'}}>
+          <View style={{width: '80%'}} key={name}>
             <Input
               label={f?.label}
               placeholder={f.placeholder || f.label}

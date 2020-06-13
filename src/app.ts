@@ -59,6 +59,7 @@ export function createApp(config: ConfigParams): Promise<Application> {
       chain_id: config.bluzelle_chain_id,
     };
 
+
     const usersController = container.get<UsersController>(
       TYPES.UsersController,
     );
@@ -69,6 +70,12 @@ export function createApp(config: ConfigParams): Promise<Application> {
     const chatsController = container.get<ChatsController>(
       TYPES.ChatsController,
     );
+
+    const p = new BluzelleHelper<string>(config.mainDB);
+    await p.getBluzelle();
+
+    console.log(`Started DB with account ${BluzelleHelper.account}`)
+    console.log(`with ${BluzelleHelper.amount}`)
 
     const dbController = new DbController();
 
