@@ -10,9 +10,6 @@
  * @format
  */
 
- const modul = require('node-libs-react-native');
- modul.vm = require.resolve('vm-browserify');
-
 module.exports = {
   transformer: {
     getTransformOptions: async () => ({
@@ -22,7 +19,4 @@ module.exports = {
       },
     }),
   },
-  resolver: {
-    extraNodeModules: require('node-libs-react-native'),
-  }
 };

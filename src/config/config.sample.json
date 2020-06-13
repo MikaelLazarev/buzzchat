@@ -1,0 +1,15 @@
+{
+  "port": "<Server port, default: 4000>",
+  "bluzelle_mnemonic": "<Mnemonic for Bluzelle account>",
+  "bluzelle_endpoint": "<Bluzelle server entry point>",
+  "bluzelle_chain_id":" <Bluzelle chain_id>",
+  "mainDB": "<Main Bluzelle DB UUID>",
+  "jwt_secret": "<JWT Secret>",
+  "sentryDSN": "<Sentry DSN code>",
+  "twillio_sid" : "<Twillio account ID>",
+  "twillio_key" : "<Twillio api key>",
+  "twillio_from" : "<Twillio outgouing number>",
+  "send_to_debug": "<if true it sends all codes to debug_phone>",
+  "debug_phone" : "<debug phone number to get all auth codes if send_to_debug is set>"
+}
+
