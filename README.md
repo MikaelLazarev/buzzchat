@@ -1,5 +1,5 @@
 # Buzzzchat
-## Decentralised chat app using Bluzelle DB
+## Decentralised chat app for iOS and Android based on Bluzelle DB
 
 <img src='https://user-images.githubusercontent.com/26343374/84579279-33fbca00-add5-11ea-90f6-decec39ec6cd.png' width='22%'>&nbsp;&nbsp;&nbsp;<img src='https://user-images.githubusercontent.com/26343374/84579273-2e9e7f80-add5-11ea-851b-d7c658fc15a0.png' width='22%'>&nbsp;&nbsp;&nbsp;<img src='https://user-images.githubusercontent.com/26343374/84579278-33633380-add5-11ea-87b7-8e7125610885.png' width='22%'>&nbsp;&nbsp;&nbsp;<img src='https://user-images.githubusercontent.com/26343374/84579276-32320680-add5-11ea-8a0b-7431aed48fed.png' width='22%'>
 
@@ -11,7 +11,6 @@
 [ ] Room chat messages are encrypted and have signing proofs  
 [x] Ability for message owners to delete their own messages.  
 
-
 ### Components
 
 /src - Node.JS server  
@@ -22,6 +21,7 @@
 
 ### Prerequisites
 To install this package you should have:
+
 - NodeJS and package manager
 - XCode (for iOS)
 - Java 14 & android studio (for Android)
