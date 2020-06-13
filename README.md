@@ -27,16 +27,22 @@
 
 ### How to install
 
-1. Clone this repository
+### Prerequisites
+To install this package you should have:
+- NodeJS
+- XCode
+- Bluzelle testnet account with enough funds for testing
+- Sentry account
+- Active Twillio account (with ability to send sms to any phone numbers)
 
-#### Setting up development server
+### Installation
 
-1. Go to main folder
-2. Install all dependecies:
-```yarn``` or ```npm i```
-3. Create a configuration file (do not use json file in production!)
+1. Clone this repository ```git clone git@github.com:MikaelLazarev/buzzchat.git```
+2. Go to buzzchat folder: ```cd buzzchat```
+3. Install node modules: ```yarn``` or ```npm i```
+4. Create a configuration file (do not use json file in production!)
 ```touch ./src/config/config.json```
-4. Open config file and fill with properties:
+5. Open config file and fill with properties:
 ```
 {
   "port": <Server port, default: 4000>,
@@ -53,22 +59,22 @@
   "debug_phone" : "<debug phone number to get all auth codes if send_to_debug is set>"
 }
 ```
-5. Save configuration
-6. Check that account has enough funds for operations
+6. Save configuration
+7. Check that your Bluzelle account has enough funds for operations
 7. Start server ```yarn dev``` or ```npm start dev``` for local development. (Do not use dev in production)
 
 
 #### Starting mobile apps
 
-1. Go to /mobile folder
-2. Install  with ```yarn``` or ```npm i```
+1. Go to /mobile folder: ```cd mobile```
+2. Install node modules: ```yarn``` or ```npm i```
 3. Open ./config.ts and provide server address. For local start, please provide you local network address instead localhost:
 ```
 export const BACKEND_ADDR = 'http://192.168.0.47:4000';
 
 export const SSO_ADDR = 'http://192.168.0.47:4000';
 ```
-4. Go to ./mobile/ios and install ios modules with ```pod install```
+4. Go to /ios folder: ```cd ios``` and install ios modules with ```pod install```
 5. Run iOS app with ```yarn ios``` or ```npm start ios```
 6. Run Android app with ```yarn android``` or ```npm run android```
 
