@@ -78,19 +78,21 @@ export const ChatDetailsScreen: React.FC = () => {
   const iMessages =
     messages === undefined
       ? []
-      : messages.reverse().map((e) => {
-          const iMsg: IMessage = {
-            _id: e.id,
-            text: e.text,
-            createdAt: e.createdAt,
-            user: {
-              _id: e.user.id,
-              ...e.user,
-            },
-            pending: e.pending || false,
-          };
-          return iMsg;
-        });
+      : messages
+          .sort((m1, m2) => (m1.createdAt < m2.createdAt ? 1 : -1))
+          .map((e) => {
+            const iMsg: IMessage = {
+              _id: e.id,
+              text: e.text,
+              createdAt: e.createdAt,
+              user: {
+                _id: e.user.id,
+                ...e.user,
+              },
+              pending: e.pending || false,
+            };
+            return iMsg;
+          });
 
   console.log('MESSGGAA', iMessages);
 

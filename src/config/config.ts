@@ -19,6 +19,8 @@ export interface ConfigParams {
   sentryDSN: string;
   send_to_debug: boolean;
   debug_phone: string;
+  cipher_hash: string;
+  cipher_key: string;
 }
 
 const configSchema = {
@@ -36,6 +38,8 @@ const configSchema = {
     'sentryDSN',
     'send_to_debug',
     'debug_phone',
+    'cipher_hash',
+    'cipher_key',
   ],
 };
 
@@ -62,6 +66,8 @@ export function getConfig(): ConfigParams {
         sentryDSN: process.env.SENTRY_DSN || '',
         send_to_debug: process.env.SEND_TO_DEBUG === 'true' ? true : false,
         debug_phone: process.env.DEBUG_PHONE || '',
+        cipher_hash: process.env.CIPHER_HASH || '',
+        cipher_key: process.env.CIPHER_KEY || '',
       };
     }
 
