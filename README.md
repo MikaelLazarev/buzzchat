@@ -50,7 +50,9 @@ To install this package you should have:
   "twillio_key" : "<Twillio api key>",
   "twillio_from" : "<Twillio outgouing number>",
   "send_to_debug": "<if true it sends all codes to debug_phone>",
-  "debug_phone" : "<debug phone number to get all auth codes if send_to_debug is set>"
+  "debug_phone" : "<debug phone number to get all auth codes if send_to_debug is set>",
+  "cipher_hash": "<Initial key for Hash IV>",
+  "cipher_key": "<Cipher key>"
 }
 ```
 6. Save configuration
