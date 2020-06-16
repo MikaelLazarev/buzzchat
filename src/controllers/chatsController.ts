@@ -58,7 +58,12 @@ export class ChatsController implements SocketController {
 
       postMessage: async (dto: PostMessageDTO, opHash: string) => {
         console.log(dto);
+
+        dto.msg.createdAt = Date.now();
         try {
+
+          socket.emit(this._namespace + ':pendingMessage', {id: dto.chatId, messages: [dto.msg]});
+
           const result = await this._service.postMessage(userId, dto);
           console.log(result);
 

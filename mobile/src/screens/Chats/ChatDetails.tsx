@@ -15,6 +15,7 @@ import {ChatsStackParamList} from './ChatStack';
 import Loading from '../../components/Loading';
 import Modal from 'react-native-modal';
 import {View, Text, Alert} from 'react-native';
+import moment from 'moment';
 
 type ChatDetailsScreenRouteProp = RouteProp<
   ChatsStackParamList,
@@ -29,6 +30,8 @@ export const ChatDetailsScreen: React.FC = () => {
   const route = useRoute<ChatDetailsScreenRouteProp>();
   const {id} = route.params;
 
+  const [iMessages, setIMessages] = useState<IMessage[]>([]);
+
   useEffect(() => {
     const newHash = Date.now().toString();
     dispatch(actions.chats.getDetails(id, newHash));
@@ -39,15 +42,38 @@ export const ChatDetailsScreen: React.FC = () => {
     useSelector((state: RootState) => state.chats.Details),
     id,
   );
+
+  const messages = chatData?.data?.messages;
+
+  useEffect(() => {
+    if (messages === undefined) {
+      setIMessages([]);
+    } else {
+      setIMessages(
+        messages
+          .sort((m1, m2) => (m1.createdAt < m2.createdAt ? 1 : -1))
+          .map((e) => {
+            const iMsg: IMessage = {
+              _id: e.id,
+              text: e.text,
+              createdAt: e.createdAt,
+              user: {
+                _id: e.user?.id,
+                ...e.user,
+              },
+              pending: e.pending || false,
+            };
+            return iMsg;
+          }),
+      );
+    }
+  }, [messages]);
+
   const profile = useSelector((state: RootState) => state.profile);
-
-  console.log('COPPPP', chatData, route.params);
-
   if (chatData === undefined || chatData.data === undefined) return <Loading />;
   const {data} = chatData;
 
   navigation.setOptions({title: data.name});
-  const messages = data.messages;
 
   const users: User[] = data.members.map((elm) => ({
     _id: elm.id,
@@ -60,7 +86,7 @@ export const ChatDetailsScreen: React.FC = () => {
     const message: Message = {
       id: newMessages[0]._id.toString(),
       text: newMessages[0].text,
-      createdAt: newMessages[0].createdAt,
+      createdAt: 123,
       user: profile,
       pending: true,
     };
@@ -74,25 +100,6 @@ export const ChatDetailsScreen: React.FC = () => {
       ),
     );
   };
-
-  const iMessages =
-    messages === undefined
-      ? []
-      : messages
-          .sort((m1, m2) => (m1.createdAt < m2.createdAt ? 1 : -1))
-          .map((e) => {
-            const iMsg: IMessage = {
-              _id: e.id,
-              text: e.text,
-              createdAt: e.createdAt,
-              user: {
-                _id: e.user.id,
-                ...e.user,
-              },
-              pending: e.pending || false,
-            };
-            return iMsg;
-          });
 
   console.log('MESSGGAA', iMessages);
 
@@ -126,11 +133,6 @@ export const ChatDetailsScreen: React.FC = () => {
 
   return (
     <>
-      <Modal isVisible={false}>
-        <View style={{flex: 1}}>
-          <Text>I am the modal content!</Text>
-        </View>
-      </Modal>
       <GiftedChat
         messages={iMessages}
         onSend={onSend}

@@ -82,6 +82,19 @@ export class ChatsService implements ChatsServiceI {
       if (member) members.push(profile2Contact(member));
     }
 
+    members
+      .filter((m) => m.id !== user_id)
+      .forEach((m) =>
+        this._updateQueue.push({
+          userId: m.id,
+          event: 'chat:pendingMessage',
+          payload: {
+            id: dto.chatId,
+            messages: [{...dto.msg}],
+          },
+        }),
+      );
+
     dto.msg.pending = false;
 
     const chatFull: ChatFull = {
@@ -210,14 +223,16 @@ export class ChatsService implements ChatsServiceI {
     return copy;
   }
 
-  async getFullMessages(messages: Promise<Message[] | undefined>): Promise<MessageFull[]> {
-    const result :MessageFull[] = [];
+  async getFullMessages(
+    messages: Promise<Message[] | undefined>,
+  ): Promise<MessageFull[]> {
+    const result: MessageFull[] = [];
     const msgs = await messages;
     if (msgs === undefined) return [];
 
-    for(const msg of msgs) {
+    for (const msg of msgs) {
       if (msg.user !== undefined && msg.user.id !== undefined) {
-        msg.userId = msg.user.id
+        msg.userId = msg.user.id;
       }
       result.push({
         id: msg.id,
@@ -225,7 +240,7 @@ export class ChatsService implements ChatsServiceI {
         createdAt: msg.createdAt,
         user: await this._profilesRepository.findOneContact(msg.userId),
         pending: false,
-      })
+      });
     }
     return result;
   }

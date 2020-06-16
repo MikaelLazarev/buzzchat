@@ -37,7 +37,6 @@ export class MessagesRepository implements MessagesRepositoryI {
     id: string,
     messageFull: MessageFull,
   ): Promise<Message[] | undefined> {
-    const messages = (await this.list(id)) || [];
     const bluAPI = new BluzelleHelper<Message>(id);
     const message = this.MessageFromMessageFull(messageFull);
     const encryptedMessage : Message = {
@@ -47,8 +46,7 @@ export class MessagesRepository implements MessagesRepositoryI {
     const newId = await bluAPI.create(message.id, encryptedMessage);
     if (!newId) throw 'Cant add new message to DB!';
     message.id = newId;
-    messages.push(message);
-    return messages;
+    return(await this.list(id)) || [];
   }
 
   async findById(

@@ -151,6 +151,7 @@ export function createSocketMiddleware(): ThunkMiddleware<
         case 'SOCKET_ON':
           if (jwt) {
             getNamespace(jwt, dispatch).then((socket) => {
+              if (socket.hasListeners(action.event)) return;
               socket.on(action.event, (payload: any) => {
                 console.log('[SOCKET.IО] : GET NEW INFO : ', payload);
                 dispatch({
