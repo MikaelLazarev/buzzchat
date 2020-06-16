@@ -47,6 +47,7 @@ export interface ProfilesRepositoryI {
   create(newProfile: Profile): Promise<Profile | undefined>;
   findOne(id: string): Promise<Profile | undefined>;
   findOneFull(id: string): Promise<ProfileFull | undefined>;
+  findOneContact(id: string): Promise<Contact | undefined>
   update(user_id: string, newProfile: Profile): Promise<void>;
   list(): Promise<Profile[] | undefined>;
 }

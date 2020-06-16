@@ -7,6 +7,7 @@ import {Profile, ProfileFull, ProfilesRepositoryI} from '../core/profiles';
 import {BluzelleHelper} from './bluzelleHelper';
 import {injectable} from 'inversify';
 import config from '../config/config';
+import {Contact} from "../core/contact";
 
 @injectable()
 export class ProfilesRepository implements ProfilesRepositoryI {
@@ -18,6 +19,16 @@ export class ProfilesRepository implements ProfilesRepositoryI {
 
   findOne(id: string): Promise<Profile | undefined> {
     return this._blu.findOne(id);
+  }
+
+  async findOneContact(id: string): Promise<Contact | undefined> {
+    const profile = await this._blu.findOne(id);
+    if (profile === undefined) return undefined
+    return {
+      id: profile.id,
+      name: profile.name,
+      avatar: profile.avatar,
+    }
   }
 
   async findOneFull(id: string): Promise<ProfileFull | undefined> {

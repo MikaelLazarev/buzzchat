@@ -6,7 +6,7 @@
 import crypto, {Cipher, Decipher} from 'crypto';
 import {injectable} from 'inversify';
 import {BluzelleHelper} from './bluzelleHelper';
-import {Message, MessagesRepositoryI} from '../core/message';
+import {Message, MessageFull, MessagesRepositoryI} from '../core/message';
 import config from '../config/config';
 
 @injectable()
@@ -35,12 +35,15 @@ export class MessagesRepository implements MessagesRepositoryI {
 
   async addMessage(
     id: string,
-    message: Message,
+    messageFull: MessageFull,
   ): Promise<Message[] | undefined> {
     const messages = (await this.list(id)) || [];
     const bluAPI = new BluzelleHelper<Message>(id);
-    const encryptedMessage = {...message};
-    encryptedMessage.text = this.encrypt(message.text);
+    const message = this.MessageFromMessageFull(messageFull);
+    const encryptedMessage : Message = {
+      ...message,
+      text: this.encrypt(message.text),
+      };
     const newId = await bluAPI.create(message.id, encryptedMessage);
     if (!newId) throw 'Cant add new message to DB!';
     message.id = newId;
@@ -96,5 +99,15 @@ export class MessagesRepository implements MessagesRepositoryI {
 
       return msg;
     });
+  }
+
+  private MessageFromMessageFull(message: MessageFull) : Message{
+    if (message.user === undefined) throw "Cant add message without author";
+    return {
+      id: message.id,
+      text: message.text,
+      createdAt: message.createdAt,
+      userId: message.user.id,
+    }
   }
 }

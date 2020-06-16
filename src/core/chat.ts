@@ -3,7 +3,7 @@
  * Copyright (c) 2020. Mikhail Lazarev
  */
 
-import {Message} from './message';
+import {MessageFull} from './message';
 import {SocketUpdate} from './operations';
 import {Contact} from './contact';
 
@@ -19,7 +19,7 @@ export interface ChatFull {
   name: string;
   members: Contact[];
   isTetATetChat: boolean;
-  messages: Message[];
+  messages: MessageFull[];
 }
 
 export interface ChatCreateDTO {
@@ -30,7 +30,7 @@ export interface ChatCreateDTO {
 
 export interface PostMessageDTO {
   chatId: string;
-  msg: Message;
+  msg: MessageFull;
 }
 
 export interface DeleteMessageDTO {

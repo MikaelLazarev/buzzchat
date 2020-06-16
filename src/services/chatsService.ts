@@ -14,7 +14,7 @@ import {
 } from '../core/chat';
 import {inject, injectable} from 'inversify';
 import {TYPES} from '../types';
-import {MessagesRepositoryI} from '../core/message';
+import {Message, MessageFull, MessagesRepositoryI} from '../core/message';
 import {
   profile2Contact,
   ProfilesRepositoryI,
@@ -48,12 +48,12 @@ export class ChatsService implements ChatsServiceI {
     const chat = await this._repository.findById(chat_id);
     if (!chat) throw 'Chat not found';
 
-    console.log(user_id, chat);
-
     const isUserInChat: boolean = chat?.members.indexOf(user_id) !== -1;
     if (!isUserInChat) throw 'User is not member of this chat';
 
-    const messages = await this._messagesRepository.list(chat_id);
+    const messages = await this.getFullMessages(
+      this._messagesRepository.list(chat_id),
+    );
     const members: Contact[] = [];
 
     for (let memberId of chat.members) {
@@ -64,7 +64,7 @@ export class ChatsService implements ChatsServiceI {
     return {
       ...chat,
       members,
-      messages: messages || [],
+      messages,
     };
   }
 
@@ -87,8 +87,9 @@ export class ChatsService implements ChatsServiceI {
     const chatFull: ChatFull = {
       ...chat,
       members,
-      messages:
-        (await this._messagesRepository.addMessage(dto.chatId, dto.msg)) || [],
+      messages: await this.getFullMessages(
+        this._messagesRepository.addMessage(dto.chatId, dto.msg),
+      ),
     };
 
     members.forEach((m) =>
@@ -114,7 +115,7 @@ export class ChatsService implements ChatsServiceI {
     );
     if (message === undefined) throw 'Message not found';
 
-    if (message.user.id !== user_id)
+    if (message.userId !== user_id)
       throw 'Only owners could delete their messages';
 
     const members: Contact[] = [];
@@ -126,9 +127,9 @@ export class ChatsService implements ChatsServiceI {
     const chatFull: ChatFull = {
       ...chat,
       members,
-      messages:
-        (await this._messagesRepository.deleteMessage(dto.chatId, dto.msgId)) ||
-        [],
+      messages: await this.getFullMessages(
+        this._messagesRepository.deleteMessage(dto.chatId, dto.msgId),
+      ),
     };
 
     members.forEach((m) =>
@@ -205,9 +206,27 @@ export class ChatsService implements ChatsServiceI {
 
   getUpdateQueue(): SocketUpdate[] {
     const copy = [...this._updateQueue];
-    if (copy.length > 0) console.log('$1', copy);
     this._updateQueue = [];
-    if (copy.length > 0) console.log('$2', copy);
     return copy;
+  }
+
+  async getFullMessages(messages: Promise<Message[] | undefined>): Promise<MessageFull[]> {
+    const result :MessageFull[] = [];
+    const msgs = await messages;
+    if (msgs === undefined) return [];
+
+    for(const msg of msgs) {
+      if (msg.user !== undefined && msg.user.id !== undefined) {
+        msg.userId = msg.user.id
+      }
+      result.push({
+        id: msg.id,
+        text: msg.text,
+        createdAt: msg.createdAt,
+        user: await this._profilesRepository.findOneContact(msg.userId),
+        pending: false,
+      })
+    }
+    return result;
   }
 }
