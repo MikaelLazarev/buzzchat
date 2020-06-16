@@ -21,6 +21,8 @@ export interface ConfigParams {
   debug_phone: string;
   cipher_hash: string;
   cipher_key: string;
+  magic_phone: string;
+  magic_code: string;
 }
 
 const configSchema = {
@@ -40,6 +42,8 @@ const configSchema = {
     'debug_phone',
     'cipher_hash',
     'cipher_key',
+    'magic_phone',
+    'magic_code',
   ],
 };
 
@@ -68,6 +72,8 @@ export function getConfig(): ConfigParams {
         debug_phone: process.env.DEBUG_PHONE || '',
         cipher_hash: process.env.CIPHER_HASH || '',
         cipher_key: process.env.CIPHER_KEY || '',
+        magic_phone: process.env.MAGIC_PHONE || '',
+        magic_code: process.env.MAGIC_CODE || '',
       };
     }
 
