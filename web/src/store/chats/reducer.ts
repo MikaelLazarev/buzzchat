@@ -3,8 +3,13 @@
  * Copyright (c) 2020. Mikhail Lazarev
  */
 
-import {createDataLoaderReducer} from '../dataloader/reducer';
 import {Chat} from '../../core/chat';
 import {CHATS_PREFIX} from './';
+import {combineReducers} from 'redux';
+import {createDataLoaderListReducer} from '../dataloader/list';
+import {createDataLoaderDetailsReducer} from './details';
 
-export default createDataLoaderReducer<Chat>(CHATS_PREFIX);
+export default combineReducers({
+  List: createDataLoaderListReducer<Chat>(CHATS_PREFIX),
+  Details: createDataLoaderDetailsReducer(),
+});

@@ -3,9 +3,13 @@
  * Copyright (c) 2020. Mikhail Lazarev
  */
 
-import {endpoint, CHATS_PREFIX} from './';
+import {CHATS_PREFIX} from './';
 
-import {Chat, ChatCreateDTO, PostMessageDTO} from '../../core/chat';
+import {
+  Chat,
+  ChatCreateDTO,
+  PostMessageDTO,
+} from '../../core/chat';
 import {ThunkAction} from 'redux-thunk';
 import {RootState} from '../index';
 import {Action} from 'redux';
@@ -24,6 +28,12 @@ export const connectSocket = (): ThunkAction<
     namespace,
     event: 'chat:updateDetails',
     typeOnSuccess: CHATS_PREFIX + DETAIL_SUCCESS,
+  });
+  dispatch({
+    type: 'SOCKET_ON',
+    namespace,
+    event: 'chat:pendingMessage',
+    typeOnSuccess: CHATS_PREFIX + 'PENDING_MESSAGE',
   });
 };
 
@@ -57,15 +67,8 @@ export const postMessage: (
 ) => ThunkAction<void, RootState, unknown, Action<string>> = (
   dto,
   opHash,
-) => async (dispatch, getState) => {
-  const state = getState();
-  const chat = state.chats.Details.data[dto.chatId].data as Chat;
-  chat.messages.push(dto.msg);
+) => async (dispatch) => {
 
-  dispatch({
-    type: CHATS_PREFIX + DETAIL_SUCCESS,
-    payload: chat,
-  });
 
   dispatch({
     type: 'SOCKET_EMIT',

@@ -38,15 +38,19 @@ export const ChatDetailsScreen: React.FC<ChatDetailsScreenProps> = ({id}) => {
 
   if (id === undefined)
     return (
-      <View style={{width: '100%', height: '70%', alignItems: 'center', justifyContent: 'center'}}>
+      <View
+        style={{
+          width: '100%',
+          height: '70%',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
         <Text h2>Please, select a chat in the left list</Text>
       </View>
     );
 
   if (chatData === undefined || chatData.data === undefined) return <Loading />;
   const {data} = chatData;
-
-
 
   const messages = data.messages;
 
@@ -80,39 +84,22 @@ export const ChatDetailsScreen: React.FC<ChatDetailsScreenProps> = ({id}) => {
   const iMessages =
     messages === undefined
       ? []
-      : messages.reverse().map((e) => {
-          const iMsg: IMessage = {
-            id: e.id,
-            text: e.text,
-            createdAt: e.createdAt,
-            user: {
-              ...e.user,
-            },
-            // pending: e.pending || false,
-          };
-          return iMsg;
-        });
+      : messages
+          .sort((m1, m2) => (m1.createdAt < m2.createdAt ? 1 : -1))
+          .map((e) => {
+            const iMsg: IMessage = {
+              id: e.id,
+              text: e.text,
+              createdAt: new Date(e.createdAt),
+              user: {
+                ...e.user,
+              },
+              // pending: e.pending || false,
+            };
+            return iMsg;
+          });
 
   console.log('MESSGGAA', iMessages);
-
-  const onLongPress = (msg: IMessage) => {
-    Alert.alert(
-      'Message',
-      msg.text,
-      [
-        {
-          text: 'Delete Message',
-          onPress: () => console.log('Ask me later pressed'),
-        },
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-      ],
-      {cancelable: false},
-    );
-  };
 
   return (
     <View style={{width: '100%', height: '100%'}}>
@@ -124,7 +111,6 @@ export const ChatDetailsScreen: React.FC<ChatDetailsScreenProps> = ({id}) => {
           name: profile.name,
           avatar: profile.avatar,
         }}
-        onLongPress={(e, msg) => onLongPress(msg)}
       />
     </View>
   );

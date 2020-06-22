@@ -5,32 +5,36 @@
 
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
-import {Badge, Text} from 'react-native-elements';
+import {Text} from 'react-native-elements';
 import SmartAvatar from '../../components/SmartAvatar';
 import {Chat} from '../../core/chat';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store';
 
 interface ChatCardProps {
-  item: Chat;
+  data: Chat;
   onPressed: (id: string) => void;
 }
 
-const ChatCard: React.FC<ChatCardProps> = ({item, onPressed}) => {
-  return (
-    <TouchableOpacity onPress={() => onPressed(item.id)}>
-      <View style={styles.container}>
-        {/* AVATAR CONTAINER */}
-        <View style={styles.rightContainer}>
-          <SmartAvatar persons={item.members} />
-        </View>
+const ChatCard: React.FC<ChatCardProps> = ({data, onPressed}) => {
+  const profile = useSelector((state: RootState) => state.profile);
 
-        {/* TEXT CONTAINER */}
-        <View style={styles.textContainer}>
-          <View style={{width: '90%'}}>
-            <Text h4>{item.name}</Text>
+  const counterPart = data.members.filter((e) => e.id !== profile.id)[0];
+  const title = data.isTetATetChat ? counterPart.name : data.name;
+  return (
+      <TouchableOpacity onPress={() => onPressed(data.id)}>
+        <View style={styles.container}>
+          {/* AVATAR CONTAINER */}
+          <View style={styles.rightContainer}>
+            <SmartAvatar name={counterPart.name} />
+          </View>
+
+          {/* TEXT CONTAINER */}
+          <View style={styles.textContainer}>
+            <Text h4>{title}</Text>
           </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
   );
 };
 
@@ -49,12 +53,15 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     // paddingLeft: 15,
-    width: '90%',
     paddingRight: 10,
     alignItems: 'stretch',
     alignContent: 'space-between',
     marginBottom: 5,
     marginTop: 0,
+    flexDirection: 'row',
+    flex: 1,
+    flexWrap: 'wrap',
+    flexShrink: 1,
   },
   rightContainer: {
     width: 55,

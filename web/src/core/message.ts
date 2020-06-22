@@ -8,7 +8,8 @@ import {Contact} from './contact';
 export interface Message {
   id: string;
   text: string;
-  createdAt: Date;
+  createdAt: number | Date;
   user: Contact;
   pending: boolean;
 }
+
