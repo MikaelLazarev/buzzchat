@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import {Avatar, Text} from 'react-native-elements';
 import {Contact} from '../../core/contact';
+import SmartAvatar from "../../components/SmartAvatar";
 
 interface ContactCardProps {
   data: Contact;
@@ -29,10 +30,8 @@ export const ContactCard: React.FC<ContactCardProps> = ({
       <View style={styles.container}>
         <View>
           <View style={{paddingTop: 3}}>
-            <Avatar
-              rounded
-              source={{uri: data.avatar}}
-              renderPlaceholderContent={<ActivityIndicator />}
+            <SmartAvatar
+                name={data.name}
             />
           </View>
         </View>

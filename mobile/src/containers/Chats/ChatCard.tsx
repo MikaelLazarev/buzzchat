@@ -18,15 +18,15 @@ interface ChatCardProps {
 
 const ChatCard: React.FC<ChatCardProps> = ({data, onPressed}) => {
   const profile = useSelector((state: RootState) => state.profile);
-  const title = data.isTetATetChat
-    ? data.members.filter((e) => e.id !== profile.id)[0].name
-    : data.name;
+
+  const counterPart = data.members.filter((e) => e.id !== profile.id)[0];
+  const title = data.isTetATetChat ? counterPart.name : data.name;
   return (
     <TouchableOpacity onPress={() => onPressed(data.id)}>
       <View style={styles.container}>
         {/* AVATAR CONTAINER */}
         <View style={styles.rightContainer}>
-          <SmartAvatar persons={data.members} />
+          <SmartAvatar name={counterPart.name} />
         </View>
 
         {/* TEXT CONTAINER */}

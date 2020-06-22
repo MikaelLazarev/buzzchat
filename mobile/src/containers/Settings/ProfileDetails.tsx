@@ -8,6 +8,7 @@ import {StyleSheet, View} from 'react-native';
 import {Avatar, Image, ListItem, Text} from 'react-native-elements';
 import {Profile} from '../../core/profile';
 import {useNavigation} from '@react-navigation/native';
+import SmartAvatar from "../../components/SmartAvatar";
 
 interface ProfileDetailsProps {
   data: Profile;
@@ -35,24 +36,13 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({data}) => {
     },
   ];
 
-  const title = data.name
-    .split('')
-    .filter((e) => e >= 'A' && e <= 'Z')
-    .splice(0, 2)
-    .join('');
-
-  console.log(title);
   return (
     <>
       <View style={styles.title}>
         <Text h2 style={{margin: 10}}>
           {data.name}
         </Text>
-        <Avatar
-          title={title}
-          size={'xlarge'}
-          style={{width: 150, height: 150}}
-        />
+        <SmartAvatar name={data.name} size={150} />
         <View
           style={{
             paddingTop: 10,
