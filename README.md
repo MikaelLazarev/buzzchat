@@ -57,6 +57,12 @@ To install this package you should have:
 ```
 6. Save configuration
 7. Check that your Bluzelle account has enough funds for operations
+8. Check that your Android environment set up correctly (env vars: ANDROID_HOME & PATH to Andoird SDK). Mac OS example:
+```
+export ANDROID_HOME=~/Library/Android/sdk/
+export PATH=$PATH:~/android-sdks/platform-tools/
+export PATH=$PATH:~/android-sdks/tools/
+```
 7. Start server ```yarn dev``` or ```npm start dev``` for local development. (Do not use dev in production)
 
 
