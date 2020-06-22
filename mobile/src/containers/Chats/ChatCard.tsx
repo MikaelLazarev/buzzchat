@@ -8,26 +8,30 @@ import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import {Text} from 'react-native-elements';
 import SmartAvatar from '../../components/SmartAvatar';
 import {Chat} from '../../core/chat';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store';
 
 interface ChatCardProps {
-  item: Chat;
+  data: Chat;
   onPressed: (id: string) => void;
 }
 
-const ChatCard: React.FC<ChatCardProps> = ({item, onPressed}) => {
+const ChatCard: React.FC<ChatCardProps> = ({data, onPressed}) => {
+  const profile = useSelector((state: RootState) => state.profile);
+  const title = data.isTetATetChat
+    ? data.members.filter((e) => e.id !== profile.id)[0].name
+    : data.name;
   return (
-    <TouchableOpacity onPress={() => onPressed(item.id)}>
+    <TouchableOpacity onPress={() => onPressed(data.id)}>
       <View style={styles.container}>
         {/* AVATAR CONTAINER */}
         <View style={styles.rightContainer}>
-          <SmartAvatar persons={item.members} />
+          <SmartAvatar persons={data.members} />
         </View>
 
         {/* TEXT CONTAINER */}
         <View style={styles.textContainer}>
-          <Text h4>
-            {item.name}
-          </Text>
+          <Text h4>{title}</Text>
         </View>
       </View>
     </TouchableOpacity>

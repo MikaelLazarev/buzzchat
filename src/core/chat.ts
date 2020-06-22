@@ -14,6 +14,13 @@ export interface Chat {
   isTetATetChat: boolean;
 }
 
+export interface ChatWithMembers {
+  id: string;
+  name: string;
+  members: Contact[];
+  isTetATetChat: boolean;
+}
+
 export interface ChatFull {
   id: string;
   name: string;

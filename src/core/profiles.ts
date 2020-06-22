@@ -4,7 +4,7 @@
  */
 
 import {Contact} from './contact';
-import {Chat} from './chat';
+import {Chat, ChatWithMembers} from './chat';
 import {SocketUpdate} from './operations';
 
 export interface Profile {
@@ -20,7 +20,7 @@ export interface ProfileFull {
   name: string;
   avatar: string;
   contactsList: Contact[];
-  chatsList: Chat[];
+  chatsList: ChatWithMembers[];
   account: string;
   amount: string;
 

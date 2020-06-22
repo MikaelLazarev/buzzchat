@@ -73,7 +73,10 @@ export const ChatDetailsScreen: React.FC = () => {
   if (chatData === undefined || chatData.data === undefined) return <Loading />;
   const {data} = chatData;
 
-  navigation.setOptions({title: data.name});
+  const title = data.isTetATetChat
+    ? data.members.filter((e) => e.id !== profile.id)[0].name
+    : data.name;
+  navigation.setOptions({title});
 
   const users: User[] = data.members.map((elm) => ({
     _id: elm.id,
@@ -141,6 +144,8 @@ export const ChatDetailsScreen: React.FC = () => {
           name: profile.name,
           avatar: profile.avatar,
         }}
+        renderUsernameOnMessage={true}
+        showAvatarForEveryMessage={true}
         onLongPress={(e, msg) => onLongPress(msg)}
       />
     </>

@@ -14,9 +14,10 @@ import {
 import {inject, injectable} from 'inversify';
 import {TYPES} from '../types';
 import {SocketUpdate} from '../core/operations';
-import {ChatsRepositoryI} from '../core/chat';
+import {Chat, ChatsRepositoryI, ChatWithMembers} from '../core/chat';
 import {BluzelleHelper} from '../repository/bluzelleHelper';
 import {resolve} from 'inversify/dts/resolution/resolver';
+import {Contact} from '../core/contact';
 
 @injectable()
 export class ProfilesService implements ProfilesServiceI {
@@ -51,12 +52,7 @@ export class ProfilesService implements ProfilesServiceI {
 
     const profileFull = await this._repository.findOneFull(user_id);
     if (!profileFull) throw 'Internal error';
-    profileFull.chatsList = [];
-
-    for (let chatId of profile.chatsIdList || []) {
-      const c = await this._chatsRepository.findById(chatId);
-      if (c) profileFull.chatsList.push(c);
-    }
+    profileFull.chatsList = await this.loadChatsInfo(profile);
 
     return profileFull;
   }
@@ -69,7 +65,7 @@ export class ProfilesService implements ProfilesServiceI {
     await this._repository.update(user_id, profile);
     const profileFull: ProfileFull = {
       ...profile,
-      chatsList: [],
+      chatsList: await this.loadChatsInfo(profile),
       contactsList: [],
       account: BluzelleHelper.account,
       amount: BluzelleHelper.amount,
@@ -80,12 +76,26 @@ export class ProfilesService implements ProfilesServiceI {
       if (c) profileFull.contactsList.push(c);
     }
 
+    return profileFull;
+  }
+
+  private async loadChatsInfo(profile: Profile): Promise<ChatWithMembers[]> {
+    const chatList: ChatWithMembers[] = [];
+
     for (let chatId of profile.chatsIdList || []) {
       const c = await this._chatsRepository.findById(chatId);
-      if (c) profileFull.chatsList.push(c);
+      if (c == undefined) continue;
+      const members: Array<Contact> = [];
+      for (let id of c.members) {
+        const contact = await this._repository.findOneContact(id);
+        if (contact !== undefined) members.push(contact);
+      }
+      chatList.push({
+        ...c,
+        members,
+      });
     }
-
-    return profileFull;
+    return chatList;
   }
 
   async addContact(
@@ -94,7 +104,7 @@ export class ProfilesService implements ProfilesServiceI {
   ): Promise<ProfileFull | undefined> {
     const profile = await this._repository.findOne(user_id);
     if (profile === undefined) throw 'User not found';
-    profile.contactsIdList =  profile.contactsIdList || [];
+    profile.contactsIdList = profile.contactsIdList || [];
     profile.contactsIdList = profile.contactsIdList.filter(
       (elm) => elm !== contact_id,
     );

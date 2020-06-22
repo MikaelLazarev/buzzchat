@@ -62,7 +62,7 @@ const ContactsListScreen: React.FC = () => {
       .filter((c) => c.isTetATetChat)
       .filter((c) => c.members.length > 1)
       // @ts-ignore
-      .filter((c) => c.members[0] === id || c.members[1] === id);
+      .filter((c) => c.members[0].id === id || c.members[1].id === id);
 
     if (foundChats.length > 0) {
       navigation.navigate('Chats', {

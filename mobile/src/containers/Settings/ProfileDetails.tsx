@@ -21,19 +21,27 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({data}) => {
       icon: 'edit',
       action: () => navigation.navigate('ChangeNameScreen', {data}),
     },
-    {
-      title: 'Change avatar',
-      icon: 'camera',
-      action: () => {
-        console.log('QQ');
-      },
-    },
+    // {
+    //   title: 'Change avatar',
+    //   icon: 'camera',
+    //   action: () => {
+    //     console.log('QQ');
+    //   },
+    // },
     {
       title: 'Connect web',
       icon: 'desktop-windows',
       action: () => navigation.navigate('WebAuthQRScreen'),
     },
   ];
+
+  const title = data.name
+    .split('')
+    .filter((e) => e >= 'A' && e <= 'Z')
+    .splice(0, 2)
+    .join('');
+
+  console.log(title);
   return (
     <>
       <View style={styles.title}>
@@ -41,8 +49,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({data}) => {
           {data.name}
         </Text>
         <Avatar
-          title={data.name}
-          source={{uri: data.avatar}}
+          title={title}
           size={'xlarge'}
           style={{width: 150, height: 150}}
         />

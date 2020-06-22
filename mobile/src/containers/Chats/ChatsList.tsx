@@ -24,7 +24,7 @@ const ChatsList: React.FC<DataScreenComponentProps<Chat[]>> = ({
   }
 
   const renderItem = (info: ListRenderItemInfo<Chat>) => (
-    <ChatCard key={info.item.id} item={info.item} onPressed={onSelect!} />
+    <ChatCard key={info.item.id} data={info.item} onPressed={onSelect!} />
   );
 
   return (
