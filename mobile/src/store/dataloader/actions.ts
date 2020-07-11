@@ -1,6 +1,7 @@
 /*
- * Buzzzchat - P2P Chat based on Bluzelle DB
+ * Tezos-monsters - play game to lean Ligo and Tezos
  * Copyright (c) 2020. Mikhail Lazarev
+ *
  */
 
 import {createAction, RSAAAction, RSAAResultAction} from 'redux-api-middleware';
@@ -38,7 +39,11 @@ export const createDataLoaderListActions = (
 
     if (action === undefined || action.error) {
       dispatch(
-        updateStatus(hash || '0', STATUS.FAILURE, action.payload.message),
+        updateStatus(
+          hash || '0',
+          STATUS.FAILURE,
+          action === undefined ? 'Network error' : action.payload.message,
+        ),
       );
     } else {
       dispatch(updateStatus(hash || '0', STATUS.SUCCESS));
@@ -81,7 +86,11 @@ export const createDataLoaderDetailActions = (
   );
 
   if (action === undefined || action.error) {
-    dispatch(updateStatus(hash || '0', STATUS.FAILURE, action.payload.message));
+    updateStatus(
+      hash || '0',
+      STATUS.FAILURE,
+      action === undefined ? 'Network error' : action.payload.message,
+    );
   } else {
     dispatch(updateStatus(hash || '0', STATUS.SUCCESS));
   }
@@ -139,7 +148,11 @@ export const createDataLoaderCreateUpdateDataAction = <T>(
   console.log('HASHHH', hash);
 
   if (action.error) {
-    dispatch(updateStatus(hash || '0', STATUS.FAILURE, action.payload.message));
+    updateStatus(
+      hash || '0',
+      STATUS.FAILURE,
+      action === undefined ? 'Network error' : action.payload.message,
+    );
   } else {
     dispatch(updateStatus(hash || '0', STATUS.SUCCESS));
   }
