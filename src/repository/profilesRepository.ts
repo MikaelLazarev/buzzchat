@@ -8,6 +8,7 @@ import {BluzelleHelper} from './bluzelleHelper';
 import {injectable} from 'inversify';
 import config from '../config/config';
 import {Contact} from "../core/contact";
+import {BluzelleAPI} from "./bluzelleAPI";
 
 @injectable()
 export class ProfilesRepository implements ProfilesRepositoryI {
@@ -39,8 +40,8 @@ export class ProfilesRepository implements ProfilesRepositoryI {
       ...profile,
       chatsList: [],
       contactsList: [],
-      account: BluzelleHelper.account,
-      amount: BluzelleHelper.amount,
+      account: BluzelleAPI.account,
+      amount: BluzelleAPI.amount,
     };
 
     for (let contactId of profile.contactsIdList || []) {

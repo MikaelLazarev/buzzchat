@@ -15,9 +15,8 @@ import {inject, injectable} from 'inversify';
 import {TYPES} from '../types';
 import {SocketUpdate} from '../core/operations';
 import {Chat, ChatsRepositoryI, ChatWithMembers} from '../core/chat';
-import {BluzelleHelper} from '../repository/bluzelleHelper';
-import {resolve} from 'inversify/dts/resolution/resolver';
 import {Contact} from '../core/contact';
+import {BluzelleAPI} from "../repository/bluzelleAPI";
 
 @injectable()
 export class ProfilesService implements ProfilesServiceI {
@@ -67,8 +66,8 @@ export class ProfilesService implements ProfilesServiceI {
       ...profile,
       chatsList: await this.loadChatsInfo(profile),
       contactsList: [],
-      account: BluzelleHelper.account,
-      amount: BluzelleHelper.amount,
+      account: BluzelleAPI.account,
+      amount: BluzelleAPI.amount,
     };
 
     for (let contactId of profile.contactsIdList || []) {

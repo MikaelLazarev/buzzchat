@@ -15,13 +15,13 @@ import {TYPES} from './types';
 import errorHandler from './middleware/errorHandler';
 import {ProfilesController} from './controllers/profilesController';
 import {ChatsController} from './controllers/chatsController';
-import {BluzelleHelper} from './repository/bluzelleHelper';
 import {DbController} from './controllers/dbController';
 import {UsersController} from './controllers/usersController';
 import {SocketRouter} from './controllers/socketRouter';
 import * as Sentry from '@sentry/node';
 import {UserWebAuthController} from './controllers/userWebAuthController';
 import {loginRequireMiddleware} from './middleware/loginRequired';
+import {BluzelleAPI} from "./repository/bluzelleAPI";
 
 export function createApp(config: ConfigParams): Promise<Application> {
   return new Promise<Application>(async (resolve) => {
@@ -52,7 +52,7 @@ export function createApp(config: ConfigParams): Promise<Application> {
 
     app.use(bodyParser.json());
 
-    BluzelleHelper.globalConfig = {
+    BluzelleAPI.globalConfig = {
       mnemonic: config.bluzelle_mnemonic,
       uuid: '',
       endpoint: config.bluzelle_endpoint,
@@ -71,11 +71,6 @@ export function createApp(config: ConfigParams): Promise<Application> {
       TYPES.ChatsController,
     );
 
-    const p = new BluzelleHelper<string>(config.mainDB);
-    await p.getBluzelle();
-
-    console.log(`Started DB with account ${BluzelleHelper.account}`)
-    console.log(`with ${BluzelleHelper.amount}`)
 
     const dbController = new DbController();
 
