@@ -3,9 +3,9 @@
  * Copyright (c) 2020. Mikhail Lazarev
  */
 
-export const BACKEND_ADDR = 'https://buzzzchat.herokuapp.com';
+export const BACKEND_ADDR = 'http://buzzchat.bluzelle.com:4000';
 
-export const SSO_ADDR = 'https://buzzzchat.herokuapp.com';
+export const SSO_ADDR = 'http://buzzchat.bluzelle.com:4000';
 
 console.disableYellowBox = true;
 
