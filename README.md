@@ -57,13 +57,7 @@ To install this package you should have:
 ```
 6. Save configuration
 7. Check that your Bluzelle account has enough funds for operations
-8. Check that your Android environment set up correctly (env vars: ANDROID_HOME & PATH to Andoird SDK). Mac OS example:
-```
-export ANDROID_HOME=~/Library/Android/sdk/
-export PATH=$PATH:~/android-sdks/platform-tools/
-export PATH=$PATH:~/android-sdks/tools/
-```
-7. Start server ```yarn dev``` or ```npm start dev``` for local development. (Do not use dev in production)
+8. Start server ```yarn dev``` or ```npm start dev``` for local development. (Do not use dev in production)
 
 
 #### Starting mobile apps
@@ -77,8 +71,14 @@ export const BACKEND_ADDR = 'http://192.168.0.47:4000';
 export const SSO_ADDR = 'http://192.168.0.47:4000';
 ```
 4. Go to /ios folder: ```cd ios``` and install ios modules with ```pod install```
-5. Run iOS app with ```yarn ios``` or ```npm start ios```
-6. Run Android app with ```yarn android``` or ```npm run android```
+5. Check that your Android environment set up correctly (env vars: ANDROID_HOME & PATH to Andoird SDK). Mac OS example:
+```
+export ANDROID_HOME=~/Library/Android/sdk/
+export PATH=$PATH:~/android-sdks/platform-tools/
+export PATH=$PATH:~/android-sdks/tools/
+```
+6. Run iOS app with ```yarn ios``` or ```npm start ios```
+7. Run Android app with ```yarn android``` or ```npm run android```
 
 #### Starting web application
 

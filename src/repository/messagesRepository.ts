@@ -12,8 +12,8 @@ import config from '../config/config';
 @injectable()
 export class MessagesRepository implements MessagesRepositoryI {
   private readonly ALGORITHM = 'aes-256-cbc';
-  private _iv: Buffer;
-  private _key: Buffer;
+  private readonly _iv: Buffer;
+  private readonly _key: Buffer;
 
   constructor() {
     const hash = config.cipher_hash;
@@ -24,7 +24,7 @@ export class MessagesRepository implements MessagesRepositoryI {
     this._iv = Buffer.alloc(16, iv.toString('hex').slice(0, 16), 'binary');
     this._key = crypto.createHash('sha256').update(password).digest();
 
-    console.log(this.decrypt(this.encrypt('Encription works well')));
+    console.log(this.decrypt(this.encrypt('Encryption works well')));
   }
 
   async list(id: string): Promise<Message[] | undefined> {
@@ -67,7 +67,7 @@ export class MessagesRepository implements MessagesRepositoryI {
     const messages = (await this.list(chatId)) || [];
     const bluAPI = new BluzelleHelper<Message>(chatId);
     const newId = await bluAPI.delete(messageId);
-    return this.decryptMessages(messages.filter((msg) => msg.id !== messageId));
+    return messages.filter((msg) => msg.id !== messageId);
   }
 
   encrypt(text: string) {
@@ -92,7 +92,7 @@ export class MessagesRepository implements MessagesRepositoryI {
       try {
         msg.text = this.decrypt(msg.text);
       } catch (e) {
-        msg.text = 'Unable to dectypt: ' + msg.text;
+        msg.text = 'Unable to decrypt: ' + msg.text;
       }
 
       return msg;
