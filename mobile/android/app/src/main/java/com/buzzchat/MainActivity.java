@@ -1,4 +1,4 @@
-package com.buzzchat;
+package com.bluzelle.chat;
 
 import com.facebook.react.ReactActivity;
 
