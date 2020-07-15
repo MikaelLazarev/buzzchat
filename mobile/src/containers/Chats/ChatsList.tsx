@@ -28,13 +28,14 @@ const ChatsList: React.FC<DataScreenComponentProps<Chat[]>> = ({
   );
 
   return (
-    <FlatList
-      // styles={styles.container}
-      data={data}
-      renderItem={renderItem}
-      keyExtractor={(item, index) => item.id + index}
-      style={{marginTop: 25}}
-    />
+    <View style={{marginTop: 25}}>
+      <FlatList
+        // styles={styles.container}
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => item.id + index}
+      />
+    </View>
   );
 };
 

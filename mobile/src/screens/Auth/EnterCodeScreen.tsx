@@ -87,7 +87,10 @@ export const EnterCodeScreen: React.FC = () => {
               marginBottom: '5%',
             }}>
             <Text style={{color: 'white', fontSize: 18}}>
-              Please, wait... It could take a few seconds
+              Please, wait...
+            </Text>
+            <Text style={{color: 'white', fontSize: 18}}>
+              It could take up to a minute
             </Text>
             <ActivityIndicator style={{marginTop: 20}} />
           </View>

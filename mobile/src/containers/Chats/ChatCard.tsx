@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, StyleSheet, FlatList} from 'react-native';
 import {Text} from 'react-native-elements';
 import SmartAvatar from '../../components/SmartAvatar';
 import {Chat} from '../../core/chat';
@@ -22,7 +22,9 @@ const ChatCard: React.FC<ChatCardProps> = ({data, onPressed}) => {
   const counterPart = data.members.filter((e) => e.id !== profile.id)[0];
   const title = data.isTetATetChat ? counterPart.name : data.name;
   return (
-    <TouchableOpacity onPress={() => onPressed(data.id)} >
+    <TouchableOpacity
+      onPress={() => onPressed(data.id)}
+      style={{marginTop: -1}}>
       <View style={styles.container}>
         {/* AVATAR CONTAINER */}
         <View style={styles.rightContainer}>

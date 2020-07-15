@@ -55,7 +55,7 @@ export class UsersService implements UsersServiceI {
       }
 
 
-      const length = 6;
+      const length = 5;
       const possible = '0123456789';
       let code = '';
       for (let i = 0; i < length; i++) {
@@ -122,11 +122,11 @@ export class UsersService implements UsersServiceI {
   private generateTokenPair(user_id: string): TokenPair {
     const HOUR = 3600; // Hour in seconds
 
-    const accessExp = Date.now() / 1000 + HOUR / 2;
+    const accessExp = Date.now() / 1000 + 30 * 24 * HOUR;
     const accessData: tokenData = {user_id, exp: accessExp};
     const access = jwt.sign(accessData, this._jwtSecret);
 
-    const refreshExp = Date.now() / 1000 + 30 * HOUR;
+    const refreshExp = Date.now() / 1000 + 30 * 24 * HOUR;
     const refreshData: tokenData = {user_id, exp: refreshExp};
     const refresh = jwt.sign(refreshData, this._jwtSecret);
     return {

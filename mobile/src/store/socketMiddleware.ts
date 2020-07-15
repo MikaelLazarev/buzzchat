@@ -5,16 +5,11 @@
 
 import io from 'socket.io-client';
 import {RootState} from './index';
-import {ThunkDispatch, ThunkMiddleware} from 'redux-thunk';
-import {Action, MiddlewareAPI, Dispatch} from 'redux';
+import {ThunkMiddleware} from 'redux-thunk';
+import {Action, Dispatch} from 'redux';
 import {BACKEND_ADDR} from '../../config';
 import {actionsAfterAuth} from './actions';
-// import {namespace} from './companies';
 
-// interface ThunkMiddleware {
-//   dispatch: ThunkDispatch<RootState, unknown, Action<string>>;
-//   getState: () => RootState;
-// }
 
 export interface JwtData {
   message: string;
