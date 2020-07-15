@@ -13,8 +13,10 @@ interface FailureProps {
 }
 
 const FailureView: React.FC<FailureProps> = ({error, reload}) => {
-
-  const reloadBtn = reload === undefined ? undefined : <Button title={'Reload'} onPress={reload} />
+  const reloadBtn =
+    reload === undefined ? undefined : (
+      <Button title={'Reload'} onPress={reload} />
+    );
 
   return (
     <>
@@ -26,9 +28,7 @@ const FailureView: React.FC<FailureProps> = ({error, reload}) => {
             {error}
           </Text>
         </View>
-        <View>
-          {reloadBtn}
-        </View>
+        <View>{reloadBtn}</View>
       </SafeAreaView>
     </>
   );
