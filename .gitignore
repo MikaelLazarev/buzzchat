@@ -60,3 +60,4 @@ buck-out/
 *.jsbundle
 
 src/config/*.json
+/mobile/android/app/release/

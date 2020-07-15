@@ -39,7 +39,7 @@ const initialState: AuthStateType = {
   refresh: undefined,
   errors: {},
   signup_success: false,
-  status: STATUS.ACTIVE,
+  status: STATUS.STARTUP,
 };
 
 export default (
@@ -76,6 +76,7 @@ export default (
         errors: action.payload.response || {
           non_field_errors: action.payload.statusText,
         },
+        status: STATUS.FAILURE,
       };
 
     case auth.SIGNUP_FAILURE:
@@ -94,7 +95,7 @@ export default (
         ...state,
         access: undefined,
         refresh: undefined,
-        status: STATUS.UPDATE_NEEDED,
+        status: STATUS.LOADING,
       };
 
     case auth.SIGNUP_SUCCESS:

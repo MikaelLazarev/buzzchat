@@ -49,14 +49,17 @@ export const ContactCard: React.FC<ContactCardProps> = ({
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    paddingTop: 18,
-    paddingBottom: 10,
+    paddingTop: 15,
+    paddingBottom: 15,
     paddingLeft: 15,
     paddingRight: 5,
     marginTop: 1,
     backgroundColor: 'white',
     flexDirection: 'row',
     alignContent: 'space-between',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#e2e2e2',
   },
   textContainer: {
     paddingLeft: 15,

@@ -4,8 +4,9 @@
  */
 
 export enum STATUS {
+  STARTUP = '@@STATUS/STARTUP',
   UPDATE_NEEDED = 'STATUS: UPDATE_NEEDED',
-  ACTIVE = 'STATUS: ACTIVE',
+  ACTIVE = '@@status/ACTTIVE',
   LOADING = '@@status/LOADING',
   UPDATING = '@@status/UPDATING',
   SUCCESS = '@@status/SUCCESS',

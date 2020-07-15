@@ -4,14 +4,17 @@
  */
 
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import {useNavigation} from '@react-navigation/native';
 import {ChatsListScreen} from './ChatsListScreen';
 import {ChatDetailsScreen} from './ChatDetails';
 import {Button} from 'react-native-elements';
 import ContactsListScreen from '../Contacts/ContactsListScreen';
+import {enableScreens} from 'react-native-screens';
 
-const Stack = createStackNavigator();
+enableScreens();
+
+const Stack = createNativeStackNavigator();
 
 export type ChatsStackParamList = {
   ChatListScreen: {reroute?: string};
@@ -34,10 +37,15 @@ export const ChatStack: React.FC = () => {
               icon={{
                 name: 'add',
                 size: 22,
+                color: '#0873eb',
               }}
               type="clear"
             />
           ),
+          headerLargeTitle: true,
+          headerBackTitleStyle: {fontFamily: 'Helvetica Neue'},
+          headerLargeTitleHideShadow: true,
+          headerStyle: {backgroundColor: '#F6F7F8'},
         }}
       />
       <Stack.Screen name="ChatDetails" component={ChatDetailsScreen} />

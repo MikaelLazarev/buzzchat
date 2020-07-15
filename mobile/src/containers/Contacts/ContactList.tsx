@@ -5,7 +5,7 @@
 
 import React, {useState} from 'react';
 import {FlatList, StyleSheet, ScrollView} from 'react-native';
-import {SearchBar} from 'react-native-elements';
+import SearchBar from 'react-native-search-bar';
 import ContactCard from './ContactCard';
 import {Contact} from '../../core/contact';
 import {DataScreenComponentProps} from '../../components/DataScreen';
@@ -30,13 +30,12 @@ const ContactList: React.FC<DataScreenComponentProps<Contact[]>> = ({
       <SearchBar
         placeholder="Type Here..."
         onChangeText={setSearch}
-        value={search}
-        lightTheme={true}
-        round={true}
+        text={search}
+        searchBarStyle={'minimal'}
       />
 
       <FlatList
-        style={styles.container}
+        style={{...styles.container, marginTop: 25}}
         data={filteredData}
         renderItem={(elem) => (
           <ContactCard
@@ -54,6 +53,8 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     marginBottom: 20,
+    borderWidth: 0,
+
   },
   header: {
     paddingLeft: 20,

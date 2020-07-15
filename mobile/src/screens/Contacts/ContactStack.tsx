@@ -6,11 +6,11 @@
 import React from 'react';
 import ContactsListScreen from './ContactsListScreen';
 import {Button} from 'react-native-elements';
-import {createStackNavigator} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
 import {ContactsNewScreen} from './ContactsNewScreen';
+import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export type ContactStackParamList = {
   ContactEditScreen: {id: string};
@@ -32,10 +32,15 @@ export const ContactStack: React.FC = () => {
               icon={{
                 name: 'add',
                 size: 22,
+                color: '#0873eb',
               }}
               type="clear"
             />
           ),
+          headerLargeTitle: true,
+          headerBackTitleStyle: {fontFamily: 'Helvetica Neue'},
+          headerLargeTitleHideShadow: true,
+          headerStyle: {backgroundColor: '#F6F7F8'},
         }}
       />
       <Stack.Screen
@@ -44,7 +49,6 @@ export const ContactStack: React.FC = () => {
         initialParams={{id: 'new'}}
         options={{
           title: 'Contacts',
-
         }}
       />
     </Stack.Navigator>

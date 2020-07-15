@@ -33,6 +33,7 @@ const ChatsList: React.FC<DataScreenComponentProps<Chat[]>> = ({
       data={data}
       renderItem={renderItem}
       keyExtractor={(item, index) => item.id + index}
+      style={{marginTop: 25}}
     />
   );
 };

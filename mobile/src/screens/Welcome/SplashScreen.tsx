@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {Image, SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
+import {Image, SafeAreaView, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 
@@ -13,7 +13,7 @@ export const SplashScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Image
-        source={require('../../../logo.png')}
+        source={require('../../../logo.jpg')}
         style={{
           height: 200,
           resizeMode: 'contain',
@@ -21,6 +21,7 @@ export const SplashScreen: React.FC = () => {
           marginTop: -40,
         }}
       />
+      <Text h1 style={{color: '#4171c3'}}>Buzzzchat</Text>
       <Text
         style={{
           fontSize: 18,
@@ -28,18 +29,13 @@ export const SplashScreen: React.FC = () => {
           color: '#687882',
           marginTop: 5,
         }}>
-        Spam-free real anonymous messanger
+        Bluzelle DB messenger
       </Text>
       <View style={styles.button}>
         <Button
           title="Login / Signup"
           onPress={() => navigation.navigate('PhoneScreen')}
-        />
-      </View>
-      <View style={styles.button2}>
-        <Button
-          title="Take a tour"
-          onPress={() => navigation.navigate('EnterMnemonicScreen')}
+          type="outline"
         />
       </View>
     </SafeAreaView>

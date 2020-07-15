@@ -13,7 +13,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import actions from '../../store/actions';
 import {RootState} from '../../store';
 import {FormPhoneView} from '../../containers/Auth/FormPhoneView';
-import {BACKEND_ADDR, SSO_ADDR} from "../../../config";
 
 export const EnterPhoneScreen: React.FC = () => {
   const navigation = useNavigation();
@@ -34,6 +33,7 @@ export const EnterPhoneScreen: React.FC = () => {
       switch (operationStatus) {
         case STATUS.SUCCESS:
           setIsSubmitted(false);
+          console.log("GOTO ENTERR CODE SCREEN@!");
           navigation.navigate('EnterCodeScreen', {phone});
           break;
 

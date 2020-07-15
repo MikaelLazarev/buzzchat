@@ -10,11 +10,12 @@ import {Profile} from '../../core/profile';
 import {SettingsScreen} from './SettingsScreen';
 import {ChangeNameScreen} from './ChangeNameScreen';
 import {Button} from 'react-native-elements';
-import {WebAuthQRScanScreen} from "./WebAuthQRScanScreen";
-import {useDispatch} from "react-redux";
-import actions from "../../store/actions";
+import {WebAuthQRScanScreen} from './WebAuthQRScanScreen';
+import {useDispatch} from 'react-redux';
+import actions from '../../store/actions';
+import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export type SettingsStackParamList = {
   ChangeNameScreen: {data: Profile};
@@ -37,6 +38,10 @@ export const SettingsStack: React.FC = () => {
               type="clear"
             />
           ),
+          headerLargeTitle: true,
+          headerBackTitleStyle: {fontFamily: 'Helvetica Neue'},
+          headerLargeTitleHideShadow: true,
+          headerStyle: {backgroundColor: '#F6F7F8'},
         }}
       />
       <Stack.Screen
@@ -46,7 +51,7 @@ export const SettingsStack: React.FC = () => {
           title: 'Changing name',
         }}
       />
-        <Stack.Screen name="WebAuthQRScreen" component={WebAuthQRScanScreen} />
+      <Stack.Screen name="WebAuthQRScreen" component={WebAuthQRScanScreen} />
     </Stack.Navigator>
   );
 };

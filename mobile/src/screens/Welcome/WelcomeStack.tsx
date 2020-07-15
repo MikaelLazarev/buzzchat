@@ -8,7 +8,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {SplashScreen} from './SplashScreen';
 import {EnterPhoneScreen} from '../Auth/EnterPhoneScreen';
 import {EnterCodeScreen} from '../Auth/EnterCodeScreen';
-import {WebAuthQRScanScreen} from "../Settings/WebAuthQRScanScreen";
 
 const Stack = createStackNavigator();
 
@@ -28,13 +27,16 @@ export const WelcomeStack: React.FC = () => {
           },
         }}
       />
-      <Stack.Screen name="PhoneScreen" component={EnterPhoneScreen} options={{
+      <Stack.Screen
+        name="PhoneScreen"
+        component={EnterPhoneScreen}
+        options={{
           header: () => {
-              visible: false;
+            visible: false;
           },
-      }}/>
+        }}
+      />
       <Stack.Screen name="EnterCodeScreen" component={EnterCodeScreen} />
-
     </Stack.Navigator>
   );
 };

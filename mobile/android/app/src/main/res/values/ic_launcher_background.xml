@@ -1,8 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Buzzzchat - P2P Chat based on Bluzelle DB
   ~ Copyright (c) 2020. Mikhail Lazarev
   -->
 
 <resources>
-    <string name="app_name">Buzzzchat</string>
+    <color name="ic_launcher_background">#FFFFFF</color>
 </resources>

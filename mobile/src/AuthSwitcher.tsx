@@ -27,9 +27,8 @@ import {SettingsStack} from './screens/Settings/SettingsStack';
 
 import actions from './store/actions';
 import {STATUS} from './store/utils/status';
-import {View} from 'react-native';
-import {Text} from 'react-native-elements';
 import {NoMoneyScreen} from './containers/Account/NoMoney';
+import Loading from './components/Loading';
 
 const Tab = createBottomTabNavigator();
 
@@ -50,6 +49,8 @@ export const AuthSwitcher: React.FC = () => {
 
   switch (status) {
     default:
+    case STATUS.STARTUP:
+      return <Loading />;
     case STATUS.LOADING:
     case STATUS.FAILURE:
       return <WelcomeStack />;

@@ -4,8 +4,15 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {Image, SafeAreaView, StyleSheet, View} from 'react-native';
-import {Button, Text} from 'react-native-elements';
+import {
+  ActivityIndicator,
+  Image,
+  Modal,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from 'react-native';
+import {Button, Card, Text} from 'react-native-elements';
 import {useNavigation, RouteProp, useRoute} from '@react-navigation/native';
 import {UserCodeDTO, UserSendCodeDTO} from '../../core/auth';
 import {STATUS} from '../../store/utils/status';
@@ -14,6 +21,7 @@ import actions from '../../store/actions';
 import {RootState} from '../../store';
 import {FormCodeView} from '../../containers/Auth/FormCodeView';
 import {WelcomeStackParamList} from '../Welcome/WelcomeStack';
+import {NavigationActions} from 'react-navigation';
 
 type EnterCodeScreenRouteProps = RouteProp<
   WelcomeStackParamList,
@@ -21,7 +29,6 @@ type EnterCodeScreenRouteProps = RouteProp<
 >;
 
 export const EnterCodeScreen: React.FC = () => {
-  const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const route = useRoute<EnterCodeScreenRouteProps>();
@@ -34,7 +41,6 @@ export const EnterCodeScreen: React.FC = () => {
     (state: RootState) => state.operations.data[hash]?.data?.status,
   );
 
-    console.log("PHONE", phone)
   // TODO: Move status to new Dataloader component
 
   useEffect(() => {
@@ -66,19 +72,46 @@ export const EnterCodeScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text
-        style={{
-          fontSize: 18,
-          fontWeight: 'bold',
-          color: '#687882',
-          marginTop: 55,
-          marginBottom: 15,
-        }}>
-        Enter your code
-      </Text>
-      <FormCodeView data={data} onSubmit={onSubmit} isSubmitted={isSubmitted} />
-    </SafeAreaView>
+    <>
+      <Modal visible={isSubmitted}>
+        <View style={styles.centeredView}>
+          <View
+            style={{
+              backgroundColor: '#c1bfbf',
+              borderRadius: 10,
+              width: '80%',
+              height: '18%',
+              opacity: 50,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginBottom: '5%',
+            }}>
+            <Text style={{color: 'white', fontSize: 18}}>
+              Please, wait... It could take a few seconds
+            </Text>
+            <ActivityIndicator style={{marginTop: 20}} />
+          </View>
+        </View>
+      </Modal>
+
+      <SafeAreaView style={styles.container}>
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: 'bold',
+            color: '#687882',
+            marginTop: 55,
+            marginBottom: 15,
+          }}>
+          Enter your code
+        </Text>
+        <FormCodeView
+          data={data}
+          onSubmit={onSubmit}
+          isSubmitted={isSubmitted}
+        />
+      </SafeAreaView>
+    </>
   );
 };
 
@@ -91,6 +124,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     height: '100%',
     width: '100%',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
   },
   button: {
     width: '80%',

@@ -22,7 +22,7 @@ const ChatCard: React.FC<ChatCardProps> = ({data, onPressed}) => {
   const counterPart = data.members.filter((e) => e.id !== profile.id)[0];
   const title = data.isTetATetChat ? counterPart.name : data.name;
   return (
-    <TouchableOpacity onPress={() => onPressed(data.id)}>
+    <TouchableOpacity onPress={() => onPressed(data.id)} >
       <View style={styles.container}>
         {/* AVATAR CONTAINER */}
         <View style={styles.rightContainer}>
@@ -32,6 +32,7 @@ const ChatCard: React.FC<ChatCardProps> = ({data, onPressed}) => {
         {/* TEXT CONTAINER */}
         <View style={styles.textContainer}>
           <Text h4>{title}</Text>
+          <Text>{data.messages?.slice(-1)[0]}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -41,8 +42,8 @@ const ChatCard: React.FC<ChatCardProps> = ({data, onPressed}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 3,
-    paddingTop: 18,
-    paddingBottom: 10,
+    paddingTop: 15,
+    paddingBottom: 15,
     paddingLeft: 15,
     paddingRight: 5,
     marginTop: 1,
@@ -50,6 +51,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignContent: 'space-between',
     justifyContent: 'space-between',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#e2e2e2',
   },
   textContainer: {
     // paddingLeft: 15,

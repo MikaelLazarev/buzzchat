@@ -107,31 +107,34 @@ export const ChatDetailsScreen: React.FC = () => {
   console.log('MESSGGAA', iMessages);
 
   const onLongPress = (msg: IMessage) => {
-    Alert.alert(
-      'Message',
-      msg.text,
-      [
-        {
-          text: 'Delete Message',
-          onPress: () =>
-            dispatch(
-              actions.chats.deleteMessage(
-                {
-                  chatId: id,
-                  msgId: msg._id.toString(),
-                },
-                'delete',
+    if (!msg.pending && msg.user._id === profile.id) {
+      Alert.alert(
+        'Message',
+        msg.text,
+        [
+          {
+            text: 'Delete Message',
+            style: 'destructive',
+            onPress: () =>
+              dispatch(
+                actions.chats.deleteMessage(
+                  {
+                    chatId: id,
+                    msgId: msg._id.toString(),
+                  },
+                  'delete',
+                ),
               ),
-            ),
-        },
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-      ],
-      {cancelable: false},
-    );
+          },
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+        ],
+        {cancelable: false},
+      );
+    }
   };
 
   return (

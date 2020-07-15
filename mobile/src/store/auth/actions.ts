@@ -208,6 +208,8 @@ export const getTokenAtStartup = (): ThunkAction<
     ) {
       await dispatch(actionsAfterAuth());
     }
+  } else {
+    await dispatch(logout());
   }
 };
 

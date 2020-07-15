@@ -11,7 +11,6 @@ import ContactList from '../../containers/Contacts/ContactList';
 import {useNavigation} from '@react-navigation/native';
 import {DataScreen} from '../../components/DataScreen';
 import {ChatCreateDTO} from '../../core/chat';
-import {v4 as uuidv4} from 'uuid';
 import {STATUS} from '../../store/utils/status';
 import UUIDGenerator from 'react-native-uuid-generator';
 import Loading from '../../components/Loading';

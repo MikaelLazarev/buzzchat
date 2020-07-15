@@ -8,7 +8,7 @@ import {StyleSheet, View} from 'react-native';
 import {Avatar, Image, ListItem, Text} from 'react-native-elements';
 import {Profile} from '../../core/profile';
 import {useNavigation} from '@react-navigation/native';
-import SmartAvatar from "../../components/SmartAvatar";
+import SmartAvatar from '../../components/SmartAvatar';
 
 interface ProfileDetailsProps {
   data: Profile;
@@ -38,11 +38,11 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({data}) => {
 
   return (
     <>
-      <View style={styles.title}>
+      <View style={styles.container}>
+        <SmartAvatar name={data.name} size={150} />
         <Text h2 style={{margin: 10}}>
           {data.name}
         </Text>
-        <SmartAvatar name={data.name} size={150} />
         <View
           style={{
             paddingTop: 10,
@@ -74,11 +74,7 @@ export const ProfileDetails: React.FC<ProfileDetailsProps> = ({data}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'white',
-    paddingTop: 50,
-  },
-  title: {
+    marginTop: 25,
     alignItems: 'center',
     marginBottom: 25,
   },
