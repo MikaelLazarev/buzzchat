@@ -4,13 +4,8 @@
  */
 
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  ActivityIndicator,
-  TouchableOpacity,
-} from 'react-native';
-import {Avatar, Text} from 'react-native-elements';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Text} from 'react-native-elements';
 import {Contact} from '../../core/contact';
 import SmartAvatar from '../../components/SmartAvatar';
 

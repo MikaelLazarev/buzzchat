@@ -5,7 +5,7 @@
 
 import React from 'react';
 import {Contact} from '../../core/contact';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Image, Text} from 'react-native-elements';
 
 interface ContactDetailsProps {

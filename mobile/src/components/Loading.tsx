@@ -5,13 +5,13 @@
 
 import React from 'react';
 import {
-  StyleSheet,
-  SafeAreaView,
   ActivityIndicator,
+  SafeAreaView,
   StatusBar,
+  StyleSheet,
 } from 'react-native';
 
-export const Loading : React.FC = () => (
+export const Loading: React.FC = () => (
   <>
     <StatusBar barStyle="default" />
     <SafeAreaView style={styles.container}>

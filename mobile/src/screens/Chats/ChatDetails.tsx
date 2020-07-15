@@ -4,18 +4,16 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {GiftedChat, IMessage, User} from 'react-native-gifted-chat';
+import {GiftedChat, IMessage} from 'react-native-gifted-chat';
 import actions from '../../store/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {Message} from '../../core/message';
 import {RootState} from '../../store';
 import {getDetailsItem} from '../../store/dataloader';
-import {RouteProp, useRoute, useNavigation} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {ChatsStackParamList} from './ChatStack';
 import Loading from '../../components/Loading';
-import Modal from 'react-native-modal';
-import {View, Text, Alert} from 'react-native';
-import moment from 'moment';
+import {Alert} from 'react-native';
 
 type ChatDetailsScreenRouteProp = RouteProp<
   ChatsStackParamList,
@@ -36,7 +34,7 @@ export const ChatDetailsScreen: React.FC = () => {
     const newHash = Date.now().toString();
     dispatch(actions.chats.getDetails(id, newHash));
     setHash(newHash);
-  }, []);
+  }, [id]);
 
   const chatData = getDetailsItem(
     useSelector((state: RootState) => state.chats.Details),
@@ -77,12 +75,6 @@ export const ChatDetailsScreen: React.FC = () => {
     ? data.members.filter((e) => e.id !== profile.id)[0].name
     : data.name;
   navigation.setOptions({title});
-
-  const users: User[] = data.members.map((elm) => ({
-    _id: elm.id,
-    name: elm.name,
-    avatar: elm.avatar,
-  }));
 
   const onSend = (newMessages: IMessage[]) => {
     // setMessages(GiftedChat.append(messages, newMessages as any));

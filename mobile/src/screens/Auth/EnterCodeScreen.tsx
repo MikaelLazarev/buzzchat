@@ -12,16 +12,15 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import {Button, Card, Text} from 'react-native-elements';
-import {useNavigation, RouteProp, useRoute} from '@react-navigation/native';
-import {UserCodeDTO, UserSendCodeDTO} from '../../core/auth';
+import {Text} from 'react-native-elements';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {UserCodeDTO} from '../../core/auth';
 import {STATUS} from '../../store/utils/status';
 import {useDispatch, useSelector} from 'react-redux';
 import actions from '../../store/actions';
 import {RootState} from '../../store';
 import {FormCodeView} from '../../containers/Auth/FormCodeView';
 import {WelcomeStackParamList} from '../Welcome/WelcomeStack';
-import {NavigationActions} from 'react-navigation';
 
 type EnterCodeScreenRouteProps = RouteProp<
   WelcomeStackParamList,
@@ -91,9 +90,7 @@ export const EnterCodeScreen: React.FC = () => {
               alignItems: 'center',
               marginBottom: '5%',
             }}>
-            <Text style={{color: 'white', fontSize: 18}}>
-              Please, wait...
-            </Text>
+            <Text style={{color: 'white', fontSize: 18}}>Please, wait...</Text>
             <Text style={{color: 'white', fontSize: 18}}>
               It could take up to a minute
             </Text>

@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, SafeAreaView, StatusBar, View, Button} from 'react-native';
+import {Button, SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 
 interface FailureProps {

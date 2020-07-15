@@ -4,8 +4,6 @@
  */
 
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
-import {useNavigation} from '@react-navigation/native';
 import {Profile} from '../../core/profile';
 import {SettingsScreen} from './SettingsScreen';
 import {ChangeNameScreen} from './ChangeNameScreen';
@@ -22,7 +20,6 @@ export type SettingsStackParamList = {
 };
 
 export const SettingsStack: React.FC = () => {
-  const navigation = useNavigation();
   const dispatch = useDispatch();
   return (
     <Stack.Navigator>

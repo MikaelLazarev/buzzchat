@@ -4,15 +4,15 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {Image, SafeAreaView, StyleSheet, View} from 'react-native';
-import {Button, Text} from 'react-native-elements';
+import {SafeAreaView, StyleSheet} from 'react-native';
+import {Text} from 'react-native-elements';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {STATUS} from '../../store/utils/status';
 import {useDispatch, useSelector} from 'react-redux';
 import actions from '../../store/actions';
 import {RootState} from '../../store';
 import {SettingsStackParamList} from './SettingsStack';
-import {Profile, ProfileChangeNameDTO} from '../../core/profile';
+import {ProfileChangeNameDTO} from '../../core/profile';
 import {FormChangeNameView} from '../../containers/Settings/FormNameView';
 
 type ChangeNameScreenRouteProps = RouteProp<
@@ -57,8 +57,6 @@ export const ChangeNameScreen: React.FC = () => {
   }, [hash, status]);
 
   const onSubmit = (values: ProfileChangeNameDTO) => {
-    console.log('SUMMMMMIT', values);
-
     setIsSubmitted(true);
     const newHash = Date.now().toString();
     setHash(newHash);

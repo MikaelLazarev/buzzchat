@@ -3,8 +3,8 @@
  * Copyright (c) 2020. Mikhail Lazarev
  */
 
-import { SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
-import {Button,Icon, Text} from 'react-native-elements';
+import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
+import {Button, Icon, Text} from 'react-native-elements';
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import actions from '../../store/actions';

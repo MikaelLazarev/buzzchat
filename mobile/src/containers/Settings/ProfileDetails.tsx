@@ -5,7 +5,7 @@
 
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Avatar, Image, ListItem, Text} from 'react-native-elements';
+import {ListItem, Text} from 'react-native-elements';
 import {Profile} from '../../core/profile';
 import {useNavigation} from '@react-navigation/native';
 import SmartAvatar from '../../components/SmartAvatar';

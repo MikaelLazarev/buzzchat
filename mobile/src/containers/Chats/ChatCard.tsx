@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {View, TouchableOpacity, StyleSheet, FlatList} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Text} from 'react-native-elements';
 import SmartAvatar from '../../components/SmartAvatar';
 import {Chat} from '../../core/chat';

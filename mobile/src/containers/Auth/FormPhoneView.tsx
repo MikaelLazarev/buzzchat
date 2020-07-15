@@ -25,7 +25,6 @@ export const FormPhoneView: React.FC<FormViewProfileProps> = ({
 }) => {
   const fields = {
     phone: {keyboard: 'phone-pad'},
-
   };
 
   if (!data) return <Loading />;

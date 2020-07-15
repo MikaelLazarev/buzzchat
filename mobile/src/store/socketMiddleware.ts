@@ -10,7 +10,6 @@ import {Action, Dispatch} from 'redux';
 import {BACKEND_ADDR} from '../../config';
 import {actionsAfterAuth} from './actions';
 
-
 export interface JwtData {
   message: string;
   code: string;
