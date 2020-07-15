@@ -6,7 +6,7 @@
 import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
-  Image,
+  Alert,
   Modal,
   SafeAreaView,
   StyleSheet,
@@ -51,8 +51,13 @@ export const EnterCodeScreen: React.FC = () => {
 
         case STATUS.FAILURE:
           setHash('0');
-          setIsSubmitted(false);
-        // alert("Cant submit your operation to server");
+          Alert.alert('Login Failed', 'Wrong code', [
+            {
+              text: 'Ok',
+              onPress: () => setIsSubmitted(false),
+              style: 'cancel',
+            },
+          ]);
       }
     }
   }, [hash, operationStatus]);
@@ -68,7 +73,7 @@ export const EnterCodeScreen: React.FC = () => {
     setHash(newHash);
 
     // Emit data
-    dispatch(actions.auth.loginWithPhone(phone, values.code));
+    dispatch(actions.auth.loginWithPhone(phone, values.code, newHash));
   };
 
   return (

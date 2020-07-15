@@ -13,7 +13,7 @@ import {Loading} from '../../components/Loading';
 import {ProfileChangeNameDTO} from '../../core/profile';
 
 const formSchema = yup.object({
-  name: yup.string().required().min(3),
+  name: yup.string().required('Please, provide your name').min(2),
 });
 
 interface FormViewProfileProps
@@ -25,9 +25,7 @@ export const FormChangeNameView: React.FC<FormViewProfileProps> = ({
   isSubmitted,
 }) => {
   const fields = {
-    name: {
-
-    },
+    name: {},
   };
 
   if (!data) return <Loading />;

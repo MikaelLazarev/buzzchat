@@ -13,7 +13,7 @@ import {Loading} from '../../components/Loading';
 import {UserSendCodeDTO} from '../../core/auth';
 
 const formSchema = yup.object({
-  phone: yup.string().required().min(3),
+  phone: yup.string().required('Please, provide your phone').min(5),
 });
 
 interface FormViewProfileProps extends FormikFormViewProps<UserSendCodeDTO> {}

@@ -13,7 +13,7 @@ import {Loading} from '../../components/Loading';
 import {UserCodeDTO} from '../../core/auth';
 
 const formSchema = yup.object({
-  code: yup.string().required().min(3),
+  code: yup.string().required().min(5),
 });
 
 interface FormViewProfileProps extends FormikFormViewProps<UserCodeDTO> {}

@@ -7,12 +7,10 @@ import React, {useEffect, useState} from 'react';
 import {Image, SafeAreaView, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
-import {UserSendCodeDTO} from '../../core/auth';
 import {STATUS} from '../../store/utils/status';
 import {useDispatch, useSelector} from 'react-redux';
 import actions from '../../store/actions';
 import {RootState} from '../../store';
-import {FormPhoneView} from '../../containers/Auth/FormPhoneView';
 import {SettingsStackParamList} from './SettingsStack';
 import {Profile, ProfileChangeNameDTO} from '../../core/profile';
 import {FormChangeNameView} from '../../containers/Settings/FormNameView';
@@ -37,7 +35,7 @@ export const ChangeNameScreen: React.FC = () => {
   );
 
   const error = useSelector(
-      (state: RootState) => state.operations.data[hash]?.data?.error,
+    (state: RootState) => state.operations.data[hash]?.data?.error,
   );
 
   // TODO: Move status to new Dataloader component
@@ -52,7 +50,7 @@ export const ChangeNameScreen: React.FC = () => {
         case STATUS.FAILURE:
           setHash('0');
           setIsSubmitted(false);
-          console.log(error)
+          console.log(error);
         // alert("Cant submit your operation to server");
       }
     }

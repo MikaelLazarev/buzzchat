@@ -12,64 +12,30 @@ import {
 } from 'redux-api-middleware';
 import {getFullAPIAddress} from '../utils/api';
 import * as actionTypes from './';
+import {withAuth} from './';
 
 import {RootState} from '../index';
 import {AuthPayload} from './reducer';
 import {SSO_ADDR} from '../../../config';
 import AsyncStorage from '@react-native-community/async-storage';
-import {updateStatus} from '../operations/actions';
+import {
+  updateOperationStatusByAction,
+  updateStatus,
+} from '../operations/actions';
 import {STATUS} from '../utils/status';
 import {actionsAfterAuth} from '../actions';
-import {withAuth} from './';
-import {updateOperationStatusByAction} from '../operations/actions';
-
-export const login = (
-  email: string,
-  password: string,
-): ThunkAction<void, RootState, unknown, Action<string>> => async (
-  dispatch,
-) => {
-  const endpoint = '/auth/login/';
-  const json = JSON.stringify({email, password});
-
-  dispatch(authenticate(endpoint, json));
-};
 
 export const loginWithPhone = (
   phone: string,
   code: string,
+  opHash: string,
 ): ThunkAction<void, RootState, unknown, Action<string>> => async (
   dispatch,
 ) => {
   const endpoint = '/auth/phone/login/';
   const json = JSON.stringify({phone, code});
 
-  dispatch(authenticate(endpoint, json));
-};
-
-export const oauthAuthenticate = (
-  provider: string,
-  code: string,
-): ThunkAction<void, RootState, unknown, Action<string>> => async (
-  dispatch,
-) => {
-  const endpoint = '/auth/google/done/';
-  const json = JSON.stringify({provider, code});
-
-  dispatch(authenticate(endpoint, json));
-};
-
-export const confirmEmail = (
-  email: string,
-  code: string,
-  id: string,
-): ThunkAction<void, RootState, unknown, Action<string>> => async (
-  dispatch,
-) => {
-  const endpoint = '/auth/confirm/';
-  const json = JSON.stringify({email, code, id});
-
-  dispatch(authenticate(endpoint, json));
+  dispatch(authenticate(endpoint, json, opHash));
 };
 
 // Send request for refresh token
@@ -92,22 +58,6 @@ export const refreshAccessToken = (
     ],
   },
 });
-
-export const signup = (
-  email: string,
-  password: string,
-): RSAAAction<any, AuthPayload, void> =>
-  createAction({
-    endpoint: getFullAPIAddress('/auth/signup/', undefined, SSO_ADDR),
-    method: 'POST',
-    body: JSON.stringify({email, password}),
-    headers: {'Content-Type': 'application/json'},
-    types: [
-      actionTypes.SIGNUP_REQUEST,
-      actionTypes.SIGNUP_SUCCESS,
-      actionTypes.SIGNUP_FAILURE,
-    ],
-  });
 
 export const getCode = (
   phone: string,
@@ -145,6 +95,7 @@ export const getCode = (
 export const authenticate = (
   endpoint: string,
   body: string,
+  hash: string = '0',
 ): ThunkAction<void, RootState, unknown, Action<string>> => async (
   dispatch,
 ) => {
@@ -170,6 +121,9 @@ export const authenticate = (
   ) {
     await AsyncStorage.setItem('token', result.payload.refresh.toString());
     await dispatch(actionsAfterAuth());
+    dispatch(updateStatus(hash, STATUS.SUCCESS));
+  } else {
+    dispatch(updateStatus(hash, STATUS.FAILURE));
   }
 
   console.log(result);

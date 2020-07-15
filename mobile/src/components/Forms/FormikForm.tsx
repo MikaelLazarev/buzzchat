@@ -4,13 +4,10 @@
  */
 
 import React from 'react';
-import {
-  Formik,
-  FormikProps,
-} from 'formik';
+import {Formik, FormikProps} from 'formik';
 import * as yup from 'yup';
 import {Button, Input, Text} from 'react-native-elements';
-import {TextInput, View} from 'react-native';
+import {View} from 'react-native';
 
 export interface FieldI {
   label: string;
@@ -52,14 +49,14 @@ export function FormikForm<T, S>({
   formSchema,
   fields,
   initialValues,
-  onChange,
   onSubmit,
   isSubmitted,
 }: FormikFormProps<T, S>): React.ReactElement {
+  // Creates component
   function getComponent(
     name: string,
     f: FieldI,
-    {setFieldValue, values}: FormikProps<T>,
+    {setFieldValue, values, touched, errors}: FormikProps<T>,
   ): React.ReactElement {
     switch (f.type) {
       default:
@@ -72,9 +69,15 @@ export function FormikForm<T, S>({
               placeholder={f.placeholder || f.label}
               onChangeText={(e) => setFieldValue(name, e)}
               key={name}
+              //@ts-ignore
               value={values[name] || ''}
               keyboardType={f.keyboard || 'default'}
             />
+            <View style={{alignItems: 'center'}}>
+              <Text style={{color: 'grey'}}>
+                {touched[name] ? '' : errors[name]}
+              </Text>
+            </View>
           </View>
         );
     }
@@ -99,7 +102,7 @@ export function FormikForm<T, S>({
           <View style={{width: '80%', marginTop: 20}}>
             <Button
               onPress={props.handleSubmit}
-              disabled={isSubmitted}
+              disabled={isSubmitted || !props.isValid}
               title={'Submit'}
             />
           </View>
