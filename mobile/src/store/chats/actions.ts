@@ -16,13 +16,13 @@ import {RootState} from '../index';
 import {Action} from 'redux';
 import {namespace} from '../profile';
 import {DETAIL_FAILURE, DETAIL_SUCCESS} from '../dataloader';
-import {SocketEmitAction} from '../socketMiddleware';
+import {SocketEmitAction, SocketOnAction} from '../socketMiddleware';
 
 export const connectSocket = (): ThunkAction<
   void,
   RootState,
   unknown,
-  Action<string>
+  SocketOnAction
 > => async (dispatch) => {
   dispatch({
     type: 'SOCKET_ON',
@@ -65,12 +65,10 @@ export const getDetails: (id: string, opHash: string) => SocketEmitAction = (
 export const postMessage: (
   dto: PostMessageDTO,
   opHash: string,
-) => ThunkAction<void, RootState, unknown, Action<string>> = (
+) => ThunkAction<void, RootState, unknown, SocketEmitAction> = (
   dto,
   opHash,
 ) => async (dispatch) => {
-
-
   dispatch({
     type: 'SOCKET_EMIT',
     namespace,

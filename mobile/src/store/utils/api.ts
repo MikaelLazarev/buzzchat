@@ -27,7 +27,11 @@ export const getFullAPIAddress = (
   return url;
 };
 
-export const getApiById = (api: string, id?: string, params?: {[P in keyof string]: string[P]}) => {
+export const getApiById = (
+  api: string,
+  id?: string,
+  params?: {[P in keyof string]: string[P]},
+) => {
   if (api.includes(':id') && id !== undefined) {
     api = api.replace(':id', id);
   }
