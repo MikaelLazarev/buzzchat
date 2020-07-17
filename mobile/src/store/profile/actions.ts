@@ -53,6 +53,6 @@ export const addContract: (id: string, opHash?: string) => SocketEmitAction = (
   namespace,
   event: 'profile:new_contact',
   typeOnFailure: 'PROFILE_FAILURE',
-  payload: { id },
+  payload: {id},
   opHash,
 });

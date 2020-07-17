@@ -6,11 +6,10 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import actions from '../../store/actions';
-import {RootState} from '../../store';
-import {DataScreen} from '../../components/DataScreen';
 import {ProfileDetails} from '../../containers/Settings/ProfileDetails';
 import {profileSelector} from '../../store/profile';
 import {operationSelector} from 'redux-data-connect';
+import {DataScreen} from "rn-mobile-components";
 
 export const SettingsScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -23,9 +22,6 @@ export const SettingsScreen: React.FC = () => {
 
   const data = useSelector(profileSelector);
   const operation = useSelector(operationSelector(hash));
-
-  console.log("DATA", data);
-  console.log("OPER", operation);
 
   return (
     <DataScreen

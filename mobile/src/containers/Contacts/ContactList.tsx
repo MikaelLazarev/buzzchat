@@ -7,12 +7,12 @@ import React, {useState} from 'react';
 import {FlatList, ScrollView, StyleSheet} from 'react-native';
 import SearchBar from 'react-native-search-bar';
 import {useSelector} from 'react-redux';
-import {DataScreenComponentProps} from '../../components/DataScreen';
 import {Contact} from '../../core/contact';
 import ContactCard from './ContactCard';
 import {profileSelector} from '../../store/profile';
+import {DataScreenComponentProps} from 'rn-mobile-components';
 
-const ContactList: React.FC<DataScreenComponentProps<Contact[]>> = ({
+export const ContactList: React.FC<DataScreenComponentProps<Contact[]>> = ({
   data,
   onSelect,
 }) => {
@@ -62,4 +62,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ContactList;

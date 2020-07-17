@@ -7,7 +7,7 @@ import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Text} from 'react-native-elements';
 import {Contact} from '../../core/contact';
-import SmartAvatar from '../../components/SmartAvatar';
+import {SmartAvatar} from 'rn-mobile-components';
 
 interface ContactCardProps {
   data: Contact;

@@ -4,7 +4,7 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {Alert, SafeAreaView, StyleSheet} from 'react-native';
+import {Alert, SafeAreaView} from 'react-native';
 import {Text} from 'react-native-elements';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {UserCodeDTO} from '../../core/auth';

@@ -10,10 +10,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {mapMessageToIMessage, Message} from '../../core/message';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {ChatsStackParamList} from './ChatStack';
-import Loading from '../../components/Loading';
 import {Alert} from 'react-native';
 import {profileSelector} from '../../store/profile';
 import {chatDetailsDataSelector} from '../../store/chats';
+import { LoadingView } from 'rn-mobile-components';
 
 type ChatDetailsScreenRouteProp = RouteProp<
   ChatsStackParamList,
@@ -56,7 +56,7 @@ export const ChatDetailsScreen: React.FC = () => {
   }, [messages]);
 
   const profile = useSelector(profileSelector);
-  if (chatData === undefined) return <Loading />;
+  if (chatData === undefined) return <LoadingView />;
 
   const title = chatData.members.filter((e) => e.id !== profile.id)[0].name;
   navigation.setOptions({title});

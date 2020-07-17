@@ -6,10 +6,10 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Text} from 'react-native-elements';
-import SmartAvatar from '../../components/SmartAvatar';
 import {Chat} from '../../core/chat';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
+import {SmartAvatar} from "rn-mobile-components";
 
 interface ChatCardProps {
   data: Chat;

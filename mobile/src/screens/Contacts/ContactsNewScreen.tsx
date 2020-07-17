@@ -6,11 +6,11 @@
 import React, {useEffect, useState} from 'react';
 import actions from '../../store/actions';
 import {useDispatch, useSelector} from 'react-redux';
-import ContactList from '../../containers/Contacts/ContactList';
+import {ContactList} from '../../containers/Contacts/ContactList';
 import {useNavigation} from '@react-navigation/native';
-import {DataScreen} from '../../components/DataScreen';
 import {contactsSelector} from '../../store/contacts';
 import {operationSelector} from 'redux-data-connect';
+import {DataScreen} from "rn-mobile-components";
 
 export const ContactsNewScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ export const ContactsNewScreen: React.FC = () => {
   const {data} = useSelector(contactsSelector);
   const operation = useSelector(operationSelector(hash));
 
-  console.log(hash, data, operation)
+  console.log(hash, data, operation);
   // TODO: Move status to new Dataloader component
 
   useEffect(() => {

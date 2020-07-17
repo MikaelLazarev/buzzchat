@@ -9,10 +9,10 @@ import {WelcomeStack} from './Welcome/WelcomeStack';
 
 import actions, {actionsAfterAuth} from '../store/actions';
 import {NoMoneyScreen} from '../containers/Account/NoMoney';
-import Loading from '../components/Loading';
 import {Router} from './Router';
 import {authSelector, isAuthenticatedSelector} from 'redux-data-connect';
 import {profileSelector} from '../store/profile';
+import {LoadingView} from 'rn-mobile-components';
 
 export const AuthSwitcher: React.FC = () => {
   const {status} = useSelector(authSelector);
@@ -20,6 +20,11 @@ export const AuthSwitcher: React.FC = () => {
   const {amount, account} = useSelector(profileSelector);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(actions.auth.getTokenAtStartup());
+  }, []);
+
   useEffect(() => {
     switch (status) {
       case 'AUTH_STARTUP':
@@ -34,7 +39,7 @@ export const AuthSwitcher: React.FC = () => {
   switch (status) {
     default:
     case 'AUTH_STARTUP':
-      return <Loading />;
+      return <LoadingView />;
     case 'AUTH_REQUIRED':
     case 'AUTH_SUCCESS':
       if (!isUserAuthenticated) {

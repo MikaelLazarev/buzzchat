@@ -6,14 +6,13 @@
 import React, {useEffect, useState} from 'react';
 import actions from '../../store/actions';
 import {useDispatch, useSelector} from 'react-redux';
-import ContactList from '../../containers/Contacts/ContactList';
+import {ContactList} from '../../containers/Contacts/ContactList';
 import {useNavigation} from '@react-navigation/native';
-import {DataScreen} from '../../components/DataScreen';
 import {ChatCreateDTO} from '../../core/chat';
 import UUIDGenerator from 'react-native-uuid-generator';
-import Loading from '../../components/Loading';
 import {profileSelector} from '../../store/profile';
-import {operationSelector} from "redux-data-connect";
+import {operationSelector} from 'redux-data-connect';
+import {DataScreen, LoadingView} from 'rn-mobile-components';
 
 const ContactsListScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -83,7 +82,7 @@ const ContactsListScreen: React.FC = () => {
   };
 
   if (isCreating) {
-    return <Loading />;
+    return <LoadingView />;
   }
 
   return (

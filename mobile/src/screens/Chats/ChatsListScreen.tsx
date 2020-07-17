@@ -5,14 +5,14 @@
 
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import ChatsList from '../../containers/Chats/ChatsList';
+import {ChatsList} from '../../containers/Chats/ChatsList';
 import actions from '../../store/actions';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
-import {DataScreen} from '../../components/DataScreen';
 import {Chat} from '../../core/chat';
 import {ChatsStackParamList} from './ChatStack';
 import {operationSelector} from 'redux-data-connect';
-import {profileSelector} from "../../store/profile";
+import {profileSelector} from '../../store/profile';
+import {DataScreen} from "rn-mobile-components";
 
 type ChatsListScreenRouteProp = RouteProp<
   ChatsStackParamList,

@@ -9,10 +9,9 @@ import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {Text} from 'react-native-elements';
 import {FormChangeNameView} from '../../containers/Settings/FormNameView';
 import {ProfileChangeNameDTO} from '../../core/profile';
-import {RootState} from '../../store';
 import actions from '../../store/actions';
 import {SettingsStackParamList} from './SettingsStack';
-import {operationSelector} from "redux-data-connect";
+import {operationSelector} from 'redux-data-connect';
 
 type ChangeNameScreenRouteProps = RouteProp<
   SettingsStackParamList,
@@ -29,9 +28,7 @@ export const ChangeNameScreen: React.FC = () => {
   const [hash, setHash] = useState('0');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const operation = useSelector(
-    operationSelector(hash)
-  );
+  const operation = useSelector(operationSelector(hash));
 
   // TODO: Move status to new Dataloader component
 

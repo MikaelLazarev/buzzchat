@@ -8,7 +8,7 @@ import {StyleSheet, View} from 'react-native';
 import {ListItem, Text} from 'react-native-elements';
 import {Profile} from '../../core/profile';
 import {useNavigation} from '@react-navigation/native';
-import SmartAvatar from '../../components/SmartAvatar';
+import {SmartAvatar} from 'rn-mobile-components';
 
 interface ProfileDetailsProps {
   data: Profile;

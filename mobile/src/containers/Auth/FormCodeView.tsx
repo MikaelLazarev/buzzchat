@@ -5,12 +5,12 @@
 
 import React from 'react';
 import * as yup from 'yup';
+import {UserCodeDTO} from '../../core/auth';
 import {
   FormikForm,
   FormikFormViewProps,
-} from '../../components/Forms/FormikForm';
-import {Loading} from '../../components/Loading';
-import {UserCodeDTO} from '../../core/auth';
+  LoadingView,
+} from 'rn-mobile-components';
 
 const formSchema = yup.object({
   code: yup.string().required().min(5),
@@ -27,7 +27,7 @@ export const FormCodeView: React.FC<FormViewProfileProps> = ({
     code: {keyboard: 'numeric'},
   };
 
-  if (!data) return <Loading />;
+  if (!data) return <LoadingView />;
 
   return (
     <FormikForm

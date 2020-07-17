@@ -11,7 +11,7 @@ import {ChatDetailsScreen} from './ChatDetailsScreen';
 import {Button} from 'react-native-elements';
 import ContactsListScreen from '../Contacts/ContactsListScreen';
 import {enableScreens} from 'react-native-screens';
-import {largeTitleStyles} from "../../../styles";
+import {largeTitleStyles} from '../../../styles';
 
 enableScreens();
 
@@ -43,7 +43,7 @@ export const ChatStack: React.FC = () => {
               type="clear"
             />
           ),
-            ...largeTitleStyles
+          ...largeTitleStyles,
         }}
       />
       <Stack.Screen name="ChatDetails" component={ChatDetailsScreen} />

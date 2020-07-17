@@ -5,12 +5,8 @@
 
 import React from 'react';
 import * as yup from 'yup';
-import {
-  FormikForm,
-  FormikFormViewProps,
-} from '../../components/Forms/FormikForm';
-import {Loading} from '../../components/Loading';
 import {ProfileChangeNameDTO} from '../../core/profile';
+import {FormikForm, FormikFormViewProps, LoadingView} from "rn-mobile-components";
 
 const formSchema = yup.object({
   name: yup.string().required('Please, provide your name').min(2),
@@ -28,7 +24,7 @@ export const FormChangeNameView: React.FC<FormViewProfileProps> = ({
     name: {},
   };
 
-  if (!data) return <Loading />;
+  if (!data) return <LoadingView />;
 
   return (
     <FormikForm

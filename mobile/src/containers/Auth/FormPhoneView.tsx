@@ -5,12 +5,13 @@
 
 import React from 'react';
 import * as yup from 'yup';
+
+import {UserSendCodeDTO} from '../../core/auth';
 import {
   FormikForm,
   FormikFormViewProps,
-} from '../../components/Forms/FormikForm';
-import {Loading} from '../../components/Loading';
-import {UserSendCodeDTO} from '../../core/auth';
+  LoadingView,
+} from 'rn-mobile-components';
 
 const formSchema = yup.object({
   phone: yup.string().required('Please, provide your phone').min(5),
@@ -27,7 +28,7 @@ export const FormPhoneView: React.FC<FormViewProfileProps> = ({
     phone: {keyboard: 'phone-pad'},
   };
 
-  if (!data) return <Loading />;
+  if (!data) return <LoadingView />;
 
   return (
     <FormikForm

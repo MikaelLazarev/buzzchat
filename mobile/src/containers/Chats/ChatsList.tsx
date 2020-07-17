@@ -4,13 +4,13 @@
  */
 
 import React from 'react';
-import {FlatList, ListRenderItemInfo, StyleSheet, View} from 'react-native';
+import {FlatList, ListRenderItemInfo, View} from 'react-native';
 import {Text} from 'react-native-elements';
 import ChatCard from './ChatCard';
 import {Chat} from '../../core/chat';
-import {DataScreenComponentProps} from '../../components/DataScreen';
+import {DataScreenComponentProps} from 'rn-mobile-components';
 
-const ChatsList: React.FC<DataScreenComponentProps<Chat[]>> = ({
+export const ChatsList: React.FC<DataScreenComponentProps<Chat[]>> = ({
   data,
   onSelect,
 }) => {
@@ -38,13 +38,3 @@ const ChatsList: React.FC<DataScreenComponentProps<Chat[]>> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  header: {
-    paddingLeft: 15,
-    paddingTop: 20,
-    paddingBottom: 4,
-  },
-});
-
-export default ChatsList;

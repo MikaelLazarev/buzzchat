@@ -9,6 +9,7 @@ import {ThunkMiddleware} from 'redux-thunk';
 import {Action, Dispatch} from 'redux';
 import {BACKEND_ADDR} from '../../config';
 import {actionsAfterAuth} from './actions';
+import {logout} from './auth/actions';
 
 export interface JwtData {
   message: string;
@@ -66,8 +67,6 @@ export function createSocketMiddleware(): ThunkMiddleware<
         return;
       }
 
-      console.log('CONNE23G', jwtToken);
-
       // If connection in progress we add resolver in queue
       if (isConnecting || jwtToken === undefined) {
         waitingPromises.push(resolve);
@@ -77,7 +76,7 @@ export function createSocketMiddleware(): ThunkMiddleware<
         waitingPromises = [];
       }
 
-      console.log(`CONNECTING!!!! TO ${BACKEND_ADDR}`);
+      console.log(`[SOCKET]: Connected to ${BACKEND_ADDR}`);
       let socket = io(BACKEND_ADDR + '/mobile', {
         reconnection: true,
         reconnectionDelay: 500,
@@ -96,8 +95,7 @@ export function createSocketMiddleware(): ThunkMiddleware<
           socketAuth = socket;
           isConnecting = false;
           console.log('CONNECTED', socketAuth);
-          // @ts-ignore
-          dispatch(actionsAfterAuth());
+          dispatch((actionsAfterAuth() as unknown) as Action<string>);
           resolve(socket);
 
           for (const f of waitingPromises) {
@@ -106,11 +104,12 @@ export function createSocketMiddleware(): ThunkMiddleware<
         })
         .on('unauthorized', (msg: UnauthorizedError) => {
           console.log(`ERROR unauthorized: ${JSON.stringify(msg.data)}`);
+
+          // Logout user if token is not valid
+          dispatch((logout() as unknown) as Action<string>);
           reject(msg.data.code);
-          throw new Error(msg.data.type);
         })
         .on('disconnect', () => {
-          console.log('DISCONNECTED!');
           if (socketAuth) socketAuth = undefined;
         });
     });
@@ -122,15 +121,10 @@ export function createSocketMiddleware(): ThunkMiddleware<
 
   return ({dispatch, getState}) => {
     return (next: Dispatch) => (
-      action:
-        | SocketEmitAction
-        | SocketOnAction
-        | SocketOffAction
-        | {type: 'AUTH_SUCCESS'},
+      action: SocketEmitAction | SocketOnAction | SocketOffAction,
     ) => {
       const jwt = getState().auth.access?.token;
 
-      console.log('DISPATCH', action);
       switch (action.type) {
         case 'SOCKET_EMIT':
           if (jwt) {
