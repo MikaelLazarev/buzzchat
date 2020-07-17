@@ -46,7 +46,9 @@ export const SettingsStack: React.FC = () => {
           title: 'Changing name',
         }}
       />
-      <Stack.Screen name="WebAuthQRScreen" component={WebAuthQRScanScreen} />
+      <Stack.Screen name="WebAuthQRScreen" component={WebAuthQRScanScreen}  options={{
+          title: 'Buzzchat Web',
+      }}/>
     </Stack.Navigator>
   );
 };
