@@ -7,13 +7,13 @@ import React, {useEffect, useState} from 'react';
 import {GiftedChat, IMessage} from 'react-native-gifted-chat';
 import actions from '../../store/actions';
 import {useDispatch, useSelector} from 'react-redux';
-import {Message} from '../../core/message';
-import {RootState} from '../../store';
-import {getDetailsItem} from '../../store/dataloader';
+import {mapMessageToIMessage, Message} from '../../core/message';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {ChatsStackParamList} from './ChatStack';
 import Loading from '../../components/Loading';
 import {Alert} from 'react-native';
+import {profileSelector} from '../../store/profile';
+import {chatDetailsDataSelector} from '../../store/chats';
 
 type ChatDetailsScreenRouteProp = RouteProp<
   ChatsStackParamList,
@@ -36,12 +36,12 @@ export const ChatDetailsScreen: React.FC = () => {
     setHash(newHash);
   }, [id]);
 
-  const chatData = getDetailsItem(
-    useSelector((state: RootState) => state.chats.Details),
-    id,
-  );
+  const chatData = useSelector(chatDetailsDataSelector(id));
 
-  const messages = chatData?.data?.messages;
+
+  console.log("CHATDATA", chatData)
+
+  const messages = chatData?.messages;
 
   useEffect(() => {
     if (messages === undefined) {
@@ -50,30 +50,15 @@ export const ChatDetailsScreen: React.FC = () => {
       setIMessages(
         messages
           .sort((m1, m2) => (m1.createdAt < m2.createdAt ? 1 : -1))
-          .map((e) => {
-            const iMsg: IMessage = {
-              _id: e.id,
-              text: e.text,
-              createdAt: e.createdAt,
-              user: {
-                _id: e.user?.id,
-                ...e.user,
-              },
-              pending: e.pending || false,
-            };
-            return iMsg;
-          }),
+          .map(mapMessageToIMessage),
       );
     }
   }, [messages]);
 
-  const profile = useSelector((state: RootState) => state.profile);
-  if (chatData === undefined || chatData.data === undefined) return <Loading />;
-  const {data} = chatData;
+  const profile = useSelector(profileSelector);
+  if (chatData === undefined) return <Loading />;
 
-  const title = data.isTetATetChat
-    ? data.members.filter((e) => e.id !== profile.id)[0].name
-    : data.name;
+  const title = chatData.members.filter((e) => e.id !== profile.id)[0].name;
   navigation.setOptions({title});
 
   const onSend = (newMessages: IMessage[]) => {
@@ -95,8 +80,6 @@ export const ChatDetailsScreen: React.FC = () => {
       ),
     );
   };
-
-  console.log('MESSGGAA', iMessages);
 
   const onLongPress = (msg: IMessage) => {
     if (!msg.pending && msg.user._id === profile.id) {

@@ -4,7 +4,6 @@
  */
 
 export const BACKEND_ADDR = 'http://192.168.0.47:4000';
-
 export const SSO_ADDR = 'http://192.168.0.47:4000';
 
 console.disableYellowBox = true;

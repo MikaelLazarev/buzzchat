@@ -4,23 +4,17 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  Modal,
-  SafeAreaView,
-  StyleSheet,
-  View,
-} from 'react-native';
+import {Alert, SafeAreaView, StyleSheet} from 'react-native';
 import {Text} from 'react-native-elements';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {UserCodeDTO} from '../../core/auth';
-import {STATUS} from '../../store/utils/status';
 import {useDispatch, useSelector} from 'react-redux';
 import actions from '../../store/actions';
-import {RootState} from '../../store';
 import {FormCodeView} from '../../containers/Auth/FormCodeView';
 import {WelcomeStackParamList} from '../Welcome/WelcomeStack';
+import {operationSelector} from 'redux-data-connect';
+import {PleaseWaitModal} from '../../components/PleaseWaitModal';
+import {commonStyles} from '../../../styles';
 
 type EnterCodeScreenRouteProps = RouteProp<
   WelcomeStackParamList,
@@ -36,19 +30,17 @@ export const EnterCodeScreen: React.FC = () => {
   const [hash, setHash] = useState('0');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const operationStatus = useSelector(
-    (state: RootState) => state.operations.data[hash]?.data?.status,
-  );
+  const operation = useSelector(operationSelector(hash));
 
   // TODO: Move status to new Dataloader component
 
   useEffect(() => {
     if (hash !== '0') {
-      switch (operationStatus) {
-        case STATUS.SUCCESS:
+      switch (operation?.status) {
+        case 'STATUS.SUCCESS':
           break;
 
-        case STATUS.FAILURE:
+        case 'STATUS.FAILURE':
           setHash('0');
           Alert.alert('Login Failed', 'Wrong code', [
             {
@@ -59,47 +51,24 @@ export const EnterCodeScreen: React.FC = () => {
           ]);
       }
     }
-  }, [hash, operationStatus]);
+  }, [hash, operation]);
 
   const data: UserCodeDTO = {
     code: '',
   };
   const onSubmit = (values: UserCodeDTO) => {
-    console.log('SUMMMMMIT', values);
-
     setIsSubmitted(true);
     const newHash = Date.now().toString();
     setHash(newHash);
 
     // Emit data
-    dispatch(actions.auth.loginWithPhone(phone, values.code, newHash));
+    dispatch(actions.auth.loginByPhone(phone, values.code, newHash));
   };
 
   return (
     <>
-      <Modal visible={isSubmitted}>
-        <View style={styles.centeredView}>
-          <View
-            style={{
-              backgroundColor: '#c1bfbf',
-              borderRadius: 10,
-              width: '80%',
-              height: '18%',
-              opacity: 50,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginBottom: '5%',
-            }}>
-            <Text style={{color: 'white', fontSize: 18}}>Please, wait...</Text>
-            <Text style={{color: 'white', fontSize: 18}}>
-              It could take up to a minute
-            </Text>
-            <ActivityIndicator style={{marginTop: 20}} />
-          </View>
-        </View>
-      </Modal>
-
-      <SafeAreaView style={styles.container}>
+      <PleaseWaitModal visible={isSubmitted} />
+      <SafeAreaView style={commonStyles.safeAreaContainer}>
         <Text
           style={{
             fontSize: 18,
@@ -119,28 +88,3 @@ export const EnterCodeScreen: React.FC = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    alignContent: 'flex-start',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    height: '100%',
-    width: '100%',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  button: {
-    width: '80%',
-    paddingTop: 50,
-  },
-  button2: {
-    paddingTop: 20,
-  },
-});

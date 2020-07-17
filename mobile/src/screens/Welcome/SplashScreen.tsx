@@ -7,11 +7,16 @@ import React from 'react';
 import {Image, SafeAreaView, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
+import {commonStyles} from '../../../styles';
 
 export const SplashScreen: React.FC = () => {
   const navigation = useNavigation();
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={{
+        ...commonStyles.safeAreaContainerCentered,
+        backgroundColor: 'white',
+      }}>
       <Image
         source={require('../../../logo.jpg')}
         style={{
@@ -21,7 +26,7 @@ export const SplashScreen: React.FC = () => {
           marginTop: -40,
         }}
       />
-      <Text h1 style={{color: '#4171c3'}}>Buzzzchat</Text>
+      <Text h1>Buzzzchat</Text>
       <Text
         style={{
           fontSize: 18,
@@ -43,19 +48,8 @@ export const SplashScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    alignContent: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   button: {
     width: '80%',
     paddingTop: 50,
-  },
-  button2: {
-    width: '80%',
-    marginTop: 20,
   },
 });

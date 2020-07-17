@@ -7,10 +7,10 @@ import React, {useState} from 'react';
 import {FlatList, ScrollView, StyleSheet} from 'react-native';
 import SearchBar from 'react-native-search-bar';
 import {useSelector} from 'react-redux';
-import {profileSelector} from 'src/store/profile';
 import {DataScreenComponentProps} from '../../components/DataScreen';
 import {Contact} from '../../core/contact';
 import ContactCard from './ContactCard';
+import {profileSelector} from '../../store/profile';
 
 const ContactList: React.FC<DataScreenComponentProps<Contact[]>> = ({
   data,

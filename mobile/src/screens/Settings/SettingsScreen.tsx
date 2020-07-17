@@ -10,6 +10,7 @@ import {RootState} from '../../store';
 import {DataScreen} from '../../components/DataScreen';
 import {ProfileDetails} from '../../containers/Settings/ProfileDetails';
 import {profileSelector} from '../../store/profile';
+import {operationSelector} from 'redux-data-connect';
 
 export const SettingsScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -18,19 +19,21 @@ export const SettingsScreen: React.FC = () => {
     const newHash = Date.now().toString();
     dispatch(actions.profile.getProfile(newHash));
     setHash(newHash);
-    // dispatch(actions.chats.getList());
   }, []);
 
   const data = useSelector(profileSelector);
-  const status = useSelector(
-    (state: RootState) => state.operations.data[hash]?.data?.status,
-  );
+  const operation = useSelector(operationSelector(hash));
+
+  console.log("DATA", data);
+  console.log("OPER", operation);
 
   return (
     <DataScreen
       data={data}
       component={ProfileDetails}
-      status={hash === '0' ? 'STATUS.LOADING' : status || 'STATUS.LOADING'}
+      status={
+        hash === '0' ? 'STATUS.LOADING' : operation?.status || 'STATUS.LOADING'
+      }
     />
   );
 };

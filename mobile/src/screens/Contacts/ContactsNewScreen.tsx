@@ -27,6 +27,7 @@ export const ContactsNewScreen: React.FC = () => {
   const {data} = useSelector(contactsSelector);
   const operation = useSelector(operationSelector(hash));
 
+  console.log(hash, data, operation)
   // TODO: Move status to new Dataloader component
 
   useEffect(() => {
@@ -53,7 +54,7 @@ export const ContactsNewScreen: React.FC = () => {
   return (
     <DataScreen
       data={data}
-      status={status || 'STATUS.LOADING'}
+      status={operation?.status || 'STATUS.LOADING'}
       component={ContactList}
       onSelect={onSelect}
       onRefresh={() => dispatch(actions.profile.getProfile(''))}

@@ -88,14 +88,14 @@ export class SocketRouter {
     socket.ok = (opHash: string) => {
       socket.emit('operations:update', {
         id: opHash,
-        status: STATUS.SUCCESS,
+        status: 'STATUS.SUCCESS',
       });
     };
 
     socket.failure = (opHash, error) => {
       socket.emit('operations:update', {
         id: opHash,
-        status: STATUS.FAILURE,
+        status: 'STATUS.FAILURE',
         error,
       });
     };

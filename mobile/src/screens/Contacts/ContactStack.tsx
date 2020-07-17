@@ -9,12 +9,9 @@ import {useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import ContactsListScreen from './ContactsListScreen';
 import {ContactsNewScreen} from './ContactsNewScreen';
+import {largeTitleStyles} from '../../../styles';
 
 const Stack = createNativeStackNavigator();
-
-export type ContactStackParamList = {
-  ContactEditScreen: {id: string};
-};
 
 export const ContactStack: React.FC = () => {
   const navigation = useNavigation();
@@ -37,10 +34,7 @@ export const ContactStack: React.FC = () => {
               type="clear"
             />
           ),
-          headerLargeTitle: true,
-          headerBackTitleStyle: {fontFamily: 'Helvetica Neue'},
-          headerLargeTitleHideShadow: true,
-          headerStyle: {backgroundColor: '#F6F7F8'},
+          ...largeTitleStyles,
         }}
       />
       <Stack.Screen

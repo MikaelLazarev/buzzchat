@@ -4,29 +4,16 @@
  */
 
 import React from 'react';
-import {
-  ActivityIndicator,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-} from 'react-native';
+import {ActivityIndicator, SafeAreaView, StatusBar} from 'react-native';
+import {commonStyles} from '../../styles';
 
 export const Loading: React.FC = () => (
   <>
     <StatusBar barStyle="default" />
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={commonStyles.safeAreaContainerCentered}>
       <ActivityIndicator />
     </SafeAreaView>
   </>
 );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    alignContent: 'center',
-    justifyContent: 'space-around',
-  },
-});
 
 export default Loading;

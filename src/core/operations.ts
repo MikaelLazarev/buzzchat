@@ -8,14 +8,11 @@ export interface Operation {
     status: string,
 }
 
-export enum STATUS {
-    UPDATE_NEEDED = 'STATUS: UPDATE_NEEDED',
-    ACTIVE = 'STATUS: ACTIVE',
-    LOADING = '@@status/LOADING',
-    UPDATING = '@@status/UPDATING',
-    SUCCESS = '@@status/SUCCESS',
-    FAILURE = '@@status/FAILURE',
-}
+export type STATUS =
+    | "STATUS.LOADING"
+    | "STATUS.UPDATING"
+    | "STATUS.SUCCESS"
+    | "STATUS.FAILURE";
 
 export interface SocketUpdate {
     userId: string

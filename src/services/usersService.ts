@@ -64,12 +64,12 @@ export class UsersService implements UsersServiceI {
 
       const phoneNumber = this._send_to_debug ? this._debug_phone : phone;
       const message = `Your code is ${code}`;
-      const result = await this._tsClient.messages.create({
+      await this._tsClient.messages.create({
         body: message,
         from: this._from,
         to: phoneNumber,
       });
-      console.log(result);
+      console.log(message)
       this._cache.set(phone, code);
       resolve(true);
     });

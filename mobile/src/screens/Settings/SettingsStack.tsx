@@ -12,6 +12,7 @@ import {WebAuthQRScanScreen} from './WebAuthQRScanScreen';
 import {useDispatch} from 'react-redux';
 import actions from '../../store/actions';
 import {createNativeStackNavigator} from 'react-native-screens/native-stack';
+import {largeTitleStyles} from '../../../styles';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,10 +36,7 @@ export const SettingsStack: React.FC = () => {
               type="clear"
             />
           ),
-          headerLargeTitle: true,
-          headerBackTitleStyle: {fontFamily: 'Helvetica Neue'},
-          headerLargeTitleHideShadow: true,
-          headerStyle: {backgroundColor: '#F6F7F8'},
+          ...largeTitleStyles,
         }}
       />
       <Stack.Screen

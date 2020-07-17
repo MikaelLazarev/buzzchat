@@ -87,7 +87,6 @@ export function FormikForm<T, S>({
     Object.entries(fields).map((e) => {
       const name = e[0];
       const f = e[1] as FieldI;
-      console.log(props);
       return getComponent(name, f, props);
     });
 

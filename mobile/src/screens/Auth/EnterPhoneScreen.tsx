@@ -4,15 +4,15 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {Image, SafeAreaView, StyleSheet, View} from 'react-native';
-import {Button, Text} from 'react-native-elements';
+import {Alert, SafeAreaView} from 'react-native';
+import {Text} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 import {UserSendCodeDTO} from '../../core/auth';
-import {STATUS} from '../../store/utils/status';
 import {useDispatch, useSelector} from 'react-redux';
 import actions from '../../store/actions';
-import {RootState} from '../../store';
 import {FormPhoneView} from '../../containers/Auth/FormPhoneView';
+import {operationSelector} from 'redux-data-connect';
+import {commonStyles} from '../../../styles';
 
 export const EnterPhoneScreen: React.FC = () => {
   const navigation = useNavigation();
@@ -22,37 +22,37 @@ export const EnterPhoneScreen: React.FC = () => {
   const [hash, setHash] = useState('0');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const operationStatus = useSelector(
-    (state: RootState) => state.operations.data[hash]?.data?.status,
-  );
-
-  // TODO: Move status to new Dataloader component
+  const operation = useSelector(operationSelector(hash));
 
   useEffect(() => {
     if (hash !== '0') {
-      switch (operationStatus) {
-        case STATUS.SUCCESS:
+      switch (operation?.status) {
+        case 'STATUS.SUCCESS':
           setIsSubmitted(false);
-          console.log("GOTO ENTERR CODE SCREEN@!");
           navigation.navigate('EnterCodeScreen', {phone});
           break;
 
-        case STATUS.FAILURE:
+        case 'STATUS.FAILURE':
           setHash('0');
           setIsSubmitted(false);
-        // alert("Cant submit your operation to server");
+          Alert.alert('Oops..', operation?.error || 'Something went wrong', [
+            {
+              text: 'Ok',
+              onPress: () => setIsSubmitted(false),
+              style: 'cancel',
+            },
+          ]);
+          break;
       }
     }
-  }, [hash, operationStatus]);
+  }, [hash, operation]);
 
   const data: UserSendCodeDTO = {
     phone: '',
   };
   const onSubmit = (values: UserSendCodeDTO) => {
-    console.log('SUMMMMMIT', values);
-
-    setIsSubmitted(true);
     const newHash = Date.now().toString();
+    setIsSubmitted(true);
     setHash(newHash);
     setPhone(values.phone);
 
@@ -61,7 +61,7 @@ export const EnterPhoneScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={commonStyles.safeAreaContainer}>
       <Text
         style={{
           fontSize: 18,
@@ -80,22 +80,3 @@ export const EnterPhoneScreen: React.FC = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    alignContent: 'flex-start',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    height: '100%',
-    width: '100%',
-  },
-  button: {
-    width: '80%',
-    paddingTop: 50,
-  },
-  button2: {
-    paddingTop: 20,
-  },
-});

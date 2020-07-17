@@ -12,6 +12,7 @@ import {ProfileChangeNameDTO} from '../../core/profile';
 import {RootState} from '../../store';
 import actions from '../../store/actions';
 import {SettingsStackParamList} from './SettingsStack';
+import {operationSelector} from "redux-data-connect";
 
 type ChangeNameScreenRouteProps = RouteProp<
   SettingsStackParamList,
@@ -28,19 +29,15 @@ export const ChangeNameScreen: React.FC = () => {
   const [hash, setHash] = useState('0');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const status = useSelector(
-    (state: RootState) => state.operations.data[hash]?.data?.status,
-  );
-
-  const error = useSelector(
-    (state: RootState) => state.operations.data[hash]?.data?.error,
+  const operation = useSelector(
+    operationSelector(hash)
   );
 
   // TODO: Move status to new Dataloader component
 
   useEffect(() => {
     if (hash !== '0') {
-      switch (status) {
+      switch (operation?.status) {
         case 'STATUS.SUCCESS':
           navigation.navigate('SettingsScreen');
           break;
@@ -48,11 +45,11 @@ export const ChangeNameScreen: React.FC = () => {
         case 'STATUS.FAILURE':
           setHash('0');
           setIsSubmitted(false);
-          console.log(error);
+          console.log(operation?.error);
         // alert("Cant submit your operation to server");
       }
     }
-  }, [hash, status]);
+  }, [hash, operation]);
 
   const onSubmit = (values: ProfileChangeNameDTO) => {
     setIsSubmitted(true);

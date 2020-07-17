@@ -10,7 +10,7 @@ import {Provider} from 'react-redux';
 import configureStore from './src/store';
 import {ThemeProvider} from 'react-native-elements';
 import {theme} from './styles';
-import {AuthSwitcher} from './src/AuthSwitcher';
+import {AuthSwitcher} from './src/screens/AuthSwitcher';
 import {NavigationContainer} from '@react-navigation/native';
 
 // declare const global: {HermesInternal: null | {}};
@@ -35,3 +35,4 @@ const App = () => {
 };
 
 export default App;
+

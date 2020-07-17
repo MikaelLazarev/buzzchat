@@ -7,10 +7,11 @@ import React from 'react';
 import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import {useNavigation} from '@react-navigation/native';
 import {ChatsListScreen} from './ChatsListScreen';
-import {ChatDetailsScreen} from './ChatDetails';
+import {ChatDetailsScreen} from './ChatDetailsScreen';
 import {Button} from 'react-native-elements';
 import ContactsListScreen from '../Contacts/ContactsListScreen';
 import {enableScreens} from 'react-native-screens';
+import {largeTitleStyles} from "../../../styles";
 
 enableScreens();
 
@@ -42,10 +43,7 @@ export const ChatStack: React.FC = () => {
               type="clear"
             />
           ),
-          headerLargeTitle: true,
-          headerBackTitleStyle: {fontFamily: 'Helvetica Neue'},
-          headerLargeTitleHideShadow: true,
-          headerStyle: {backgroundColor: '#F6F7F8'},
+            ...largeTitleStyles
         }}
       />
       <Stack.Screen name="ChatDetails" component={ChatDetailsScreen} />

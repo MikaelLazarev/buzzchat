@@ -6,14 +6,14 @@
 import React, {useEffect, useState} from 'react';
 import actions from '../../store/actions';
 import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../../store';
 import ContactList from '../../containers/Contacts/ContactList';
 import {useNavigation} from '@react-navigation/native';
 import {DataScreen} from '../../components/DataScreen';
 import {ChatCreateDTO} from '../../core/chat';
 import UUIDGenerator from 'react-native-uuid-generator';
 import Loading from '../../components/Loading';
-import { profileSelector } from 'src/store/profile';
+import {profileSelector} from '../../store/profile';
+import {operationSelector} from "redux-data-connect";
 
 const ContactsListScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -23,9 +23,7 @@ const ContactsListScreen: React.FC = () => {
   const [newChatId, setNewChatId] = useState('');
 
   const profile = useSelector(profileSelector);
-  const operationStatus = useSelector(
-    (state: RootState) => state.operations.data[hash]?.data?.status,
-  );
+  const operation = useSelector(operationSelector(hash));
 
   useEffect(() => {
     if (profile === undefined) {
@@ -33,12 +31,11 @@ const ContactsListScreen: React.FC = () => {
       dispatch(actions.profile.getProfile(newHash));
       setHash(newHash);
     }
-    // dispatch(actions.chats.getList());
   }, [profile]);
 
   useEffect(() => {
     if (hash !== '0' && isCreating) {
-      switch (operationStatus) {
+      switch (operation?.status) {
         case 'STATUS.SUCCESS':
           navigation.navigate('Chats', {
             screen: 'ChatsList',
@@ -50,10 +47,9 @@ const ContactsListScreen: React.FC = () => {
         case 'STATUS.FAILURE':
           setHash('0');
           setIsCreating(false);
-        // alert("Cant submit your operation to server");
       }
     }
-  }, [hash, operationStatus]);
+  }, [hash, operation]);
 
   const onSelect = async (id: string) => {
     const chats = profile.chatsList;

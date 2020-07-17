@@ -122,7 +122,11 @@ export function createSocketMiddleware(): ThunkMiddleware<
 
   return ({dispatch, getState}) => {
     return (next: Dispatch) => (
-      action: SocketEmitAction | SocketOnAction | SocketOffAction,
+      action:
+        | SocketEmitAction
+        | SocketOnAction
+        | SocketOffAction
+        | {type: 'AUTH_SUCCESS'},
     ) => {
       const jwt = getState().auth.access?.token;
 
@@ -167,7 +171,6 @@ export function createSocketMiddleware(): ThunkMiddleware<
           return next(action);
 
         default:
-          console.log('NEXT', action);
           return next(action);
       }
     };

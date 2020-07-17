@@ -13,6 +13,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import {STATUS} from 'redux-data-connect';
+import {commonStyles} from "../../styles";
 
 export interface DataScreenComponentProps<T> {
   data: T;
@@ -34,6 +35,9 @@ export function DataScreen<T>({
   onSelect,
   onRefresh,
 }: DataScreenProps<T>): ReactElement {
+
+
+  console.log("HI", data, status)
   switch (status) {
     default:
     case 'STATUS.LOADING':
@@ -45,7 +49,7 @@ export function DataScreen<T>({
     case 'STATUS.UPDATING':
     case 'STATUS.SUCCESS':
       return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={commonStyles.safeAreaContainer}>
           <ScrollView
             style={styles.scrollContainer}
             refreshControl={
@@ -62,13 +66,6 @@ export function DataScreen<T>({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F6F7F8',
-    alignContent: 'center',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
   scrollContainer: {
     width: '100%',
     marginBottom: 20,

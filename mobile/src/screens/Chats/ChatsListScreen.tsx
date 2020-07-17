@@ -7,11 +7,12 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import ChatsList from '../../containers/Chats/ChatsList';
 import actions from '../../store/actions';
-import {RootState} from '../../store';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {DataScreen} from '../../components/DataScreen';
 import {Chat} from '../../core/chat';
 import {ChatsStackParamList} from './ChatStack';
+import {operationSelector} from 'redux-data-connect';
+import {profileSelector} from "../../store/profile";
 
 type ChatsListScreenRouteProp = RouteProp<
   ChatsStackParamList,
@@ -26,7 +27,7 @@ export const ChatsListScreen: React.FC = () => {
   const route = useRoute<ChatsListScreenRouteProp>();
   const reroute = route.params?.reroute;
 
-  const data = useSelector((state: RootState) => state.profile);
+  const data = useSelector(profileSelector);
 
   useEffect(() => {
     if (data === undefined) {
@@ -34,12 +35,9 @@ export const ChatsListScreen: React.FC = () => {
       dispatch(actions.profile.getProfile(newHash));
       setHash(newHash);
     }
-    // dispatch(actions.chats.getList());
   }, [data]);
 
-  const status = useSelector(
-    (state: RootState) => state.operations.data[hash]?.data?.status,
-  );
+  const operation = useSelector(operationSelector(hash));
 
   const onChatSelect = (id: string) => {
     navigation.navigate('ChatDetails', {
@@ -51,16 +49,18 @@ export const ChatsListScreen: React.FC = () => {
     onChatSelect(reroute);
   }
 
-  const realStatus =
-    hash === '0' && data !== undefined ? 'STATUS.SUCCESS' : status;
+  const status =
+    hash === '0' && data !== undefined
+      ? 'STATUS.SUCCESS'
+      : operation?.status || 'STATUS.LOADING';
 
   return (
     <DataScreen<Chat[]>
       data={data.chatsList}
-      status={realStatus}
+      status={status}
       component={ChatsList}
       onSelect={onChatSelect}
-      onRefresh={() => dispatch(actions.profile.getProfile('r'))}
+      onRefresh={() => dispatch(actions.profile.getProfile(''))}
     />
   );
 };

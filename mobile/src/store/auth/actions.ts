@@ -4,130 +4,55 @@
  */
 import {Action} from 'redux';
 import {ThunkAction} from 'redux-thunk';
-import {
-  createAction,
-  RSAA,
-  RSAAAction,
-  RSAAResultAction,
-} from 'redux-api-middleware';
-import {getFullAPIAddress} from '../utils/api';
-import * as actionTypes from './';
-import {withAuth} from './';
+import {createAction} from 'redux-api-middleware';
 
 import {RootState} from '../index';
-import {AuthPayload} from './reducer';
 import {SSO_ADDR} from '../../../config';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
-  updateOperationStatusByAction,
-  updateStatus,
-} from '../operations/actions';
-import {STATUS} from '../utils/status';
-import {actionsAfterAuth} from '../actions';
+  createGetTokenAtStartupAction,
+  createLogoutAction,
+  journaledOperation,
+  withAuth,
+  getFullUrl,
+} from 'redux-data-connect';
+import {
+  createGetCodeAction,
+  createLoginByPhoneAction,
+} from 'redux-data-connect/lib/auth/actions';
 
-export const loginWithPhone = (
-  phone: string,
-  code: string,
-  opHash: string,
-): ThunkAction<void, RootState, unknown, Action<string>> => async (
-  dispatch,
-) => {
-  const endpoint = '/auth/phone/login/';
-  const json = JSON.stringify({phone, code});
-
-  dispatch(authenticate(endpoint, json, opHash));
+// Persistence management
+const tokenPersistenceGetter = async () => {
+  const token = await AsyncStorage.getItem('token');
+  return token;
+};
+const tokenPersistenceSetter = async (token: string) => {
+  await AsyncStorage.setItem('token', token);
 };
 
-// Send request for refresh token
+const localDataPersistenceCleaner = async () => await AsyncStorage.clear();
 
-export const refreshAccessToken = (
-  token: string,
-): RSAAAction<any, AuthPayload, void> => ({
-  [RSAA]: {
-    endpoint: getFullAPIAddress('/auth/token/refresh/', undefined, SSO_ADDR),
-    method: 'POST',
-    body: JSON.stringify({refresh: token}),
-    headers: {'Content-Type': 'application/json'},
-    credentials: 'same-origin',
-    // @ts-ignore
-    options: {timeout: 10000},
-    types: [
-      actionTypes.TOKEN_REQUEST,
-      actionTypes.TOKEN_RECEIVED,
-      actionTypes.TOKEN_FAILURE,
-    ],
-  },
-});
+// Login actions
+export const getCode = createGetCodeAction(
+  getFullUrl('/auth/phone/get_code/', {host: SSO_ADDR}),
+);
+export const loginByPhone = createLoginByPhoneAction(
+  getFullUrl('/auth/phone/login/', {
+    host: SSO_ADDR,
+  }),
+  tokenPersistenceSetter,
+);
 
-export const getCode = (
-  phone: string,
-  hash?: string,
-): ThunkAction<void, RootState, unknown, Action<string>> => async (
-  dispatch,
-) => {
-  const action = await dispatch(
-    createAction({
-      endpoint: getFullAPIAddress('/auth/phone/get_code/', undefined, SSO_ADDR),
-      method: 'POST',
-      body: JSON.stringify({phone}),
-      headers: {'Content-Type': 'application/json'},
-      types: [
-        actionTypes.GETCODE_REQUEST,
-        actionTypes.GETCODE_SUCCESS,
-        actionTypes.GETCODE_FAILURE,
-      ],
-    }),
-  );
+// Startup actions
+export const getTokenAtStartup = createGetTokenAtStartupAction(
+  getFullUrl('/auth/token/refresh/', {
+    host: SSO_ADDR,
+  }),
+  tokenPersistenceGetter,
+);
 
-  if (action === undefined || action.error) {
-    dispatch(updateStatus(hash || '0', STATUS.FAILURE, action.payload.message));
-  } else {
-    dispatch(updateStatus(hash || '0', STATUS.SUCCESS));
-  }
-  return action;
-};
-
-/*
-  Authenticate flow
-  @param endpoint
-  @param body
- */
-export const authenticate = (
-  endpoint: string,
-  body: string,
-  hash: string = '0',
-): ThunkAction<void, RootState, unknown, Action<string>> => async (
-  dispatch,
-) => {
-  const result = await dispatch<AuthPayload, void>(
-    createAction({
-      endpoint: getFullAPIAddress(endpoint, undefined, SSO_ADDR),
-      method: 'POST',
-      body: body,
-      headers: {'Content-Type': 'application/json'},
-      types: [
-        actionTypes.LOGIN_REQUEST,
-        actionTypes.LOGIN_SUCCESS,
-        actionTypes.LOGIN_FAILURE,
-      ],
-    }),
-  );
-
-  if (
-    result &&
-    !result.error &&
-    result.payload.refresh &&
-    result.type === actionTypes.LOGIN_SUCCESS
-  ) {
-    await AsyncStorage.setItem('token', result.payload.refresh.toString());
-    await dispatch(actionsAfterAuth());
-    dispatch(updateStatus(hash, STATUS.SUCCESS));
-  } else {
-    dispatch(updateStatus(hash, STATUS.FAILURE));
-  }
-
-  console.log(result);
-};
+// Logout action
+const logoutAction = createLogoutAction(localDataPersistenceCleaner);
 
 export const logout = (): ThunkAction<
   void,
@@ -136,71 +61,26 @@ export const logout = (): ThunkAction<
   Action<string>
 > => async (dispatch) => {
   // Clear local storage at logout
-  await AsyncStorage.clear();
-  dispatch({
-    type: actionTypes.LOGOUT,
-  });
+
+  dispatch(logoutAction());
   dispatch({
     type: 'SOCKET_OFF',
   });
 };
 
-export const getTokenAtStartup = (): ThunkAction<
-  void,
-  RootState,
-  unknown,
-  Action<string>
-> => async (dispatch) => {
-  const token = await AsyncStorage.getItem('token');
-
-  if (token) {
-    const result = await dispatch(refreshAccessToken(token));
-    if (
-      !result.error &&
-      result.payload.refresh &&
-      result.type === actionTypes.TOKEN_RECEIVED
-    ) {
-      await dispatch(actionsAfterAuth());
-    }
-  } else {
-    await dispatch(logout());
-  }
-};
-
+// Web auth action
 export const authWeb = (
   code: string,
-  opHash?: string,
-): ThunkAction<void, RootState, unknown, Action<string>> => async (
-  dispatch,
-) => {
-  const action = await dispatch(
+  opHash: string = '0',
+): ThunkAction<void, RootState, unknown, Action<string>> => {
+  return journaledOperation(
     createAction({
-      endpoint: getFullAPIAddress('/auth/web_auth/', undefined, SSO_ADDR),
+      endpoint: getFullUrl('/auth/web_auth/', {host: SSO_ADDR}),
       method: 'POST',
       body: JSON.stringify({code}),
       headers: withAuth({'Content-Type': 'application/json'}),
-      types: [
-        actionTypes.AUTH_WEB_REQUEST,
-        actionTypes.AUTH_WEB_SUCCESS,
-        actionTypes.AUTH_WEB_FAILURE,
-      ],
+      types: ['AUTH_WEB_REQUEST', 'AUTH_WEB_SUCCESS', 'AUTH_WEB_FAILURE'],
     }),
+    opHash,
   );
-
-  dispatch(updateOperationStatusByAction(action, opHash || '0'));
 };
-
-declare module 'redux-thunk' {
-  /*
-   * Overload to add api middleware support to Redux's dispatch() function.
-   * Useful for react-redux or any other library which could use this type.
-   */
-
-  interface ThunkDispatch<S, E, A extends Action> {
-    <T extends A>(action: T): T;
-    <R>(asyncAction: ThunkAction<R, S, E, A>): R;
-    <Payload, Meta>(action: RSAAAction<any, Payload, Meta>): Promise<
-      RSAAResultAction<Payload, Meta>
-    >;
-  }
-}
