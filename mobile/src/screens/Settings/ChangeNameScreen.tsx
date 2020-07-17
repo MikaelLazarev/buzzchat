@@ -2,18 +2,16 @@
  * Buzzzchat - P2P Chat based on Bluzelle DB
  * Copyright (c) 2020. Mikhail Lazarev
  */
-
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
-import {Text} from 'react-native-elements';
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
-import {STATUS} from '../../store/utils/status';
 import {useDispatch, useSelector} from 'react-redux';
-import actions from '../../store/actions';
-import {RootState} from '../../store';
-import {SettingsStackParamList} from './SettingsStack';
-import {ProfileChangeNameDTO} from '../../core/profile';
+import {SafeAreaView, StyleSheet} from 'react-native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {Text} from 'react-native-elements';
 import {FormChangeNameView} from '../../containers/Settings/FormNameView';
+import {ProfileChangeNameDTO} from '../../core/profile';
+import {RootState} from '../../store';
+import actions from '../../store/actions';
+import {SettingsStackParamList} from './SettingsStack';
 
 type ChangeNameScreenRouteProps = RouteProp<
   SettingsStackParamList,
@@ -43,11 +41,11 @@ export const ChangeNameScreen: React.FC = () => {
   useEffect(() => {
     if (hash !== '0') {
       switch (status) {
-        case STATUS.SUCCESS:
+        case 'STATUS.SUCCESS':
           navigation.navigate('SettingsScreen');
           break;
 
-        case STATUS.FAILURE:
+        case 'STATUS.FAILURE':
           setHash('0');
           setIsSubmitted(false);
           console.log(error);

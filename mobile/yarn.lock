@@ -5921,6 +5921,16 @@ redux-api-middleware@^3.2.1:
   resolved "https://registry.yarnpkg.com/redux-api-middleware/-/redux-api-middleware-3.2.1.tgz#979473ba2bfcf78b1fd50763fe7a4bbf0c252e6e"
   integrity sha512-LgFm9RIxjEOL1T2lVjlfsdHh6BOaduDsmmUWi2TV0F3nKrOMSCWS7AUmzgmr/wNuFzENGUC5SqklYJDNCwmuoA==
 
+redux-data-connect@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/redux-data-connect/-/redux-data-connect-1.0.12.tgz#8531b936524aa43d780c2be82acfbd3369a060a7"
+  integrity sha512-QaA4zVCMzigR39aChdA4sJgGbuQWvDCdzTlTBh43+SXhAVTDGommDZUbfsC9NldQKlCcUxbeFTvXFzu1CuEdwA==
+  dependencies:
+    jwt-decode "^2.2.0"
+    redux "^4.0.5"
+    redux-api-middleware "^3.2.1"
+    redux-thunk "^2.3.0"
+
 redux-devtools-extension@^2.13.8:
   version "2.13.8"
   resolved "https://registry.yarnpkg.com/redux-devtools-extension/-/redux-devtools-extension-2.13.8.tgz#37b982688626e5e4993ff87220c9bbb7cd2d96e1"

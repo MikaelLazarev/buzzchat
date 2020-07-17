@@ -6,11 +6,11 @@
 import React, {useEffect, useState} from 'react';
 import actions from '../../store/actions';
 import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../../store';
 import ContactList from '../../containers/Contacts/ContactList';
 import {useNavigation} from '@react-navigation/native';
 import {DataScreen} from '../../components/DataScreen';
-import {STATUS} from '../../store/utils/status';
+import {contactsSelector} from '../../store/contacts';
+import {operationSelector} from 'redux-data-connect';
 
 export const ContactsNewScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -24,26 +24,24 @@ export const ContactsNewScreen: React.FC = () => {
     setHash(newHash);
   }, []);
 
-  const {data} = useSelector((state: RootState) => state.contacts.List);
-  const operationStatus = useSelector(
-    (state: RootState) => state.operations.data[hash]?.data?.status,
-  );
+  const {data} = useSelector(contactsSelector);
+  const operation = useSelector(operationSelector(hash));
 
   // TODO: Move status to new Dataloader component
 
   useEffect(() => {
     if (hash !== '0' && isAdding) {
-      switch (operationStatus) {
-        case STATUS.SUCCESS:
+      switch (operation?.status) {
+        case 'STATUS.SUCCESS':
           navigation.navigate('ContactsList');
           break;
 
-        case STATUS.FAILURE:
+        case 'STATUS.FAILURE':
           setHash('0');
         // alert("Cant submit your operation to server");
       }
     }
-  }, [hash, operationStatus]);
+  }, [hash, operation]);
 
   const onSelect = (id: string) => {
     const newHash = Date.now().toString();
@@ -55,10 +53,10 @@ export const ContactsNewScreen: React.FC = () => {
   return (
     <DataScreen
       data={data}
-      status={operationStatus}
+      status={status || 'STATUS.LOADING'}
       component={ContactList}
       onSelect={onSelect}
-      onRefresh={() => dispatch(actions.profile.getProfile('r'))}
+      onRefresh={() => dispatch(actions.profile.getProfile(''))}
     />
   );
 };

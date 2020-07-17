@@ -15,8 +15,8 @@ import {ThunkAction} from 'redux-thunk';
 import {RootState} from '../index';
 import {Action} from 'redux';
 import {namespace} from '../profile';
-import {DETAIL_FAILURE, DETAIL_SUCCESS} from '../dataloader';
 import {SocketEmitAction, SocketOnAction} from '../socketMiddleware';
+import {DETAIL_FAILURE, DETAIL_SUCCESS} from 'redux-data-connect';
 
 export const connectSocket = (): ThunkAction<
   void,

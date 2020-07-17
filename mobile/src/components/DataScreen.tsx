@@ -4,7 +4,6 @@
  */
 
 import React, {ReactElement} from 'react';
-import {STATUS} from '../store/utils/status';
 import LoadingView from './Loading';
 import FailureView from './Failure';
 import {
@@ -13,6 +12,7 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
+import {STATUS} from 'redux-data-connect';
 
 export interface DataScreenComponentProps<T> {
   data: T;
@@ -36,21 +36,21 @@ export function DataScreen<T>({
 }: DataScreenProps<T>): ReactElement {
   switch (status) {
     default:
-    case STATUS.LOADING:
+    case 'STATUS.LOADING':
       return <LoadingView />;
 
-    case STATUS.FAILURE:
+    case 'STATUS.FAILURE':
       return <FailureView error="Oops! It's a problem connecting server" />;
 
-    case STATUS.UPDATING:
-    case STATUS.SUCCESS:
+    case 'STATUS.UPDATING':
+    case 'STATUS.SUCCESS':
       return (
         <SafeAreaView style={styles.container}>
           <ScrollView
             style={styles.scrollContainer}
             refreshControl={
               <RefreshControl
-                refreshing={status === STATUS.UPDATING}
+                refreshing={status === 'STATUS.UPDATING'}
                 onRefresh={onRefresh}
               />
             }>

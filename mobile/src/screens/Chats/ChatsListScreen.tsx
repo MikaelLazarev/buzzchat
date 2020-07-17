@@ -11,7 +11,6 @@ import {RootState} from '../../store';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {DataScreen} from '../../components/DataScreen';
 import {Chat} from '../../core/chat';
-import {STATUS} from '../../store/utils/status';
 import {ChatsStackParamList} from './ChatStack';
 
 type ChatsListScreenRouteProp = RouteProp<
@@ -53,7 +52,7 @@ export const ChatsListScreen: React.FC = () => {
   }
 
   const realStatus =
-    hash === '0' && data !== undefined ? STATUS.SUCCESS : status;
+    hash === '0' && data !== undefined ? 'STATUS.SUCCESS' : status;
 
   return (
     <DataScreen<Chat[]>

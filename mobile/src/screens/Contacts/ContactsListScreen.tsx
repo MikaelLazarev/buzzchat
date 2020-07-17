@@ -11,9 +11,9 @@ import ContactList from '../../containers/Contacts/ContactList';
 import {useNavigation} from '@react-navigation/native';
 import {DataScreen} from '../../components/DataScreen';
 import {ChatCreateDTO} from '../../core/chat';
-import {STATUS} from '../../store/utils/status';
 import UUIDGenerator from 'react-native-uuid-generator';
 import Loading from '../../components/Loading';
+import { profileSelector } from 'src/store/profile';
 
 const ContactsListScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const ContactsListScreen: React.FC = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [newChatId, setNewChatId] = useState('');
 
-  const profile = useSelector((state: RootState) => state.profile);
+  const profile = useSelector(profileSelector);
   const operationStatus = useSelector(
     (state: RootState) => state.operations.data[hash]?.data?.status,
   );
@@ -39,7 +39,7 @@ const ContactsListScreen: React.FC = () => {
   useEffect(() => {
     if (hash !== '0' && isCreating) {
       switch (operationStatus) {
-        case STATUS.SUCCESS:
+        case 'STATUS.SUCCESS':
           navigation.navigate('Chats', {
             screen: 'ChatsList',
             params: {reroute: newChatId},
@@ -47,7 +47,7 @@ const ContactsListScreen: React.FC = () => {
           setIsCreating(false);
           break;
 
-        case STATUS.FAILURE:
+        case 'STATUS.FAILURE':
           setHash('0');
           setIsCreating(false);
         // alert("Cant submit your operation to server");
@@ -93,10 +93,10 @@ const ContactsListScreen: React.FC = () => {
   return (
     <DataScreen
       data={profile.contactsList || []}
-      status={STATUS.SUCCESS}
+      status={'STATUS.SUCCESS'}
       component={ContactList}
       onSelect={onSelect}
-      onRefresh={() => dispatch(actions.profile.getProfile('r'))}
+      onRefresh={() => dispatch(actions.profile.getProfile(''))}
     />
   );
 };

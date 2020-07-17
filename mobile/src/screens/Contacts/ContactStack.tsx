@@ -4,11 +4,11 @@
  */
 
 import React from 'react';
-import ContactsListScreen from './ContactsListScreen';
 import {Button} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
-import {ContactsNewScreen} from './ContactsNewScreen';
 import {createNativeStackNavigator} from 'react-native-screens/native-stack';
+import ContactsListScreen from './ContactsListScreen';
+import {ContactsNewScreen} from './ContactsNewScreen';
 
 const Stack = createNativeStackNavigator();
 

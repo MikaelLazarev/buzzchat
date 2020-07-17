@@ -6,8 +6,10 @@
 import {Chat} from '../../core/chat';
 import {CHATS_PREFIX} from './';
 import {combineReducers} from 'redux';
-import {createDataLoaderListReducer} from '../dataloader/list';
-import {createDataLoaderDetailsReducer} from './details';
+import {
+  createDataLoaderListReducer,
+  createDataLoaderDetailsReducer,
+} from 'redux-data-connect';
 
 export default combineReducers({
   List: createDataLoaderListReducer<Chat>(CHATS_PREFIX),

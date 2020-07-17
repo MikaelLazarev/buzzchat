@@ -4,20 +4,20 @@
  */
 
 import React, {useState} from 'react';
-import {FlatList, StyleSheet, ScrollView} from 'react-native';
+import {FlatList, ScrollView, StyleSheet} from 'react-native';
 import SearchBar from 'react-native-search-bar';
-import ContactCard from './ContactCard';
-import {Contact} from '../../core/contact';
-import {DataScreenComponentProps} from '../../components/DataScreen';
 import {useSelector} from 'react-redux';
-import {RootState} from '../../store';
+import {profileSelector} from 'src/store/profile';
+import {DataScreenComponentProps} from '../../components/DataScreen';
+import {Contact} from '../../core/contact';
+import ContactCard from './ContactCard';
 
 const ContactList: React.FC<DataScreenComponentProps<Contact[]>> = ({
   data,
   onSelect,
 }) => {
   const [search, setSearch] = useState('');
-  const profile = useSelector((state: RootState) => state.profile);
+  const profile = useSelector(profileSelector);
 
   const otherContactsData = data.filter((elm) => elm.id !== profile.id);
   const filteredData =
@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 20,
     borderWidth: 0,
-
   },
   header: {
     paddingLeft: 20,

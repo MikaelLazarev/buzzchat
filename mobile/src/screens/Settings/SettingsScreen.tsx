@@ -8,8 +8,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import actions from '../../store/actions';
 import {RootState} from '../../store';
 import {DataScreen} from '../../components/DataScreen';
-import {STATUS} from '../../store/utils/status';
 import {ProfileDetails} from '../../containers/Settings/ProfileDetails';
+import {profileSelector} from '../../store/profile';
 
 export const SettingsScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -21,7 +21,7 @@ export const SettingsScreen: React.FC = () => {
     // dispatch(actions.chats.getList());
   }, []);
 
-  const data = useSelector((state: RootState) => state.profile);
+  const data = useSelector(profileSelector);
   const status = useSelector(
     (state: RootState) => state.operations.data[hash]?.data?.status,
   );
@@ -30,7 +30,7 @@ export const SettingsScreen: React.FC = () => {
     <DataScreen
       data={data}
       component={ProfileDetails}
-      status={hash === '0' ? STATUS.LOADING : status}
+      status={hash === '0' ? 'STATUS.LOADING' : status || 'STATUS.LOADING'}
     />
   );
 };
