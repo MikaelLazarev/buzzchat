@@ -7,7 +7,7 @@ const path = require('path');
 const { override, addBabelPlugins, babelInclude } = require('customize-cra');
 
 module.exports = override(
-    ...addBabelPlugins('@babel/plugin-syntax-optional-chaining', '@babel/plugin-proposal-class-properties'),
+    ...addBabelPlugins('@babel/plugin-proposal-class-properties'),
     babelInclude([
       path.resolve(__dirname, 'node_modules/react-native-elements'),
       path.resolve(__dirname, 'node_modules/react-native-vector-icons'),
