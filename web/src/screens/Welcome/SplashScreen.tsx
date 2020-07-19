@@ -47,7 +47,7 @@ export const SplashScreen: React.FC = () => {
       }}>
       <View style={container}>
         <Image
-          source={require('../../logo.png')}
+          source={require('../../logo.jpg')}
           style={{
             height: 200,
             width: 200,
@@ -55,22 +55,22 @@ export const SplashScreen: React.FC = () => {
             marginBottom: 8,
           }}
         />
-
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: 'bold',
-            color: '#687882',
-            marginTop: 5,
-          }}>
-          Spam-free real anonymous messanger
-        </Text>
+          <Text h1>Buzzzchat</Text>
+          <Text
+              style={{
+                  fontSize: 18,
+                  fontWeight: 'bold',
+                  color: '#687882',
+                  marginTop: 5,
+              }}>
+              Bluzelle DB messenger
+          </Text>
       </View>
       <View style={container}>
-        <Text h1>To use BuzzzChat on your computer:</Text>
+        <Text style={{paddingBottom: '20px'}} h2>To use BuzzzChat on your computer:</Text>
         <Text h3>1. Open Buzzzchat on your phone</Text>
         <Text h3>2. Tap 'Settings' and Select 'Connect Web'</Text>
-        <Text h3>3. Point your phone to this screen to capture the code</Text>
+        <Text style={{paddingBottom: '20px'}} h3>3. Point your phone to this screen to capture the code</Text>
         <QRCode value={code || ''} />
       </View>
     </FullScreenView>

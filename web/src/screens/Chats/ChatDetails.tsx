@@ -9,10 +9,11 @@ import actions from '../../store/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {Message} from '../../core/message';
 import {RootState} from '../../store';
-import {getDetailsItem} from '../../store/dataloader';
 import Loading from '../../components/Loading';
 import {View, Alert} from 'react-native';
 import {Text} from 'react-native-elements';
+import {profileSelector} from "../../store/profile";
+import {chatDetailsDataSelector} from "../../store/chats";
 
 interface ChatDetailsScreenProps {
   id: string | undefined;
@@ -30,11 +31,8 @@ export const ChatDetailsScreen: React.FC<ChatDetailsScreenProps> = ({id}) => {
     }
   }, [id]);
 
-  const chatData = getDetailsItem(
-    useSelector((state: RootState) => state.chats.Details),
-    id || '0',
-  );
-  const profile = useSelector((state: RootState) => state.profile);
+  const data = useSelector(chatDetailsDataSelector(id || '0'));
+  const profile = useSelector(profileSelector);
 
   if (id === undefined)
     return (
@@ -49,8 +47,7 @@ export const ChatDetailsScreen: React.FC<ChatDetailsScreenProps> = ({id}) => {
       </View>
     );
 
-  if (chatData === undefined || chatData.data === undefined) return <Loading />;
-  const {data} = chatData;
+  if (data === undefined) return <Loading />;
 
   const messages = data.messages;
 

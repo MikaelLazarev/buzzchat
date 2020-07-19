@@ -3,20 +3,18 @@
  * Copyright (c) 2020. Mikhail Lazarev
  */
 
-import {DataLoaderDetailsActions} from '../dataloader/types';
 import {CHATS_PREFIX} from './index';
-import {DETAIL_FAILURE, DETAIL_SUCCESS} from '../dataloader';
 import {Chat} from '../../core/chat';
-import {DataItem} from '../dataloader/reducer';
-import {STATUS} from '../utils/status';
 import {Message} from '../../core/message';
+import {DataItem, DETAIL_FAILURE, DETAIL_SUCCESS} from "redux-data-connect";
+import {DataLoaderDetailsActions} from "redux-data-connect/lib/dataloader";
 
 export type DataLoaderDetailsState<Chat> = {
   data: Record<string, DataItem<Chat>>;
   hashes: Record<string, DataItem<Chat>>;
 };
 
-export function createDataLoaderDetailsReducer() {
+export function createChatDataLoaderDetailsReducer() {
   const initialState: DataLoaderDetailsState<Chat> = {
     data: {},
     hashes: {},
@@ -59,7 +57,7 @@ export function createDataLoaderDetailsReducer() {
         }
 
         if (action.payload !== undefined) action.payload.messages.forEach((msg) =>
-          pendingMessages.set(msg.id, msg),
+            pendingMessages.set(msg.id, msg),
         );
 
         return updateDetailState(state, id, '0', {
@@ -70,7 +68,7 @@ export function createDataLoaderDetailsReducer() {
                   ...action.payload,
                   messages: Array.from(pendingMessages.values()),
                 },
-          status: STATUS.SUCCESS,
+          status: 'STATUS.SUCCESS',
         });
 
       case CHATS_PREFIX + 'PENDING_MESSAGE':
@@ -92,13 +90,13 @@ export function createDataLoaderDetailsReducer() {
               ...action.payload.messages,
             ],
           },
-          status: STATUS.SUCCESS,
+          status: 'STATUS.SUCCESS',
         });
 
       case CHATS_PREFIX + DETAIL_FAILURE:
         return updateDetailState(state, id, '0', {
           data: undefined,
-          status: STATUS.FAILURE,
+          status: 'STATUS.FAILURE',
         });
 
       default:

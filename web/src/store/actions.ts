@@ -7,7 +7,7 @@ import * as auth from './auth/actions';
 import * as chats from './chats/actions';
 import * as contacts from './contacts/actions';
 import * as profile from './profile/actions';
-import * as operations from './operations/actions';
+import * as operations from 'redux-data-connect/lib/operations/actions';
 import {ThunkAction} from 'redux-thunk';
 import {RootState} from './index';
 import {Action} from 'redux';

@@ -42,6 +42,7 @@ export class UserWebAuthController {
   sendAuth(code: string, pair: TokenPair): void {
     if (this.socketsPool[code] === undefined) {
       console.log('Code not found');
+      return
     }
 
     const socket = this.socketsPool[code];

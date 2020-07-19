@@ -8,12 +8,12 @@ import auth from './auth/reducer';
 import chats from './chats/reducer';
 import contacts from './contacts/reducer';
 import profile from './profile/reducer';
-import operations from './operations/reducer';
+import {operationReducer} from 'redux-data-connect';
 
 export default combineReducers({
   auth,
   chats,
   contacts,
   profile,
-  operations,
+  operations : operationReducer,
 });

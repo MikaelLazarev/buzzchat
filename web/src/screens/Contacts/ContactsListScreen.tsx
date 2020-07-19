@@ -10,8 +10,6 @@ import {RootState} from '../../store';
 import ContactList from '../../containers/Contacts/ContactList';
 import {DataScreen} from '../../components/DataScreen';
 import {ChatCreateDTO} from '../../core/chat';
-import {v4 as uuidv4} from 'uuid';
-import {STATUS} from "../../store/utils/status";
 
 const ContactsListScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -21,7 +19,6 @@ const ContactsListScreen: React.FC = () => {
     const newHash = Date.now().toString();
     dispatch(actions.profile.getProfile(newHash));
     setHash(newHash);
-    // dispatch(actions.chats.getList());
   }, []);
 
   const data = useSelector((state: RootState) => state.profile);
@@ -62,7 +59,7 @@ const ContactsListScreen: React.FC = () => {
   return (
     <DataScreen
       data={data.contactsList || []}
-      status={STATUS.SUCCESS}
+      status={'STATUS.SUCCESS'}
       component={ContactList}
       onSelect={onSelect}
     />

@@ -14,14 +14,14 @@ import {ThunkAction} from 'redux-thunk';
 import {RootState} from '../index';
 import {Action} from 'redux';
 import {namespace} from '../profile';
-import {DETAIL_FAILURE, DETAIL_SUCCESS} from '../dataloader';
-import {SocketEmitAction} from '../socketMiddleware';
+import {SocketEmitAction, SocketOnAction} from '../socketMiddleware';
+import {DETAIL_FAILURE, DETAIL_SUCCESS} from 'redux-data-connect';
 
 export const connectSocket = (): ThunkAction<
   void,
   RootState,
   unknown,
-  Action<string>
+  SocketOnAction
 > => async (dispatch) => {
   dispatch({
     type: 'SOCKET_ON',
@@ -64,12 +64,10 @@ export const getDetails: (id: string, opHash: string) => SocketEmitAction = (
 export const postMessage: (
   dto: PostMessageDTO,
   opHash: string,
-) => ThunkAction<void, RootState, unknown, Action<string>> = (
+) => ThunkAction<void, RootState, unknown, SocketEmitAction> = (
   dto,
   opHash,
 ) => async (dispatch) => {
-
-
   dispatch({
     type: 'SOCKET_EMIT',
     namespace,
@@ -79,3 +77,29 @@ export const postMessage: (
     opHash,
   });
 };
+
+// export const deleteMessage: (
+//   dto: DeleteMessageDTO,
+//   opHash: string,
+// ) => ThunkAction<void, RootState, unknown, Action<string>> = (
+//   dto,
+//   opHash,
+// ) => async (dispatch, getState) => {
+//   const state = getState();
+//   const chat = state.chats.Details.data[dto.chatId].data as Chat;
+//   chat.messages = chat.messages.filter((msg) => msg.id !== dto.msgId);
+//
+//   dispatch({
+//     type: CHATS_PREFIX + DETAIL_SUCCESS,
+//     payload: chat,
+//   });
+//
+//   dispatch({
+//     type: 'SOCKET_EMIT',
+//     namespace,
+//     event: 'chat:deleteMessage',
+//     typeOnFailure: CHATS_PREFIX + DETAIL_SUCCESS,
+//     payload: dto,
+//     opHash,
+//   });
+// };

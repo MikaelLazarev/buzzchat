@@ -45,14 +45,7 @@ export const ChatsScreen: React.FC = () => {
           <Text>
             Bluzelle account: <strong> {account + ' '}</strong>
             Amount: <strong>{amount + ' '}</strong>
-            <Button
-              title={'Refund'}
-              onPress={() => {
-                window.location.assign(
-                  'http://staking.bluzelle.com/fundwallet',
-                );
-              }}
-            />
+
             <View style={{marginLeft: 10}}>
               <Button
                   title={'Logout'}

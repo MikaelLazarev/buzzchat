@@ -7,27 +7,29 @@ import {applyMiddleware, compose, createStore} from 'redux';
 import reducer from './reducer';
 import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension';
-import createApiMiddleware from './middleware';
+import {createApiMiddleware, getFullUrl} from 'redux-data-connect';
 import createSocketMiddleware from './socketMiddleware';
-
-let composeEnhancers: typeof compose;
-
-
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-  composeEnhancers = composeWithDevTools({});
-} else {
-  composeEnhancers = compose;
-}
+import {SSO_ADDR} from '../config';
 
 export type RootState = ReturnType<typeof reducer>;
 
+let composeEnhancers: typeof compose;
+
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    composeEnhancers = composeWithDevTools({});
+} else {
+    composeEnhancers = compose;
+}
+
+const apiMiddleware = createApiMiddleware(
+    getFullUrl('/auth/token/refresh/', {host: SSO_ADDR}),
+);
+
 export default function configureStore() {
   return createStore(
-    reducer,
-    composeEnhancers(
-      applyMiddleware(thunk,
-          createSocketMiddleware,
-          createApiMiddleware),
-    ),
+      reducer,
+      composeEnhancers(
+          applyMiddleware(thunk, createSocketMiddleware, apiMiddleware),
+      ),
   );
 }

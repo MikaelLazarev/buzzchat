@@ -9,7 +9,6 @@ import NodeCache from 'node-cache';
 
 import config from '../config/config';
 import crypto from 'crypto';
-// @ts-ignore
 import jwt from 'jsonwebtoken';
 import {TYPES} from '../types';
 import {UserWebAuthController} from '../controllers/userWebAuthController';
