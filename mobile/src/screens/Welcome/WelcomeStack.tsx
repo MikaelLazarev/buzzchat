@@ -22,18 +22,14 @@ export const WelcomeStack: React.FC = () => {
         name="SplashScreen"
         component={SplashScreen}
         options={{
-          header: () => {
-            visible: false;
-          },
+          headerShown: false,
         }}
       />
       <Stack.Screen
         name="PhoneScreen"
         component={EnterPhoneScreen}
         options={{
-          header: () => {
-            visible: false;
-          },
+          headerShown: false,
         }}
       />
       <Stack.Screen name="EnterCodeScreen" component={EnterCodeScreen} />

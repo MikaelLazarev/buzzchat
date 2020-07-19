@@ -33,7 +33,7 @@ export const FormCodeView: React.FC<FormViewProfileProps> = ({
     <FormikForm
       formSchema={formSchema}
       fields={fields}
-      initialValues={data}
+      initialValues={(data as unknown) as Record<string, unknown>}
       onSubmit={onSubmit}
       isSubmitted={isSubmitted}
     />
