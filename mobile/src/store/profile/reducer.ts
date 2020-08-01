@@ -18,6 +18,7 @@ const initialState: ProfileState = {
   amount: '-',
 };
 
+
 export default function createReducer(
   state: ProfileState = initialState,
   action: ProfileActions,

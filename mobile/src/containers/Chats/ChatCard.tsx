@@ -9,7 +9,7 @@ import {Text} from 'react-native-elements';
 import {Chat} from '../../core/chat';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
-import {SmartAvatar} from "rn-mobile-components";
+import {SmartAvatar} from 'rn-mobile-components';
 
 interface ChatCardProps {
   data: Chat;

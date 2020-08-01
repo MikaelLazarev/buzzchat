@@ -16,7 +16,7 @@ import {TYPES} from '../types';
 import {SocketUpdate} from '../core/operations';
 import {Chat, ChatsRepositoryI, ChatWithMembers} from '../core/chat';
 import {Contact} from '../core/contact';
-import {BluzelleAPI} from "../repository/bluzelleAPI";
+import {BluzelleAPI} from '../repository/bluzelleAPI';
 
 @injectable()
 export class ProfilesService implements ProfilesServiceI {
@@ -74,6 +74,12 @@ export class ProfilesService implements ProfilesServiceI {
       const c = await this._repository.findOne(contactId);
       if (c) profileFull.contactsList.push(c);
     }
+
+    this._updateQueue.push({
+      userId: user_id,
+      event: 'profile:updateDetails',
+      payload: profileFull,
+    });
 
     return profileFull;
   }

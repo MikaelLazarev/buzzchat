@@ -10,7 +10,8 @@ import actions from '../../store/actions';
 import {RootState} from '../../store';
 import {DataScreen} from '../../components/DataScreen';
 import {Chat} from '../../core/chat';
-import {STATUS} from "../../store/utils/status";
+import {profileSelector} from "../../store/profile";
+import {operationSelector} from "redux-data-connect";
 
 export interface ChatsListScreenProps {
   onSelect: (id: string) => void;
@@ -28,16 +29,13 @@ export const ChatsListScreen: React.FC<ChatsListScreenProps> = ({onSelect}) => {
     // dispatch(actions.chats.getList());
   }, []);
 
-  const data = useSelector((state: RootState) => state.profile);
-  const operData = useSelector((state: RootState) => state.operations.data[hash]);
-
-  // @ts-ignore
-  const status = operData !== undefined ? operData.data.status : STATUS.UPDATE_NEEDED;
+  const data = useSelector(profileSelector);
+  const operation = useSelector(operationSelector(hash));
 
   return (
     <DataScreen<Chat[]>
       data={data.chatsList}
-      status={status}
+      status={operation? operation.status : 'STATUS.LOADING'}
       component={ChatsList}
       onSelect={onSelect}
     />

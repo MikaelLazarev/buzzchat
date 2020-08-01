@@ -16,9 +16,7 @@ const initialState: ProfileState = {
   contactsList: [],
   account: '-',
   amount: '-',
-
 };
-
 
 export default function createReducer(
   state: ProfileState = initialState,
@@ -33,8 +31,6 @@ export default function createReducer(
       return {
         ...state,
       };
-    case 'PROFILE_LOGOUT':
-      return initialState;
   }
 
   return state;

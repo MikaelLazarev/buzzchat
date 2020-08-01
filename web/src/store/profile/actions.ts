@@ -6,12 +6,7 @@
 import {ThunkAction} from 'redux-thunk';
 import {Action} from 'redux';
 import {RootState} from '../index';
-import {updateStatus} from '../operations/actions';
-import {createAction} from 'redux-api-middleware';
-import {STATUS} from '../utils/status';
 import {namespace} from './index';
-import {getFullAPIAddress} from '../utils/api';
-import {withAuth} from '../auth';
 import {Profile} from '../../core/profile';
 import {SocketEmitAction} from '../socketMiddleware';
 
@@ -58,6 +53,6 @@ export const addContract: (id: string, opHash?: string) => SocketEmitAction = (
   namespace,
   event: 'profile:new_contact',
   typeOnFailure: 'PROFILE_FAILURE',
-  payload: { id },
+  payload: {id},
   opHash,
 });

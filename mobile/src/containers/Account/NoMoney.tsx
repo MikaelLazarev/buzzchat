@@ -8,6 +8,7 @@ import {Button, Icon, Text} from 'react-native-elements';
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import actions from '../../store/actions';
+import {commonStyles} from "../../../styles";
 
 interface NoMoneyProps {
   account: string;
@@ -19,7 +20,7 @@ export const NoMoneyScreen: React.FC<NoMoneyProps> = ({account}) => {
   return (
     <>
       <StatusBar barStyle="default" />
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={commonStyles.safeAreaContainerCentered}>
         <View style={styles.containerText}>
           <Icon name="logo-usd" type="ionicon" size={50} color="blue" />
           <Text h4 style={{textAlign: 'center'}}>
@@ -41,12 +42,6 @@ export const NoMoneyScreen: React.FC<NoMoneyProps> = ({account}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    alignContent: 'center',
-    justifyContent: 'center',
-  },
   containerText: {
     alignItems: 'center',
     alignContent: 'center',
