@@ -9,7 +9,6 @@ import chats from './chats/reducer';
 import contacts from './contacts/reducer';
 import profile from './profile/reducer';
 
-
 export default combineReducers({
   auth: authReducer,
   chats,

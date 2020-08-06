@@ -10,54 +10,58 @@ import {ContactList} from '../../containers/Contacts/ContactList';
 import {useNavigation} from '@react-navigation/native';
 import {contactsSelector} from '../../store/contacts';
 import {operationSelector} from 'redux-data-connect';
-import {DataScreen} from "rn-mobile-components";
+import {DataScreen} from 'rn-mobile-components';
 
 export const ContactsNewScreen: React.FC = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [hash, setHash] = useState('0');
-  const [isAdding, setIsAdding] = useState(false);
+  const [hashGet, setGetHash] = useState('0');
+  const [hashAdd, setAddHash] = useState('0');
 
-  useEffect(() => {
+  const getProfile = () => {
     const newHash = Date.now().toString();
     dispatch(actions.contacts.getList(newHash));
-    setHash(newHash);
+    setGetHash(newHash);
+  };
+
+  useEffect(() => {
+    getProfile();
   }, []);
 
   const {data} = useSelector(contactsSelector);
-  const operation = useSelector(operationSelector(hash));
+  const operationGet = useSelector(operationSelector(hashGet));
+  const operationAdd = useSelector(operationSelector(hashAdd));
 
-  console.log(hash, data, operation);
   // TODO: Move status to new Dataloader component
 
   useEffect(() => {
-    if (hash !== '0' && isAdding) {
-      switch (operation?.status) {
+    if (hashAdd !== '0') {
+      switch (operationAdd?.status) {
         case 'STATUS.SUCCESS':
-          navigation.navigate('ContactsList');
+          setAddHash('0');
+          setTimeout(() => navigation.navigate('ContactsList'), 500);
           break;
 
         case 'STATUS.FAILURE':
-          setHash('0');
+          setAddHash('0');
         // alert("Cant submit your operation to server");
       }
     }
-  }, [hash, operation]);
+  }, [operationAdd]);
 
   const onSelect = (id: string) => {
     const newHash = Date.now().toString();
     dispatch(actions.profile.addContract(id, newHash));
-    setHash(newHash);
-    setIsAdding(true);
+    setAddHash(newHash);
   };
 
   return (
     <DataScreen
       data={data}
-      status={operation?.status || 'STATUS.LOADING'}
+      status={operationGet?.status}
       component={ContactList}
       onSelect={onSelect}
-      onRefresh={() => dispatch(actions.profile.getProfile(''))}
+      onRefresh={() => getProfile()}
     />
   );
 };

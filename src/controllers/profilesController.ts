@@ -10,12 +10,8 @@ import {
 } from '../core/profiles';
 import {inject, injectable} from 'inversify';
 import {TYPES} from '../types';
-import {
-  SocketController,
-  socketListeners,
-  SocketWithToken,
-} from './socketRouter';
 import {SocketUpdate} from '../core/operations';
+import {SocketController, socketListeners, SocketPusher, SocketWithToken} from "../core/socket";
 
 @injectable()
 export class ProfilesController implements SocketController {
@@ -25,6 +21,10 @@ export class ProfilesController implements SocketController {
   constructor(@inject(TYPES.ProfilesService) service: ProfilesServiceI) {
     console.log('Profiles controller started');
     this._service = service;
+  }
+
+  setPusher(pusher: SocketPusher): void {
+    this._service.setPusher(pusher)
   }
 
   get namespace(): string {
@@ -83,7 +83,4 @@ export class ProfilesController implements SocketController {
     };
   }
 
-  update(): SocketUpdate[] {
-    return this._service.getUpdateQueue();
-  }
 }

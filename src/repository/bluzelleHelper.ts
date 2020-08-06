@@ -28,7 +28,7 @@ export class BluzelleHelper<T> {
   async findOne(id: string, repeat?: number): Promise<T | undefined> {
     try {
       if (BluzelleHelper._cache.has(this.getItemHash(id))) {
-        console.log("got from cache");
+        console.log(`[BLUZELLE:FIND ONE] ${id} @ ${this._uuid} Got from cache`);
         return BluzelleHelper._cache.get<T>(this.getItemHash(id));
       }
 
@@ -36,7 +36,13 @@ export class BluzelleHelper<T> {
       if (api === undefined) return undefined;
 
       const dataStr = await api.read(id);
-      return JSON.parse(dataStr);
+      const value = JSON.parse(dataStr)
+
+      console.log(`[BLUZELLE:FIND ONE] ${id} @ ${this._uuid} Got from db`);
+
+      // Saving item to cache
+      BluzelleHelper._cache.set(this.getItemHash(id), value);
+      return value;
     } catch (e) {
       const repeatQty = repeat === undefined ? REPEAT_QTY : repeat - 1;
       if (repeatQty <= 0) {
@@ -73,6 +79,7 @@ export class BluzelleHelper<T> {
   async list(repeat?: number): Promise<T[] | undefined> {
     try {
       if (BluzelleHelper._cache.has(this.getLishHash())) {
+        console.log("[BLUZELLE:LIST] got from cache");
         return BluzelleHelper._cache.get<T[]>(this.getLishHash());
       }
 
@@ -93,11 +100,13 @@ export class BluzelleHelper<T> {
             next = value;
             return;
           }
+          // Saving each item to cache
           BluzelleHelper._cache.set(this.getItemHash(key), JSON.parse(value));
           data.push(JSON.parse(value) as T);
         });
       } while (next !== undefined);
 
+      // Saving list to cache
       BluzelleHelper._cache.set(this.getLishHash(), data);
       return data;
     } catch (e) {
@@ -147,6 +156,7 @@ export class BluzelleHelper<T> {
       await api.create(key, JSON.stringify(item), BluzelleAPI.gasPrice);
       Db.addCreateTime(Date.now() - startTime);
 
+      // Clear cache
       BluzelleHelper._cache.del(this.getItemHash(key));
       BluzelleHelper._cache.del(this.getLishHash());
       return key;
@@ -168,6 +178,8 @@ export class BluzelleHelper<T> {
   async insert(item: T): Promise<string | undefined> {
     const key = await this.create(uuidv4(), item);
     if (key === undefined) throw "Cant create an element";
+
+    // Update cache
     BluzelleHelper._cache.set(this.getItemHash(key), item);
     BluzelleHelper._cache.del(this.getLishHash());
     return key;

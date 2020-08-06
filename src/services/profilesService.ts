@@ -17,6 +17,7 @@ import {SocketUpdate} from '../core/operations';
 import {Chat, ChatsRepositoryI, ChatWithMembers} from '../core/chat';
 import {Contact} from '../core/contact';
 import {BluzelleAPI} from '../repository/bluzelleAPI';
+import {SocketPusher} from "../core/socket";
 
 @injectable()
 export class ProfilesService implements ProfilesServiceI {
@@ -24,6 +25,7 @@ export class ProfilesService implements ProfilesServiceI {
   private _chatsRepository: ChatsRepositoryI;
   private _updateQueue: SocketUpdate[];
   private _profileInProgress: Set<string>;
+  private _pusher : SocketPusher;
 
   public constructor(
     @inject(TYPES.ProfilesRepository) repository: ProfilesRepositoryI,
@@ -34,6 +36,11 @@ export class ProfilesService implements ProfilesServiceI {
     this._updateQueue = [];
     this._profileInProgress = new Set<string>();
   }
+
+  setPusher(pusher: SocketPusher): void {
+    this._pusher = pusher;
+  }
+
 
   async createProfile(user_id: string): Promise<void> {
     const profile = DefaultProfile;
@@ -74,12 +81,6 @@ export class ProfilesService implements ProfilesServiceI {
       const c = await this._repository.findOne(contactId);
       if (c) profileFull.contactsList.push(c);
     }
-
-    this._updateQueue.push({
-      userId: user_id,
-      event: 'profile:updateDetails',
-      payload: profileFull,
-    });
 
     return profileFull;
   }
@@ -125,9 +126,5 @@ export class ProfilesService implements ProfilesServiceI {
     return result;
   }
 
-  getUpdateQueue(): SocketUpdate[] {
-    const copy = [...this._updateQueue];
-    this._updateQueue = [];
-    return copy;
-  }
+
 }

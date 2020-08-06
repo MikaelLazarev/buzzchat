@@ -1,3 +1,8 @@
+/*
+ * Buzzzchat - P2P Chat based on Bluzelle DB
+ * Copyright (c) 2020. Mikhail Lazarev
+ */
+
 import { bluzelle, API } from "bluzelle";
 import { injectable } from "inversify";
 import { BluzelleConfig } from "bluzelle/lib/BluzelleConfig";
@@ -28,7 +33,7 @@ export class BluzelleAPI {
 
 
     const account = await api.account();
-    console.log("ACCOUNT", account);
+    // console.log("ACCOUNT", account);
 
     if (account.address === "") {
       throw "Wrong mnemonic";

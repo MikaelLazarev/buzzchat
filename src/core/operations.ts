@@ -17,5 +17,5 @@ export type STATUS =
 export interface SocketUpdate {
     userId: string
     event: string,
-    payload: Object,
+    handler: () => Promise<unknown>,
 }

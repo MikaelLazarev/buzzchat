@@ -8,8 +8,8 @@ import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Text} from 'react-native-elements';
 import {Chat} from '../../core/chat';
 import {useSelector} from 'react-redux';
-import {RootState} from '../../store';
 import {SmartAvatar} from 'rn-mobile-components';
+import {profileSelector} from '../../store/profile';
 
 interface ChatCardProps {
   data: Chat;
@@ -17,7 +17,7 @@ interface ChatCardProps {
 }
 
 const ChatCard: React.FC<ChatCardProps> = ({data, onPressed}) => {
-  const profile = useSelector((state: RootState) => state.profile);
+  const profile = useSelector(profileSelector);
 
   const counterPart = data.members.filter((e) => e.id !== profile.id)[0];
   const title = data.isTetATetChat ? counterPart.name : data.name;

@@ -6,31 +6,21 @@
 import SocketIO, {Socket} from 'socket.io';
 import socketioJwt from 'socketio-jwt';
 import config from '../config/config';
-import {tokenData} from '../core/users';
-import {SocketUpdate, STATUS} from '../core/operations';
+import {SocketUpdate} from '../core/operations';
+import {Queue} from '../core/types';
+import {SocketController, SocketPusher, SocketWithToken} from "../core/socket";
 
-export type socketListeners = Record<string, (...args: any[]) => Promise<void>>;
-
-export interface SocketController {
-  namespace: string;
-  getListeners: (socket: SocketWithToken, userId: string) => socketListeners;
-  update: () => SocketUpdate[];
-}
-
-export interface SocketWithToken extends SocketIO.Socket {
-  tData: tokenData;
-  ok: (opHash: string) => void;
-  failure: (opHash: string, error: string) => void;
-}
-
-export class SocketRouter {
+export class SocketRouter implements SocketPusher{
   private readonly socketsMobilePool: Record<string, Socket> = {};
   private readonly socketsWebPool: Record<string, Socket> = {};
   private readonly _controllers: SocketController[];
+  private readonly _updateQueue = new Queue<SocketUpdate>();
+  private readonly _pendingQueue = new Queue<SocketUpdate>();
 
   constructor(controllers: SocketController[]) {
     this._controllers = [...controllers];
-    setTimeout(() => this.update(), 5000);
+    controllers.forEach(cnt => cnt.setPusher(this));
+    setTimeout(() => this.updateQueue(), 5000);
   }
 
   connect(io: SocketIO.Server) {
@@ -132,26 +122,76 @@ export class SocketRouter {
     };
   }
 
-  private update(): void {
+  // private async update(): Promise<void> {
+  //   for (const controller of this._controllers) {
+  //     const updates = controller.update();
+  //
+  //     // Update mobile devices connected to socket
+  //     const mobileUpdates = updates.filter(
+  //       (elm) => this.socketsMobilePool[elm.userId] !== undefined,
+  //     );
+  //
+  //     for (let elm of mobileUpdates) {
+  //       console.log('[UPDATE:MOBILE]', elm.event);
+  //       const socket = this.socketsMobilePool[elm.userId];
+  //       const payload = await elm.handler();
+  //       socket.emit(elm.event, payload);
+  //     }
+  //
+  //     // Update web devices connecte to socket
+  //     const webUpdates = updates.filter(
+  //       (elm) => this.socketsWebPool[elm.userId] !== undefined,
+  //     );
+  //     for (let elm of webUpdates) {
+  //       console.log('[UPDATE:WEB]', elm.event);
+  //       const socket = this.socketsWebPool[elm.userId];
+  //       const payload = await elm.handler();
+  //       socket.emit(elm.event, payload);
+  //     }
+  //   }
+  //
+  //   setTimeout(() => this.update(), 500);
+  // }
 
-    for (const controller of this._controllers) {
-      const updates = controller.update();
-      updates
-        .filter((elm) => this.socketsMobilePool[elm.userId] !== undefined)
-        .forEach((elm) => {
-          console.log("[UPDATE:MOBILE]", elm.event);
-          const socket = this.socketsMobilePool[elm.userId];
-          socket.emit(elm.event, elm.payload);
-        });
-      updates
-          .filter((elm) => this.socketsWebPool[elm.userId] !== undefined)
-          .forEach((elm) => {
-            console.log("[UPDATE:WEB]", elm.event);
-            const socket = this.socketsWebPool[elm.userId];
-            socket.emit(elm.event, elm.payload);
-          });
+  public pushUpdateQueue(event: SocketUpdate) {
+    // ToDo: Add hash skipping
+    this._updateQueue.push(event)
+  }
+
+  public pushPendingQueue(event: SocketUpdate) {
+    // ToDo: Add hash skipping
+    this._pendingQueue.push(event)
+  }
+
+  private async updateQueue() {
+    while(await this.updateQueueElm()) {}
+    setTimeout(() => this.updateQueue(), 100);
+  }
+
+  private async updateQueueElm(): Promise<boolean> {
+    let msg : SocketUpdate | undefined;
+    msg = this._pendingQueue.pop();
+    if (msg === undefined) msg = this._updateQueue.pop();
+    if (msg === undefined) return false;
+    const userId = msg.userId;
+    const mobileClientSocket = this.socketsMobilePool[userId];
+    const webClientSocket = this.socketsWebPool[userId];
+
+    if (mobileClientSocket === undefined && webClientSocket === undefined) {
+      return false;
     }
 
-    setTimeout(() => this.update(), 500);
+    const payload = await msg.handler();
+    if (mobileClientSocket !== undefined) {
+      console.log('[UPDATE:MOBILE]', msg.event);
+      mobileClientSocket.emit(msg.event, payload);
+    }
+
+    if (webClientSocket !== undefined) {
+      console.log('[UPDATE:WEB]', msg.event);
+      webClientSocket.emit(msg.event, payload);
+    }
+
+    return true;
   }
 }
