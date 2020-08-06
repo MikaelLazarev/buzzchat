@@ -6,36 +6,16 @@
 import SocketIO, {Socket} from 'socket.io';
 import socketioJwt from 'socketio-jwt';
 import config from '../config/config';
-import {tokenData} from '../core/users';
-import {SocketUpdate, STATUS} from '../core/operations';
+import {SocketUpdate} from '../core/operations';
 import {Queue} from '../core/types';
-
-export type socketListeners = Record<string, (...args: any[]) => Promise<void>>;
-
-export interface SocketPusherDelegateI {
-  setPusher(pusher: SocketPusher) : void;
-}
-
-export interface SocketController extends SocketPusherDelegateI{
-  namespace: string;
-  getListeners: (socket: SocketWithToken, userId: string) => socketListeners;
-}
-
-export interface SocketPusher {
-  pushUpdateQueue(event: SocketUpdate) : void
-}
-
-export interface SocketWithToken extends SocketIO.Socket, SocketPusher {
-  tData: tokenData;
-  ok: (opHash: string) => void;
-  failure: (opHash: string, error: string) => void;
-}
+import {SocketController, SocketPusher, SocketWithToken} from "../core/socket";
 
 export class SocketRouter implements SocketPusher{
   private readonly socketsMobilePool: Record<string, Socket> = {};
   private readonly socketsWebPool: Record<string, Socket> = {};
   private readonly _controllers: SocketController[];
   private readonly _updateQueue = new Queue<SocketUpdate>();
+  private readonly _pendingQueue = new Queue<SocketUpdate>();
 
   constructor(controllers: SocketController[]) {
     this._controllers = [...controllers];
@@ -178,13 +158,20 @@ export class SocketRouter implements SocketPusher{
     this._updateQueue.push(event)
   }
 
+  public pushPendingQueue(event: SocketUpdate) {
+    // ToDo: Add hash skipping
+    this._pendingQueue.push(event)
+  }
+
   private async updateQueue() {
     while(await this.updateQueueElm()) {}
     setTimeout(() => this.updateQueue(), 100);
   }
 
   private async updateQueueElm(): Promise<boolean> {
-    const msg = this._updateQueue.pop();
+    let msg : SocketUpdate | undefined;
+    msg = this._pendingQueue.pop();
+    if (msg === undefined) msg = this._updateQueue.pop();
     if (msg === undefined) return false;
     const userId = msg.userId;
     const mobileClientSocket = this.socketsMobilePool[userId];

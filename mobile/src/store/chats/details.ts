@@ -50,28 +50,23 @@ export function createChatDataLoaderDetailsReducer() {
       case CHATS_PREFIX + DETAIL_SUCCESS:
         const existingChat = state.data[id];
         let messages = new Map<string, Message>();
-        console.log("REDUCER!!! MESSAGE-3S", messages);
+
         if (existingChat !== undefined && existingChat.data !== undefined) {
           existingChat.data.messages
             .map((e) => e)
             .filter((msg) => msg.pending)
             .forEach((msg) => {
-              console.log("REDUCER!!! MSG", msg.pending)
-              messages.set(msg.id, msg)
-
+              messages.set(msg.id, msg);
             });
         }
+        console.log('REDUCER!!! MESSAGE-3S', messages);
+        console.log('REDUCER!!!');
+        console.log('REDUCER!!! T-P', action.type);
+        console.log('REDUCER!!! P-L', action.payload);
 
-        console.log("REDUCER!!!")
-        console.log(action.type);
-        console.log("ID", id);
-        console.log("REDUCER!!! PREV_CHAT", existingChat);
-        console.log("REDUCER!!! MESSAGES", messages);
 
         action.payload?.messages.forEach((msg) => messages.set(msg.id, msg));
-
-
-
+        console.log('REDUCER!!! MESSAGES', messages);
 
         return updateDetailState(state, id, '0', {
           data:

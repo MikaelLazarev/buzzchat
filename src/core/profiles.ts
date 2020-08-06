@@ -6,7 +6,7 @@
 import {Contact} from './contact';
 import {Chat, ChatWithMembers} from './chat';
 import {SocketUpdate} from './operations';
-import {SocketPusherDelegateI} from "../controllers/socketRouter";
+import {SocketPusherDelegateI} from "./socket";
 
 export interface Profile {
   id: string;

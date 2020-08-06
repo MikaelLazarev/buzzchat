@@ -23,7 +23,7 @@ import {
 } from '../core/profiles';
 import {SocketUpdate} from '../core/operations';
 import {Contact} from '../core/contact';
-import {SocketPusher} from "../controllers/socketRouter";
+import {SocketPusher} from "../core/socket";
 
 @injectable()
 export class ChatsService implements ChatsServiceI {
@@ -82,12 +82,14 @@ export class ChatsService implements ChatsServiceI {
 
     for (let memberId of chat.members) {
       if (memberId !== user_id) {
-        this._pusher.pushUpdateQueue({
+        // Copy message instance instead setting link to it!
+        const messages = [{...dto.msg}]
+        this._pusher.pushPendingQueue({
           userId: memberId,
           event: 'chat:pendingMessage',
           handler: async () => ({
             id: dto.chatId,
-            messages: [{...dto.msg}], // Copy message instance instead setting link to it!
+            messages,
           }),
         });
       }

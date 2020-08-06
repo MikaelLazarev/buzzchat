@@ -24,23 +24,28 @@ const ContactsListScreen: React.FC = () => {
   const profile = useSelector(profileSelector);
   const operation = useSelector(operationSelector(hash));
 
+  const getProfile = () => {
+    const newHash = Date.now().toString();
+    dispatch(actions.contacts.getList(newHash));
+    setHash(newHash);
+  };
+
   useEffect(() => {
-    if (profile === undefined) {
-      const newHash = Date.now().toString();
-      dispatch(actions.profile.getProfile(newHash));
-      setHash(newHash);
-    }
-  }, [profile]);
+    getProfile();
+  }, []);
 
   useEffect(() => {
     if (hash !== '0' && isCreating) {
       switch (operation?.status) {
         case 'STATUS.SUCCESS':
+          setHash('0');
+          setIsCreating(false);
+          console.log("Q-Q", hash)
           navigation.navigate('Chats', {
             screen: 'ChatsList',
             params: {reroute: newChatId},
           });
-          setIsCreating(false);
+
           break;
 
         case 'STATUS.FAILURE':
@@ -91,7 +96,7 @@ const ContactsListScreen: React.FC = () => {
       status={'STATUS.SUCCESS'}
       component={ContactList}
       onSelect={onSelect}
-      onRefresh={() => dispatch(actions.profile.getProfile(''))}
+      onRefresh={() => getProfile()}
     />
   );
 };

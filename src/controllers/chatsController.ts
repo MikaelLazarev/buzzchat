@@ -3,12 +3,6 @@
  * Copyright (c) 2020. Mikhail Lazarev
  */
 
-import {
-  SocketController,
-  socketListeners,
-  SocketWithToken,
-  SocketPusher,
-} from './socketRouter';
 import {inject, injectable} from 'inversify';
 import {TYPES} from '../types';
 import {
@@ -18,6 +12,7 @@ import {
   PostMessageDTO,
 } from '../core/chat';
 import {SocketUpdate} from '../core/operations';
+import {SocketController, socketListeners, SocketPusher, SocketWithToken} from "../core/socket";
 
 @injectable()
 export class ChatsController implements SocketController {

@@ -10,13 +10,8 @@ import {
 } from '../core/profiles';
 import {inject, injectable} from 'inversify';
 import {TYPES} from '../types';
-import {
-  SocketController,
-  socketListeners,
-  SocketPusher,
-  SocketWithToken,
-} from './socketRouter';
 import {SocketUpdate} from '../core/operations';
+import {SocketController, socketListeners, SocketPusher, SocketWithToken} from "../core/socket";
 
 @injectable()
 export class ProfilesController implements SocketController {

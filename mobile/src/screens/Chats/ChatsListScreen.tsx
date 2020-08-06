@@ -29,6 +29,8 @@ export const ChatsListScreen: React.FC = () => {
 
   const data = useSelector(profileSelector);
 
+
+
   useEffect(() => {
     if (data === undefined) {
       const newHash = Date.now().toString();

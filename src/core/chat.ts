@@ -6,7 +6,7 @@
 import {MessageFull} from './message';
 import {SocketUpdate} from './operations';
 import {Contact} from './contact';
-import {SocketPusherDelegateI} from "../controllers/socketRouter";
+import {SocketPusherDelegateI} from "./socket";
 
 export interface Chat {
   id: string;

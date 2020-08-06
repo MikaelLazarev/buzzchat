@@ -17,7 +17,7 @@ import {SocketUpdate} from '../core/operations';
 import {Chat, ChatsRepositoryI, ChatWithMembers} from '../core/chat';
 import {Contact} from '../core/contact';
 import {BluzelleAPI} from '../repository/bluzelleAPI';
-import {SocketPusher} from "../controllers/socketRouter";
+import {SocketPusher} from "../core/socket";
 
 @injectable()
 export class ProfilesService implements ProfilesServiceI {
