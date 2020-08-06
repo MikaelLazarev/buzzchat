@@ -7,6 +7,7 @@ import {
   SocketController,
   socketListeners,
   SocketWithToken,
+  SocketPusher,
 } from './socketRouter';
 import {inject, injectable} from 'inversify';
 import {TYPES} from '../types';
@@ -23,8 +24,12 @@ export class ChatsController implements SocketController {
   private _service: ChatsServiceI;
   private _namespace = 'chat';
 
-  constructor(@inject(TYPES.ChatsService) issuersService: ChatsServiceI) {
-    this._service = issuersService;
+  constructor(@inject(TYPES.ChatsService) service: ChatsServiceI) {
+    this._service = service;
+  }
+
+  setPusher(pusher: SocketPusher): void {
+    this._service.setPusher(pusher);
   }
 
   get namespace(): string {
@@ -36,6 +41,7 @@ export class ChatsController implements SocketController {
       create: async (dto: ChatCreateDTO, opHash: string) => {
         try {
           const chat = await this._service.create(userId, dto);
+          console.log(chat);
           socket.emit(this._namespace + ':updateDetails', chat);
           socket.ok(opHash);
         } catch (e) {
@@ -61,13 +67,12 @@ export class ChatsController implements SocketController {
 
         dto.msg.createdAt = Date.now();
         try {
+          socket.emit(this._namespace + ':pendingMessage', {
+            id: dto.chatId,
+            messages: [dto.msg],
+          });
 
-          socket.emit(this._namespace + ':pendingMessage', {id: dto.chatId, messages: [dto.msg]});
-
-          const result = await this._service.postMessage(userId, dto);
-          console.log(result);
-
-          socket.emit(this._namespace + ':updateDetails', result);
+          await this._service.postMessage(userId, dto);
           socket.ok(opHash);
         } catch (e) {
           console.log(e);
@@ -86,9 +91,5 @@ export class ChatsController implements SocketController {
         }
       },
     };
-  }
-
-  update(): SocketUpdate[] {
-    return this._service.getUpdateQueue();
   }
 }

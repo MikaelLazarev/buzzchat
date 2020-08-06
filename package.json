@@ -19,9 +19,8 @@
   "license": "ISC",
   "dependencies": {
     "@sentry/node": "^5.16.0",
-
     "ajv": "^6.12.2",
-    "bluzelle": "^1.0.15",
+    "bluzelle": "^1.1.0",
     "chalk": "^4.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",

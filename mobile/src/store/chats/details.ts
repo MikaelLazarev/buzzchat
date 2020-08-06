@@ -6,8 +6,8 @@
 import {CHATS_PREFIX} from './index';
 import {Chat} from '../../core/chat';
 import {Message} from '../../core/message';
-import {DataItem, DETAIL_FAILURE, DETAIL_SUCCESS} from "redux-data-connect";
-import {DataLoaderDetailsActions} from "redux-data-connect/lib/dataloader";
+import {DataItem, DETAIL_FAILURE, DETAIL_SUCCESS} from 'redux-data-connect';
+import {DataLoaderDetailsActions} from 'redux-data-connect/lib/dataloader';
 
 export type DataLoaderDetailsState<Chat> = {
   data: Record<string, DataItem<Chat>>;
@@ -49,16 +49,29 @@ export function createChatDataLoaderDetailsReducer() {
     switch (action.type) {
       case CHATS_PREFIX + DETAIL_SUCCESS:
         const existingChat = state.data[id];
-        let pendingMessages = new Map<string, Message>();
+        let messages = new Map<string, Message>();
+        console.log("REDUCER!!! MESSAGE-3S", messages);
         if (existingChat !== undefined && existingChat.data !== undefined) {
           existingChat.data.messages
+            .map((e) => e)
             .filter((msg) => msg.pending)
-            .forEach((msg) => pendingMessages.set(msg.id, msg));
+            .forEach((msg) => {
+              console.log("REDUCER!!! MSG", msg.pending)
+              messages.set(msg.id, msg)
+
+            });
         }
 
-        action.payload?.messages.forEach((msg) =>
-          pendingMessages.set(msg.id, msg),
-        );
+        console.log("REDUCER!!!")
+        console.log(action.type);
+        console.log("ID", id);
+        console.log("REDUCER!!! PREV_CHAT", existingChat);
+        console.log("REDUCER!!! MESSAGES", messages);
+
+        action.payload?.messages.forEach((msg) => messages.set(msg.id, msg));
+
+
+
 
         return updateDetailState(state, id, '0', {
           data:
@@ -66,7 +79,7 @@ export function createChatDataLoaderDetailsReducer() {
               ? undefined
               : {
                   ...action.payload,
-                  messages: Array.from(pendingMessages.values()),
+                  messages: Array.from(messages.values()),
                 },
           status: 'STATUS.SUCCESS',
         });

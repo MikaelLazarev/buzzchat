@@ -6,6 +6,7 @@
 import {Contact} from './contact';
 import {Chat, ChatWithMembers} from './chat';
 import {SocketUpdate} from './operations';
+import {SocketPusherDelegateI} from "../controllers/socketRouter";
 
 export interface Profile {
   id: string;
@@ -52,7 +53,7 @@ export interface ProfilesRepositoryI {
   list(): Promise<Profile[] | undefined>;
 }
 
-export interface ProfilesServiceI {
+export interface ProfilesServiceI extends SocketPusherDelegateI {
   createProfile(user_id: string): Promise<void>;
   getProfile(user_id: string): Promise<ProfileFull | undefined>;
   addContact(
@@ -60,9 +61,8 @@ export interface ProfilesServiceI {
     contact_id: string,
   ): Promise<ProfileFull | undefined>;
 
-  update(user_id: string, dto: ProfileUpdateDTO): Promise<ProfileFull>;
+  update(user_id: string, dto: ProfileUpdateDTO): Promise<ProfileFull | undefined>;
   list(): Promise<Profile[] | undefined>;
-  getUpdateQueue(): SocketUpdate[];
 }
 
 export const profile2Contact = (p: Profile): Contact => ({

@@ -12,7 +12,7 @@ import {Chat} from '../../core/chat';
 import {ChatsStackParamList} from './ChatStack';
 import {operationSelector} from 'redux-data-connect';
 import {profileSelector} from '../../store/profile';
-import {DataScreen} from "rn-mobile-components";
+import {DataScreen} from 'rn-mobile-components';
 
 type ChatsListScreenRouteProp = RouteProp<
   ChatsStackParamList,

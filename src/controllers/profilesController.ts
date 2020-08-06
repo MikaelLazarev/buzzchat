@@ -13,6 +13,7 @@ import {TYPES} from '../types';
 import {
   SocketController,
   socketListeners,
+  SocketPusher,
   SocketWithToken,
 } from './socketRouter';
 import {SocketUpdate} from '../core/operations';
@@ -25,6 +26,10 @@ export class ProfilesController implements SocketController {
   constructor(@inject(TYPES.ProfilesService) service: ProfilesServiceI) {
     console.log('Profiles controller started');
     this._service = service;
+  }
+
+  setPusher(pusher: SocketPusher): void {
+    this._service.setPusher(pusher)
   }
 
   get namespace(): string {
@@ -83,7 +88,4 @@ export class ProfilesController implements SocketController {
     };
   }
 
-  update(): SocketUpdate[] {
-    return this._service.getUpdateQueue();
-  }
 }

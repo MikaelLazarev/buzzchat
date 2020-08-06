@@ -16,12 +16,14 @@ import {inject, injectable} from 'inversify';
 import {TYPES} from '../types';
 import {Message, MessageFull, MessagesRepositoryI} from '../core/message';
 import {
+  Profile,
   profile2Contact,
   ProfilesRepositoryI,
   ProfilesServiceI,
 } from '../core/profiles';
 import {SocketUpdate} from '../core/operations';
 import {Contact} from '../core/contact';
+import {SocketPusher} from "../controllers/socketRouter";
 
 @injectable()
 export class ChatsService implements ChatsServiceI {
@@ -29,7 +31,7 @@ export class ChatsService implements ChatsServiceI {
   private _messagesRepository: MessagesRepositoryI;
   private _profilesRepository: ProfilesRepositoryI;
   private _profilesService: ProfilesServiceI;
-  private _updateQueue: SocketUpdate[];
+  private _pusher : SocketPusher;
 
   public constructor(
     @inject(TYPES.ChatsRepository) repository: ChatsRepositoryI,
@@ -41,7 +43,10 @@ export class ChatsService implements ChatsServiceI {
     this._messagesRepository = messagesRepository;
     this._profilesRepository = profilesRepository;
     this._profilesService = profilesService;
-    this._updateQueue = [];
+  }
+
+  setPusher(pusher: SocketPusher): void {
+    this._pusher = pusher;
   }
 
   async findById(user_id: string, chat_id: string): Promise<ChatFull> {
@@ -68,51 +73,37 @@ export class ChatsService implements ChatsServiceI {
     };
   }
 
-  async postMessage(user_id: string, dto: PostMessageDTO): Promise<ChatFull> {
+  async postMessage(user_id: string, dto: PostMessageDTO): Promise<void> {
     const chat = await this._repository.findById(dto.chatId);
     if (!chat) throw 'Chat not found';
 
     const isUserInChat: boolean = chat?.members.indexOf(user_id) !== -1;
     if (!isUserInChat) throw 'User is not member of this chat';
 
-    const members: Contact[] = [];
-
     for (let memberId of chat.members) {
-      const member = await this._profilesRepository.findOne(memberId);
-      if (member) members.push(profile2Contact(member));
-    }
-
-    members
-      .filter((m) => m.id !== user_id)
-      .forEach((m) =>
-        this._updateQueue.push({
-          userId: m.id,
+      if (memberId !== user_id) {
+        this._pusher.pushUpdateQueue({
+          userId: memberId,
           event: 'chat:pendingMessage',
-          payload: {
+          handler: async () => ({
             id: dto.chatId,
-            messages: [{...dto.msg}],
-          },
-        }),
-      );
+            messages: [{...dto.msg}], // Copy message instance instead setting link to it!
+          }),
+        });
+      }
+    }
 
     dto.msg.pending = false;
 
-    const chatFull: ChatFull = {
-      ...chat,
-      members,
-      messages: await this.getFullMessages(
-        this._messagesRepository.addMessage(dto.chatId, dto.msg),
-      ),
-    };
+    await this._messagesRepository.addMessage(dto.chatId, dto.msg);
 
-    members.forEach((m) =>
-      this._updateQueue.push({
-        userId: m.id,
+    for (let memberId of chat.members) {
+      this._pusher.pushUpdateQueue({
+        userId: memberId,
         event: 'chat:updateDetails',
-        payload: chatFull,
-      }),
-    );
-    return chatFull;
+        handler: async () => await this.findById(memberId, dto.chatId),
+      });
+    }
   }
 
   async deleteMessage(user_id: string, dto: DeleteMessageDTO): Promise<void> {
@@ -131,27 +122,17 @@ export class ChatsService implements ChatsServiceI {
     if (message.userId !== user_id)
       throw 'Only owners could delete their messages';
 
-    const members: Contact[] = [];
+    // Delete message
+    await this._messagesRepository.deleteMessage(dto.chatId, dto.msgId);
 
+    // Sending updates all chat members
     for (let memberId of chat.members) {
-      const member = await this._profilesRepository.findOne(memberId);
-      if (member) members.push(profile2Contact(member));
-    }
-    const chatFull: ChatFull = {
-      ...chat,
-      members,
-      messages: await this.getFullMessages(
-        this._messagesRepository.deleteMessage(dto.chatId, dto.msgId),
-      ),
-    };
-
-    members.forEach((m) =>
-      this._updateQueue.push({
-        userId: m.id,
+      this._pusher.pushUpdateQueue({
+        userId: memberId,
         event: 'chat:updateDetails',
-        payload: chatFull,
-      }),
-    );
+        handler: async () => this.findById(memberId, dto.chatId),
+      });
+    }
   }
 
   async create(
@@ -165,62 +146,50 @@ export class ChatsService implements ChatsServiceI {
       throw 'UserID not found in chat members!';
     }
 
-    const member0 = await this._profilesRepository.findOne(dto.members[0]);
-    const member1 = await this._profilesRepository.findOne(dto.members[1]);
+    const members: Array<Profile> = [];
 
-    if (member0 === undefined || member1 === undefined) {
-      throw 'Members not found';
+    // Get members profiles
+    for (let memId = 0; memId < dto.members.length; memId++) {
+      const currentMember = await this._profilesRepository.findOne(
+        dto.members[memId],
+      );
+      if (currentMember === undefined) {
+        throw 'Members not found';
+      }
+      members.push(currentMember);
     }
 
+    // Creating and storing chat
     const newChat: Chat = {
       id: dto.id,
-      name: `${member0?.name} with ${member1?.name}`,
+      name: `${members[0]?.name} with ${members[1]?.name}`,
       members: dto.members,
       isTetATetChat: dto.isTetATetChat,
     };
-
-    console.log('Creating new chat...');
     await this._repository.create(newChat);
-    member0.chatsIdList = member0.chatsIdList || [];
-    member1.chatsIdList = member1.chatsIdList || [];
 
-    member0.chatsIdList.push(newChat.id);
-    member1.chatsIdList.push(newChat.id);
-    console.log('M0', member0);
-    console.log('M1', member1);
-    await this._profilesRepository.update(member0.id, member0);
-    await this._profilesRepository.update(member1.id, member1);
+    for (let chatmember of members) {
+      // Adding chat to chatlist in each profile
+      chatmember.chatsIdList = chatmember.chatsIdList || [];
+      chatmember.chatsIdList.push(newChat.id);
+      await this._profilesRepository.update(chatmember.id, chatmember);
 
-    const profile0 = await this._profilesService.getProfile(member0.id);
+      // Sending updates
+      if (chatmember.id !== user_id) {
+        this._pusher.pushUpdateQueue({
+          userId: chatmember.id,
+          event: 'profile:updateDetails',
+          handler: async () =>
+              await this._profilesService.getProfile(chatmember.id),
+        });
+      }
+    }
 
-    const profile1 = await this._profilesService.getProfile(member1.id);
-
-    console.log(`0: ${this._updateQueue}`);
-    this._updateQueue.push({
-      userId: member0.id,
-      event: 'profile:updateDetails',
-      payload: profile0 as Object,
-    });
-
-    console.log(`1: ${this._updateQueue}`);
-
-    this._updateQueue.push({
-      userId: member1.id,
-      event: 'profile:updateDetails',
-      payload: profile1 as Object,
-    });
-    console.log(`2: ${this._updateQueue}`);
     return {
       ...newChat,
-      members: [profile2Contact(member0), profile2Contact(member1)],
+      members: [profile2Contact(members[0]), profile2Contact(members[1])],
       messages: [],
     };
-  }
-
-  getUpdateQueue(): SocketUpdate[] {
-    const copy = [...this._updateQueue];
-    this._updateQueue = [];
-    return copy;
   }
 
   async getFullMessages(
