@@ -3,6 +3,8 @@
 
 <img src='https://user-images.githubusercontent.com/26343374/84579279-33fbca00-add5-11ea-90f6-decec39ec6cd.png' width='22%'>&nbsp;&nbsp;&nbsp;<img src='https://user-images.githubusercontent.com/26343374/84579273-2e9e7f80-add5-11ea-851b-d7c658fc15a0.png' width='22%'>&nbsp;&nbsp;&nbsp;<img src='https://user-images.githubusercontent.com/26343374/84579278-33633380-add5-11ea-87b7-8e7125610885.png' width='22%'>&nbsp;&nbsp;&nbsp;<img src='https://user-images.githubusercontent.com/26343374/84579276-32320680-add5-11ea-8a0b-7431aed48fed.png' width='22%'>
 
+
+
 ### Features
 
 [x] Works on both Android and iOS  
@@ -11,13 +13,19 @@
 [ ] Room chat messages are encrypted and have signing proofs  
 [x] Ability for message owners to delete their own messages.  
 
+
+
 ### Components
 
 /src - Node.JS server  
 /mobile - Mobile Client (React native)  
 /web - Web Client (React native web)  
 
+
+
 ### How to install
+
+
 
 ### Prerequisites
 To install this package you should have:
@@ -28,6 +36,8 @@ To install this package you should have:
 - Bluzelle testnet account with enough funds for testing
 - Sentry account
 - Active Twillio account (with ability to send sms to any phone numbers)
+
+
 
 ### Installation
 
@@ -57,7 +67,8 @@ To install this package you should have:
 ```
 6. Save configuration
 7. Check that your Bluzelle account has enough funds for operations
-8. Start server ```yarn dev``` or ```npm start dev``` for local development. (Do not use dev in production)
+8. Start server ```yarn dev``` or ```npm start dev``` for local development. (Do not use dev in production). This will also host (at the port serviced) the web interface that you can goto on your web browser on the PC to reveal the "web connect" QR code needed for web chat.
+
 
 
 #### Starting mobile apps
@@ -80,7 +91,9 @@ export PATH=$PATH:~/android-sdks/tools/
 6. Run iOS app with ```yarn ios``` or ```npm start ios```
 7. Run Android app with ```yarn android``` or ```npm run android```
 
-Building Android App:
+
+
+#### Building Android App:
 - Open Android studio
 - Open android/ folder as project
 - Menu - Build - Build Signed APK / Bundle app
@@ -90,7 +103,9 @@ Building Android App:
 
 You will get .apk or .aab file, which could be upload to device (https://help.gamesalad.com/gamesalad-cookbook/testing/ad-hoc-test-on-your-android-device/4-06-ad-hoc-testing-on-an-android-device/) of to Google Store
 
-#### Starting web application
+
+
+#### Starting development (local ONLY) web application
 
 1. Go to /web folder
 2. Install all node modules with ```yarn``` or ```npm i```
@@ -100,4 +115,4 @@ export const BACKEND_ADDR = 'http://192.168.0.47:4000';
 
 export const SSO_ADDR = 'http://192.168.0.47:4000';
 ```
-4. Start developer server with ```yarn start``` or ```npm run start```
+4. Start developer server with ```yarn start``` or ```npm run start```. The development server has to be running locally where the browser will be to host the chat that is synced via the QR code on the phone.
