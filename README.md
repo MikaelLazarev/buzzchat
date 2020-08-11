@@ -80,6 +80,16 @@ export PATH=$PATH:~/android-sdks/tools/
 6. Run iOS app with ```yarn ios``` or ```npm start ios```
 7. Run Android app with ```yarn android``` or ```npm run android```
 
+Building Android App:
+- Open Android studio
+- Open android/ folder as project
+- Menu - Build - Build Signed APK / Bundle app
+- With opened window answer choose App Bundle if you want to upload to Google store or APK if you are going to upload local device
+- Confirm upgrading gradle version if it's required
+- App asks you to generate a key if you haven't by filling simple form
+
+You will get .apk or .aab file, which could be upload to device (https://help.gamesalad.com/gamesalad-cookbook/testing/ad-hoc-test-on-your-android-device/4-06-ad-hoc-testing-on-an-android-device/) of to Google Store
+
 #### Starting web application
 
 1. Go to /web folder
