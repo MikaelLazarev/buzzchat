@@ -93,6 +93,13 @@ export PATH=$PATH:~/android-sdks/tools/
 
 
 
+#### Building iOS App:
+- Open ios/buzzchat.xcworkspace/
+- Set the new build number
+- Build and deploy to AppStore
+
+
+
 #### Building Android App:
 - Open Android studio
 - Open android/ folder as project
