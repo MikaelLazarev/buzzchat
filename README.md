@@ -101,6 +101,7 @@ export PATH=$PATH:~/android-sdks/tools/
 
 
 #### Building Android App:
+- Update the version in "mobile/android/app/build.gradle", line 135 (approximately)
 - Open Android studio
 - Open android/ folder as project
 - Menu - Build - Build Signed APK / Bundle app
