@@ -6034,10 +6034,10 @@ redux-api-middleware@^3.2.1:
   resolved "https://registry.yarnpkg.com/redux-api-middleware/-/redux-api-middleware-3.2.1.tgz#979473ba2bfcf78b1fd50763fe7a4bbf0c252e6e"
   integrity sha512-LgFm9RIxjEOL1T2lVjlfsdHh6BOaduDsmmUWi2TV0F3nKrOMSCWS7AUmzgmr/wNuFzENGUC5SqklYJDNCwmuoA==
 
-redux-data-connect@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/redux-data-connect/-/redux-data-connect-1.1.0.tgz#c014dc295a0e10a378255440789f45d30e6c8199"
-  integrity sha512-pMOUepACQzIV9ay1xQjjy3vzMmY5nozlY50d+p41nI4mPeX64XcIuhubalL6I7HR1py+f2OmByN5qMCx3Sy0NQ==
+redux-data-connect@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/redux-data-connect/-/redux-data-connect-1.1.5.tgz#d8874e2cf9cceb955a397a75229d5240a14b4055"
+  integrity sha512-0kBXZmHyHcMaAxvXGahP78oBbOuuCr0Rbb9UYIVy6s/XpJ+4UFWVH7riB/uEG2ApINOeOAu7ycSL5LSnME7zMQ==
   dependencies:
     "@types/fetch-mock" "^7.3.2"
     "@types/node" "^14.0.23"

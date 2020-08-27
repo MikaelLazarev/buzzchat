@@ -63,11 +63,17 @@ export class UsersService implements UsersServiceI {
 
       const phoneNumber = this._send_to_debug ? this._debug_phone : phone;
       const message = `Your code is ${code}`;
-      await this._tsClient.messages.create({
-        body: message,
-        from: this._from,
-        to: phoneNumber,
-      });
+      try {
+        await this._tsClient.messages.create({
+          body: message,
+          from: this._from,
+          to: phoneNumber,
+        });
+      } catch (e) {
+        console.log(e)
+        reject("Cant get a code for this number")
+        return
+      }
       console.log(message)
       this._cache.set(phone, code);
       resolve(true);

@@ -43,7 +43,7 @@ export class UsersController  {
 
       if (!this._sendCodeDTOValidate(dto)) {
         console.log("Incorrect request", dto);
-        return res.status(400).send("Incorrect request");
+        return res.status(400).send({message: "Incorrect request"});
       }
 
       console.log(dto);
@@ -53,8 +53,8 @@ export class UsersController  {
         console.log(result);
         res.status(200).json(result);
       } catch (e) {
-        console.log(e);
-        res.status(400).send(e);
+        console.log("OPOP|", e);
+        res.status(400).send({message: e});
       }
     };
   }
